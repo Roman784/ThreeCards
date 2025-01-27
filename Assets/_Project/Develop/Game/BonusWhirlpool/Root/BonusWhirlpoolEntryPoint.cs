@@ -1,11 +1,11 @@
 using R3;
 using UnityEngine;
 
-namespace GameplayRoot
+namespace BonusWhirlpoolRoot
 {
     public class BonusWhirlpoolEntryPoint : MonoBehaviour
     {
-        public void Run()
+        public void Run(BonusWhirlpoolEnterParams enterParams)
         {
             Debug.Log("BonusWhirlpool scene loaded");
         }

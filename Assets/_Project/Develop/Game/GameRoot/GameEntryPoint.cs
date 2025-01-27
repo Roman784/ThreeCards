@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
 using R3;
+using LevelMenuRoot;
+using BonusWhirlpoolRoot;
 
 namespace GameRoot
 {
@@ -33,19 +35,22 @@ namespace GameRoot
 
             if (sceneName == Scenes.GAMEPLAY)
             {
-                Coroutines.StartRoutine(LoadAndStartGameplay());
+                var defaultGameplayEnterParams = new GameplayEnterParams(0);
+                Coroutines.StartRoutine(LoadAndStartGameplay(defaultGameplayEnterParams));
                 return;
             }
 
             if (sceneName == Scenes.LEVEL_MENU)
             {
-                Coroutines.StartRoutine(LoadAndStartLevelMenu());
+                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(0);
+                Coroutines.StartRoutine(LoadAndStartLevelMenu(defaultLevelMenuEnterParams));
                 return;
             }
 
             if (sceneName == Scenes.BONUS_WHIRLPOOL)
             {
-                Coroutines.StartRoutine(LoadAndStartBonusWhirlpool());
+                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(0);
+                Coroutines.StartRoutine(LoadAndStartBonusWhirlpool(defaultBonusWhirlpoolEnterParams));
                 return;
             }
 
@@ -55,34 +60,35 @@ namespace GameRoot
             }
 #endif
 
-            Coroutines.StartRoutine(LoadAndStartGameplay());
+            var gameplayEnterParams = new GameplayEnterParams(1);
+            Coroutines.StartRoutine(LoadAndStartGameplay(gameplayEnterParams));
         }
 
-        private IEnumerator LoadAndStartGameplay()
+        private IEnumerator LoadAndStartGameplay(GameplayEnterParams enterParams)
         {
             yield return LoadScene(Scenes.BOOT);
             yield return LoadScene(Scenes.GAMEPLAY);
 
             var sceneEntryPoint = Object.FindObjectOfType<GameplayEntryPoint>();
-            sceneEntryPoint.Run();
+            sceneEntryPoint.Run(enterParams);
         }
 
-        private IEnumerator LoadAndStartLevelMenu()
+        private IEnumerator LoadAndStartLevelMenu(LevelMenuEnterParams enterParams)
         {
             yield return LoadScene(Scenes.BOOT);
             yield return LoadScene(Scenes.LEVEL_MENU);
 
             var sceneEntryPoint = Object.FindObjectOfType<LevelMenuEntryPoint>();
-            sceneEntryPoint.Run();
+            sceneEntryPoint.Run(enterParams);
         }
 
-        private IEnumerator LoadAndStartBonusWhirlpool()
+        private IEnumerator LoadAndStartBonusWhirlpool(BonusWhirlpoolEnterParams enterParams)
         {
             yield return LoadScene(Scenes.BOOT);
             yield return LoadScene(Scenes.BONUS_WHIRLPOOL);
 
             var sceneEntryPoint = Object.FindObjectOfType<BonusWhirlpoolEntryPoint>();
-            sceneEntryPoint.Run();
+            sceneEntryPoint.Run(enterParams);
         }
 
         private IEnumerator LoadScene(string sceneName)

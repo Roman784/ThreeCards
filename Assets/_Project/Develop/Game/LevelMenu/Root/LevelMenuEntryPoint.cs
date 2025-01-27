@@ -1,11 +1,11 @@
 using R3;
 using UnityEngine;
 
-namespace GameplayRoot
+namespace LevelMenuRoot
 {
     public class LevelMenuEntryPoint : MonoBehaviour
     {
-        public void Run()
+        public void Run(LevelMenuEnterParams enterParams)
         {
             Debug.Log("LevelMenu scene loaded");
         }
