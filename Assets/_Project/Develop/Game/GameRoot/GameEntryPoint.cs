@@ -23,11 +23,6 @@ namespace GameRoot
             _instance.RunGame();
         }
 
-        private GameEntryPoint()
-        {
-
-        }
-
         private void RunGame()
         {
 #if UNITY_EDITOR
@@ -94,6 +89,7 @@ namespace GameRoot
         private IEnumerator LoadScene(string sceneName)
         {
             yield return SceneManager.LoadSceneAsync(sceneName);
+            yield return null;
         }
     }
 }
