@@ -30,21 +30,21 @@ namespace GameRoot
 
             if (sceneName == Scenes.GAMEPLAY)
             {
-                var defaultGameplayEnterParams = new GameplayEnterParams(0);
+                var defaultGameplayEnterParams = new GameplayEnterParams(1);
                 Coroutines.StartRoutine(LoadAndStartGameplay(defaultGameplayEnterParams));
                 return;
             }
 
             if (sceneName == Scenes.LEVEL_MENU)
             {
-                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(0);
+                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(1);
                 Coroutines.StartRoutine(LoadAndStartLevelMenu(defaultLevelMenuEnterParams));
                 return;
             }
 
             if (sceneName == Scenes.BONUS_WHIRLPOOL)
             {
-                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(0);
+                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(1);
                 Coroutines.StartRoutine(LoadAndStartBonusWhirlpool(defaultBonusWhirlpoolEnterParams));
                 return;
             }

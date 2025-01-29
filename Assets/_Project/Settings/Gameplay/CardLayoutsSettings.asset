@@ -16,7 +16,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 14066cb792ab1a14aa004e7475b95c73, type: 2}
   - {fileID: 11400000, guid: dacf8df9d7c537f4c9ae83e99c92c1b5, type: 2}
   - {fileID: 11400000, guid: ea890d7cea299474a952a1bee3688844, type: 2}
-  <MinColumnCount>k__BackingField: 0
-  <MaxColumnCount>k__BackingField: 0
-  <MinColumnSpacing>k__BackingField: 0
-  <MaxColumnSpacing>k__BackingField: 0
+  <MinColumnCount>k__BackingField: 1
+  <MaxColumnCount>k__BackingField: 6
+  <MinColumnSpacing>k__BackingField: 1.5
+  <MaxColumnSpacing>k__BackingField: 2
+  <StepBetweenCards>k__BackingField: 0.3
+  <ColumnsOffset>k__BackingField: {x: 0, y: 1.5}

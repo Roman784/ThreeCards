@@ -1,3 +1,4 @@
+using Gameplay;
 using GameplayServices;
 using UnityEngine;
 using Zenject;
@@ -13,7 +14,10 @@ namespace GameplayInstallers
 
         private void BindCardServices()
         {
-            Container.Bind<CardLayoutService>().AsSingle();
+            Card cardPrefab = Resources.Load<Card>("Prefabs/Gameplay/Card");
+            Container.BindFactory<Card, CardFactory>().FromComponentInNewPrefab(cardPrefab);
+
+            Container.Bind<CardLayoutService>().AsTransient();
         }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Settings
@@ -6,18 +7,34 @@ namespace Settings
     [CreateAssetMenu(fileName = "CardLayoutSettings", menuName = "Game Settings/Cards/New Card Layout Settings")]
     public class CardLayoutSettings : ScriptableObject
     {
-        [field: SerializeField] public int Level {  get; private set; }
-        [field: SerializeField] public CardColumn[] CardColumns { get; private set; }
-
-        public void SetLevel(int newLevel)
-        {
-            Level = newLevel;
-        }
-
         [System.Serializable]
         public class CardColumn
         {
             public int CardCount;
+        }
+
+        [field: SerializeField] public int LevelNumber {  get; private set; }
+        [field: SerializeField] public CardColumn[] CardColumns { get; private set; }
+
+        public int ColumnCount => CardColumns.Length;
+
+        public void SetLevel(int newLevelNumber)
+        {
+            LevelNumber = newLevelNumber;
+        }
+
+        public int GetMaxColumnLength()
+        {
+            int maxLength = 0;
+            foreach (CardColumn cardColumn in CardColumns)
+            {
+                if (cardColumn.CardCount > maxLength)
+                {
+                    maxLength = cardColumn.CardCount;
+                }
+            }
+
+            return maxLength;
         }
 
         private void OnValidate()

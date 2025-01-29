@@ -13,6 +13,28 @@ namespace Settings
         [field: SerializeField] public int MaxColumnCount { get; private set; }
         [field: SerializeField] public float MinColumnSpacing { get; private set; }
         [field: SerializeField] public float MaxColumnSpacing { get; private set; }
+        [field: SerializeField] public float StepBetweenCards { get; private set; }
+        [field: SerializeField] public Vector2 ColumnsOffset { get; private set; }
+
+        public CardLayoutSettings GetLayout(int levelNumber)
+        {
+            foreach (var layout in CardLayoutSettings)
+            {
+                if (layout.LevelNumber == levelNumber)
+                {
+                    return layout;
+                }
+            }
+
+            throw new ArgumentNullException($"The card layout with level number {levelNumber} are not exist.");
+        }
+
+        public float CalculateColumnSpacing(int columnCount)
+        {
+            float delta = (MaxColumnSpacing - MinColumnSpacing) / (MaxColumnCount - MinColumnCount);
+            float spacing = MinColumnSpacing + delta * (MaxColumnCount - columnCount);
+            return Mathf.Clamp(spacing, MinColumnSpacing, MaxColumnSpacing);
+        }
 
         private void OnValidate()
         {
@@ -25,9 +47,9 @@ namespace Settings
             {
                 for(int j = i+1; j < CardLayoutSettings.Count; j++)
                 {
-                    if (CardLayoutSettings[i].Level == CardLayoutSettings[j].Level)
+                    if (CardLayoutSettings[i].LevelNumber == CardLayoutSettings[j].LevelNumber)
                     {
-                        throw new ArgumentException($"The levels are repetitive: {CardLayoutSettings[i].Level}");
+                        throw new ArgumentException($"The levels are repetitive: {CardLayoutSettings[i].LevelNumber}");
                     }
                 }
             }
