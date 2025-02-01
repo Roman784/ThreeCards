@@ -16,6 +16,8 @@ namespace Settings
         [field: SerializeField] public float StepBetweenCards { get; private set; }
         [field: SerializeField] public Vector2 ColumnsOffset { get; private set; }
 
+        [field: SerializeField] public Vector2Int VacantCardsRange { get; private set; }
+
         public CardLayoutSettings GetLayout(int levelNumber)
         {
             foreach (var layout in CardLayoutSettings)

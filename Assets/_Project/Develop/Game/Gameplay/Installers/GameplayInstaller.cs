@@ -18,6 +18,7 @@ namespace GameplayInstallers
             Container.BindFactory<Card, CardFactory>().FromComponentInNewPrefab(cardPrefab);
 
             Container.Bind<CardLayoutService>().AsTransient();
+            Container.Bind<CardMarkingService>().AsTransient();
         }
     }
 }
