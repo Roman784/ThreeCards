@@ -1,11 +1,7 @@
 using Gameplay;
-using GameplayServices;
-using Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Zenject;
 
 namespace Utils
 {
@@ -15,6 +11,8 @@ namespace Utils
 
         private static List<Ranks> _ranks = new();
         private static List<Suits> _suits = new();
+        private static List<Suits> _redSuits = new();
+        private static List<Suits> _blackSuits = new();
 
         static CardMarkingMapper()
         {
@@ -23,15 +21,10 @@ namespace Utils
             InitSuits();
         }
 
-        public static Ranks GetRandomRank()
-        {
-            return _ranks[UnityEngine.Random.Range(0, _ranks.Count)];
-        }
-
-        public static Suits GetRandomSuits()
-        {
-            return _suits[UnityEngine.Random.Range(0, _suits.Count)];
-        }
+        public static Ranks GetRandomRank() => _ranks[UnityEngine.Random.Range(0, _ranks.Count)];
+        public static Suits GetRandomSuits() => _suits[UnityEngine.Random.Range(0, _suits.Count)];
+        public static Suits GetRandomRedSuits() => _redSuits[UnityEngine.Random.Range(0, _redSuits.Count)];
+        public static Suits GetRandomBlackSuits() => _blackSuits[UnityEngine.Random.Range(0, _blackSuits.Count)];
 
         private static void InitRanksMap()
         {
@@ -48,14 +41,20 @@ namespace Utils
 
         private static void InitRanks()
         {
-            _ranks.Capacity = 9;
             _ranks = ToList<Ranks>();
         }
 
         private static void InitSuits()
         {
-            _suits.Capacity = 4;
             _suits = ToList<Suits>();
+
+            _redSuits = new List<Suits>(_suits);
+            _redSuits.Remove(Suits.Club);
+            _redSuits.Remove(Suits.Spade);
+
+            _blackSuits = new List<Suits>(_suits);
+            _blackSuits.Remove(Suits.Heart);
+            _blackSuits.Remove(Suits.Diamonds);
         }
 
         public static List<T> ToList<T>() where T : Enum

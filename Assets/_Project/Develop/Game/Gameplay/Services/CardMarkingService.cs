@@ -1,5 +1,6 @@
 using Gameplay;
 using Settings;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,13 +14,21 @@ namespace GameplayServices
         private Card[,] _cardsMap;
         private Vector2Int _vacantCardsRange;
 
+        // This is to alternate the color of the suit.
+        private bool _isRedSuitOrder;
+
         [Inject]
         private void Construct(ISettingsProvider settingsProvider)
         {
             _vacantCardsRange = settingsProvider.GameSettings.CardLayoutsSettings.VacantCardsRange;
         }
 
-        public void Mark(Card[,] cardsMap)
+        public CardMarkingService()
+        {
+            _isRedSuitOrder = Random.Range()
+        }
+
+        public IEnumerator Mark(Card[,] cardsMap)
         {
             _cardsMap = cardsMap;
 
@@ -31,12 +40,12 @@ namespace GameplayServices
                     if (card == null || card.IsInited) continue;
 
                     Vector2Int cardCoords = new Vector2Int(colunmI, cardI);
-                    InitThreeCards(card, cardCoords);
+                    yield return Coroutines.StartRoutine(InitThreeCards(card, cardCoords));
                 }
             }
         }
 
-        private void InitThreeCards(Card originCard, Vector2Int originCardCoords)
+        private IEnumerator InitThreeCards(Card originCard, Vector2Int originCardCoords)
         {
             HashSet<Card> vacantCards = new();
             SetVacantCards(vacantCards, originCard, originCardCoords);
@@ -47,12 +56,15 @@ namespace GameplayServices
             }
 
             var shuffledVacantCards = ShuffleCards(vacantCards);
-            InitCards(shuffledVacantCards);
+            yield return Coroutines.StartRoutine(InitCards(shuffledVacantCards));
         }
 
-        private void InitCards(List<Card> cards)
+        private IEnumerator InitCards(List<Card> cards)
         {
-            Suits suit = CardMarkingMapper.GetRandomSuits();
+            yield return new WaitForSeconds(1);
+
+            Suits suit = _isRedSuitOrder ? CardMarkingMapper.GetRandomRedSuits() : CardMarkingMapper.GetRandomBlackSuits();
+            _isRedSuitOrder = !_isRedSuitOrder;
 
             for (int i = 0; i < 3; i++)
             {
@@ -87,7 +99,7 @@ namespace GameplayServices
         {
             for (int x = 0; x < _cardsMap.GetLength(0); x++)
             {
-                for (int y = 0; y < _cardsMap.GetLength(1); y++)
+                for (int y = _cardsMap.GetLength(1) - 1; y >= 0; y--)
                 {
                     Card card = _cardsMap[x, y];
                     if (card == null || card.IsInited || vacantCards.Contains(card)) continue;

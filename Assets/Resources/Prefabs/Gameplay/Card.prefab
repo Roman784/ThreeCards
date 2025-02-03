@@ -325,6 +325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9bfbeaea6466454c9957f17a5c2221a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _spriteView: {fileID: 8880746936262468893}
+  _rankView: {fileID: 3763373267948648807}
+  _diamonds: {fileID: 1403360663, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
+  _hearts: {fileID: -552834673, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
+  _clubs: {fileID: 1751605367, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
+  _spades: {fileID: 867331234, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
 --- !u!1 &8289443249498548509
 GameObject:
   m_ObjectHideFlags: 0

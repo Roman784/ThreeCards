@@ -3,6 +3,7 @@ using GameplayServices;
 using GameState;
 using R3;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace GameplayRoot
@@ -25,7 +26,7 @@ namespace GameplayRoot
             Debug.Log("Gameplay scene loaded");
 
             Card[,] cards = _cardLayoutService.SetUp(enterParams.LevelNumber);
-            _cardMarkingService.Mark(cards);
+            Coroutines.StartRoutine(_cardMarkingService.Mark(cards));
         }
     }
 }
