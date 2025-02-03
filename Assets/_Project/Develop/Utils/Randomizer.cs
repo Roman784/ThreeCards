@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Utils
@@ -10,6 +11,11 @@ namespace Utils
             probability = Mathf.Clamp01(probability);
 
             return Random.Range(0f, 1f) <= probability;
+        }
+
+        public static T GetRandomValue<T>(params T[] values)
+        {
+            return GetRandomValue(values.ToList());
         }
 
         public static T GetRandomValue<T>(List<T> values)

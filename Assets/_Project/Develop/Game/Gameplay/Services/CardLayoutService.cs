@@ -22,9 +22,9 @@ namespace GameplayServices
             _cardFactory = cardFactory;
         }
 
-        public Card[,] SetUp(int levelNumber)
+        public Card[,] SetUp(CardLayoutSettings layout)
         {
-            _layout = _layouts.GetLayout(levelNumber);
+            _layout = layout;
             _maxColumnLength = _layout.GetMaxColumnLength();
 
             _cardsMap = new Card[_layout.ColumnCount, _maxColumnLength];

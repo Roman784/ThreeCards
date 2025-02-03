@@ -1,42 +1,35 @@
 using Gameplay;
-using Settings;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Utils;
-using Zenject;
 
 namespace GameplayServices
 {
     public class CardMarkingService
     {
         private Card[,] _cardsMap;
-        private Vector2Int _vacantCardsRange;
+        private Vector2Int _cardSpreadRange;
 
         // This is to alternate the color of the suit.
         private bool _isRedSuitOrder;
 
-        [Inject]
-        private void Construct(ISettingsProvider settingsProvider)
-        {
-            _vacantCardsRange = settingsProvider.GameSettings.CardLayoutsSettings.VacantCardsRange;
-        }
-
         public CardMarkingService()
         {
-            _isRedSuitOrder = Random.Range()
+            _isRedSuitOrder = Randomizer.GetRandomValue(true, false);
         }
 
-        public IEnumerator Mark(Card[,] cardsMap)
+        public IEnumerator Mark(Card[,] cardsMap, Vector2Int cardSpreadRange)
         {
             _cardsMap = cardsMap;
+            _cardSpreadRange = cardSpreadRange;
 
-            for (int cardI = 0; cardI < cardsMap.GetLength(1); cardI++)
+            for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
             {
-                for (int colunmI = 0; colunmI < cardsMap.GetLength(0); colunmI++)
+                for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
                 {
-                    Card card = cardsMap[colunmI, cardI];
+                    Card card = _cardsMap[colunmI, cardI];
                     if (card == null || card.IsInited) continue;
 
                     Vector2Int cardCoords = new Vector2Int(colunmI, cardI);
@@ -52,7 +45,7 @@ namespace GameplayServices
 
             if (vacantCards.Count < 3)
             {
-                AddAbscentVacantCards(vacantCards);
+                AddAbscentVacantCards(originCardCoords, vacantCards);
             }
 
             var shuffledVacantCards = ShuffleCards(vacantCards);
@@ -77,10 +70,10 @@ namespace GameplayServices
 
         private void SetVacantCards(HashSet<Card> vacantCards, Card originCard, Vector2Int originCardCoords)
         {
-            int startX = Mathf.Clamp(originCardCoords.x - _vacantCardsRange.x, 0, originCardCoords.x);
-            int endX = Mathf.Clamp(originCardCoords.x + _vacantCardsRange.x, originCardCoords.x, _cardsMap.GetLength(0) - 1);
+            int startX = Mathf.Clamp(originCardCoords.x - _cardSpreadRange.x, 0, originCardCoords.x);
+            int endX = Mathf.Clamp(originCardCoords.x + _cardSpreadRange.x, originCardCoords.x, _cardsMap.GetLength(0) - 1);
             int startY = Mathf.Clamp(originCardCoords.y, 0, originCardCoords.y);
-            int endY = Mathf.Clamp(originCardCoords.y + _vacantCardsRange.y, originCardCoords.y, _cardsMap.GetLength(1) - 1);
+            int endY = Mathf.Clamp(originCardCoords.y + _cardSpreadRange.y, originCardCoords.y, _cardsMap.GetLength(1) - 1);
 
             vacantCards.Add(originCard);
 
@@ -95,18 +88,35 @@ namespace GameplayServices
             }
         }
 
-        private void AddAbscentVacantCards(HashSet<Card> vacantCards)
+        // Executed for an additional set of cards if the cards count is less than 3.
+        private void AddAbscentVacantCards(Vector2 originCardCoords, HashSet<Card> vacantCards)
         {
-            for (int x = 0; x < _cardsMap.GetLength(0); x++)
+            while (vacantCards.Count < 3)
             {
-                for (int y = _cardsMap.GetLength(1) - 1; y >= 0; y--)
+                Card nearestCard = null;
+                float nearestCardDistance = float.MaxValue;
+                for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
                 {
-                    Card card = _cardsMap[x, y];
-                    if (card == null || card.IsInited || vacantCards.Contains(card)) continue;
+                    for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
+                    {
+                        Card card = _cardsMap[colunmI, cardI];
+                        if (card == null || card.IsInited || vacantCards.Contains(card)) continue;
 
-                    vacantCards.Add(card);
-                    break;
+                        Vector2 cardCoords = new Vector2Int(colunmI, cardI);
+                        float distance = Vector2.Distance(originCardCoords, cardCoords);
+
+                        if (distance < nearestCardDistance)
+                        {
+                            nearestCardDistance = distance;
+                            nearestCard = card;
+                        }
+                    }
                 }
+
+                if (nearestCard != null)
+                {
+                    vacantCards.Add(nearestCard);
+                }    
             }
         }
 

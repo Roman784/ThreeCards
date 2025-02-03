@@ -14,6 +14,7 @@ namespace Settings
         }
 
         [field: SerializeField] public int LevelNumber {  get; private set; }
+        [field: SerializeField] public Vector2Int CardSpreadRange { get; private set; }
         [field: SerializeField] public CardColumn[] CardColumns { get; private set; }
 
         public int ColumnCount => CardColumns.Length;
