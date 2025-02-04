@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   <CardLayoutsSettings>k__BackingField: {fileID: 11400000, guid: cf0d128804b7abc46be6e13be83e97a0, type: 2}
+  <SlotsSettings>k__BackingField: {fileID: 11400000, guid: 8b207a64670dced4ab28045447a61043, type: 2}

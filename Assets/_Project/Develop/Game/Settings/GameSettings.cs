@@ -6,5 +6,6 @@ namespace Settings
     public class GameSettings : ScriptableObject
     {
         [field: SerializeField] public CardLayoutsSettings CardLayoutsSettings { get; private set; }
+        [field: SerializeField] public SlotsSettings SlotsSettings { get; private set; }
     }
 }

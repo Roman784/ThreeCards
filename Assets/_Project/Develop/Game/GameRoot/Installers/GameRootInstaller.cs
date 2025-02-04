@@ -1,4 +1,6 @@
 using Settings;
+using UI;
+using UnityEngine;
 using Zenject;
 
 namespace GameRootInstallers
@@ -8,6 +10,7 @@ namespace GameRootInstallers
         public override void InstallBindings()
         {
             BindSettingsProvider();
+            BindUI();
             BindGameState();
         }
 
@@ -15,6 +18,12 @@ namespace GameRootInstallers
         {
             var settingsProvider = new SettingsProvider();
             Container.Bind<ISettingsProvider>().FromInstance(settingsProvider).AsSingle();
+        }
+
+        private void BindUI()
+        {
+            UIRootView uiRootPrefab = Resources.Load<UIRootView>("UI/UIRoot");
+            Container.Bind<UIRootView>().FromComponentInNewPrefab(uiRootPrefab).AsSingle();
         }
 
         private void BindGameState()
