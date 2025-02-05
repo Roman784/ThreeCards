@@ -18,6 +18,7 @@ namespace GameplayRoot
         private CardLayoutService _cardLayoutService;
         private CardMarkingService _cardMarkingService;
         private CardMatchingService _cardMatchingService;
+        private SlotBar _slotBar;
 
         [Inject]
         private void Construct(UIRootView uiRoot,
@@ -25,7 +26,8 @@ namespace GameplayRoot
                                ISettingsProvider settingsProvider,
                                CardLayoutService cardLayoutService,
                                CardMarkingService cardMarkingService,
-                               CardMatchingService cardMatchingService)
+                               CardMatchingService cardMatchingService,
+                               SlotBar slotBar)
         {
             _uiRoot = uiRoot;
             _gameplayUIPrefab = gameplayUIPrefab;
@@ -33,6 +35,7 @@ namespace GameplayRoot
             _cardLayoutService = cardLayoutService;
             _cardMarkingService = cardMarkingService;
             _cardMatchingService = cardMatchingService;
+            _slotBar = slotBar;
         }
 
         public void Run(GameplayEnterParams enterParams)
@@ -40,16 +43,17 @@ namespace GameplayRoot
             Debug.Log($"Level number {enterParams.LevelNumber}");
             Debug.Log("Gameplay scene loaded");
 
-            GameplayUI gameplayUI = Instantiate(_gameplayUIPrefab);
+            var gameplayUI = Instantiate(_gameplayUIPrefab);
             _uiRoot.AttachSceneUI(gameplayUI.gameObject);
 
-            CardLayoutsSettings layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
-            CardLayoutSettings layout = layouts.GetLayout(enterParams.LevelNumber);
+            var layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
+            var layout = layouts.GetLayout(enterParams.LevelNumber);
 
-            Card[,] cards = _cardLayoutService.SetUp(layout);
-            Coroutines.StartRoutine(_cardMarkingService.Mark(cards, layout.CardSpreadRange));
+            var cards = _cardLayoutService.SetUp(layout);
+            _cardMarkingService.Mark(cards, layout.CardSpreadRange);
 
-            _cardMatchingService.CreateSlots(gameplayUI);
+            var slots = _slotBar.CreateSlots();
+            _cardMatchingService.Init(slots);
         }
     }
 }

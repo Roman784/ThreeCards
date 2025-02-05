@@ -1,37 +1,27 @@
 using Gameplay;
-using Settings;
-using UI;
-using Zenject;
+using System.Collections.Generic;
 
 namespace GameplayServices
 {
     public class CardMatchingService
     {
-        private SlotsSettings _slotsSettings;
-        private SlotFactory _slotFactory;
-        private GameplayUI _ui;
+        private List<Slot> _slots = new();
 
-        [Inject]
-        private void Construct(ISettingsProvider settingsProvider, SlotFactory slotFactory)
+        public void Init(List<Slot> slots)
         {
-            _slotsSettings = settingsProvider.GameSettings.SlotsSettings;
-            _slotFactory = slotFactory;
+            _slots = slots;
         }
 
-        public void CreateSlots(GameplayUI ui)
+        public void PlaceCard(Card card)
         {
-            _ui = ui;
-
-            for (int i = 0; i < _slotsSettings.Count; i++)
+            foreach (Slot slot in _slots)
             {
-                CreateSlot();
+                if (!slot.HasCard)
+                {
+                    slot.PlaceCard(card);
+                    break;
+                }
             }
-        }
-
-        private void CreateSlot()
-        {
-            Slot newSlot = _slotFactory.Create();
-            _ui.AddSlot(newSlot);
         }
     }
 }

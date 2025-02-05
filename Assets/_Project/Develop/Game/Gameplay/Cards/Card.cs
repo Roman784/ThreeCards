@@ -1,8 +1,10 @@
+using GameplayServices;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Utils;
+using Zenject;
 
 namespace Gameplay
 {
@@ -24,6 +26,14 @@ namespace Gameplay
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
 
+        private CardMatchingService _cardMatching;
+
+        [Inject]
+        private void Construct(CardMatchingService cardMatching)
+        {
+            _cardMatching = cardMatching;
+        }
+
         private void Awake()
         {
             _spritesMap[Suits.Diamonds] = _diamonds;
@@ -40,6 +50,17 @@ namespace Gameplay
 
             _spriteView.sprite = _spritesMap[suit];
             _rankView.text = CardMarkingMapper.RanksMap[rank];
+        }
+
+        public void Select()
+        {
+            _cardMatching.PlaceCard(this);
+        }
+
+        public void Move(Vector2 position)
+        {
+            Debug.Log($"Move {position}");
+            transform.position = position;
         }
     }
 }

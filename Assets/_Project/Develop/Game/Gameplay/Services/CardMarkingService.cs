@@ -20,7 +20,7 @@ namespace GameplayServices
             _isRedSuitOrder = Randomizer.GetRandomValue(true, false);
         }
 
-        public IEnumerator Mark(Card[,] cardsMap, Vector2Int cardSpreadRange)
+        public void Mark(Card[,] cardsMap, Vector2Int cardSpreadRange)
         {
             _cardsMap = cardsMap;
             _cardSpreadRange = cardSpreadRange;
@@ -33,12 +33,12 @@ namespace GameplayServices
                     if (card == null || card.IsInited) continue;
 
                     Vector2Int cardCoords = new Vector2Int(colunmI, cardI);
-                    yield return Coroutines.StartRoutine(InitThreeCards(card, cardCoords));
+                    InitThreeCards(card, cardCoords);
                 }
             }
         }
 
-        private IEnumerator InitThreeCards(Card originCard, Vector2Int originCardCoords)
+        private void InitThreeCards(Card originCard, Vector2Int originCardCoords)
         {
             HashSet<Card> vacantCards = new();
             SetVacantCards(vacantCards, originCard, originCardCoords);
@@ -49,13 +49,11 @@ namespace GameplayServices
             }
 
             var shuffledVacantCards = ShuffleCards(vacantCards);
-            yield return Coroutines.StartRoutine(InitCards(shuffledVacantCards));
+            InitCards(shuffledVacantCards);
         }
 
-        private IEnumerator InitCards(List<Card> cards)
-        {
-            yield return new WaitForSeconds(1);
-
+        private void InitCards(List<Card> cards)
+        { 
             Suits suit = _isRedSuitOrder ? CardMarkingMapper.GetRandomRedSuits() : CardMarkingMapper.GetRandomBlackSuits();
             _isRedSuitOrder = !_isRedSuitOrder;
 

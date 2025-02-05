@@ -8,13 +8,14 @@ namespace GameplayInstallers
 {
     public class GameplayInstaller : MonoInstaller
     {
-        [SerializeField] private GameplayUI _gameplayUI; // <- Â UIRoot.
+        [SerializeField] private SlotBar _slotBar;
 
         public override void InstallBindings()
         {
             BindUI();
             BindFactories();
             BindCardServices();
+            BindSlotBar();
         }
 
         private void BindUI()
@@ -34,11 +35,14 @@ namespace GameplayInstallers
 
         private void BindCardServices()
         {
-            
-
             Container.Bind<CardLayoutService>().AsTransient();
             Container.Bind<CardMarkingService>().AsTransient();
-            Container.Bind<CardMatchingService>().AsTransient();
+            Container.Bind<CardMatchingService>().AsSingle();
+        }
+
+        private void BindSlotBar()
+        {
+            Container.Bind<SlotBar>().FromInstance(_slotBar).AsSingle();
         }
     }
 }
