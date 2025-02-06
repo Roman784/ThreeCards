@@ -1,49 +1,32 @@
 using GameplayServices;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-using Utils;
-using Zenject;
 
 namespace Gameplay
 {
-    public class Card : MonoBehaviour
+    public class Card
     {
-        [SerializeField] private Image _spriteView;
-        [SerializeField] private TMP_Text _rankView;
+        public CardView View { get; private set; }
 
-        [Space]
-
-        [SerializeField] private Sprite _diamonds;
-        [SerializeField] private Sprite _hearts;
-        [SerializeField] private Sprite _clubs;
-        [SerializeField] private Sprite _spades;
-
-        private Dictionary<Suits, Sprite> _spritesMap = new();
-
-        public bool IsInited { get; private set; }
+        public bool IsMarked { get; private set; }
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
 
         private CardMatchingService _cardMatchingService;
 
-        private void Awake()
+        public Card(CardView view)
         {
-            _spritesMap[Suits.Diamonds] = _diamonds;
-            _spritesMap[Suits.Heart] = _hearts;
-            _spritesMap[Suits.Club] = _clubs;
-            _spritesMap[Suits.Spade] = _spades;
+            View = view;
+
+            View.OnPicked.AddListener(Pick);
         }
 
-        public void Init(Suits suit, Ranks rank)
+        public void Mark(Suits suit, Ranks rank)
         {
-            IsInited = true;
+            IsMarked = true;
             Suit = suit;
             Rank = rank;
 
-            _spriteView.sprite = _spritesMap[suit];
-            _rankView.text = CardMarkingMapper.RanksMap[rank];
+            View.Mark(suit, rank);
         }
 
         public void SetMatchingService(CardMatchingService service)
@@ -51,14 +34,14 @@ namespace Gameplay
             _cardMatchingService = service;
         }
 
-        public void Select()
-        {
-            _cardMatchingService.PlaceCard(this);
-        }
-
         public void Move(Vector2 position)
         {
-            transform.position = position;
+            View.Move(position);
+        }
+
+        private void Pick()
+        {
+            _cardMatchingService.PlaceCard(this);
         }
     }
 }

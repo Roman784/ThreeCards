@@ -306,7 +306,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5557168016676891447}
-  - component: {fileID: 2222382517453375537}
+  - component: {fileID: 7456518994425914730}
   m_Layer: 0
   m_Name: Card
   m_TagString: Untagged
@@ -331,7 +331,7 @@ Transform:
   - {fileID: 6737770455197129798}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2222382517453375537
+--- !u!114 &7456518994425914730
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -340,7 +340,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7906243763063426104}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9bfbeaea6466454c9957f17a5c2221a, type: 3}
+  m_Script: {fileID: 11500000, guid: 2b1409a6e399d114d8224f0f9daba283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _spriteView: {fileID: 8880746936262468893}
@@ -349,6 +349,9 @@ MonoBehaviour:
   _hearts: {fileID: -552834673, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _clubs: {fileID: 1751605367, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _spades: {fileID: 867331234, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
+  OnPicked:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8289443249498548509
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,9 +472,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2222382517453375537}
-        m_TargetAssemblyTypeName: Gameplay.Card, Assembly-CSharp
-        m_MethodName: Select
+      - m_Target: {fileID: 7456518994425914730}
+        m_TargetAssemblyTypeName: Gameplay.CardView, Assembly-CSharp
+        m_MethodName: Pick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

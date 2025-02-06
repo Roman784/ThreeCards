@@ -30,7 +30,7 @@ namespace GameplayServices
                 for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
                 {
                     Card card = _cardsMap[colunmI, cardI];
-                    if (card == null || card.IsInited) continue;
+                    if (card == null || card.IsMarked) continue;
 
                     Vector2Int cardCoords = new Vector2Int(colunmI, cardI);
                     InitThreeCards(card, cardCoords);
@@ -62,7 +62,7 @@ namespace GameplayServices
                 Card card = cards[i];
                 Ranks rank = CardMarkingMapper.GetRandomRank();
 
-                card.Init(suit, rank);
+                card.Mark(suit, rank);
             }
         }
 
@@ -79,7 +79,7 @@ namespace GameplayServices
             {
                 for (int y = startY; y <= endY; y++)
                 {
-                    if (_cardsMap[x, y] == null || _cardsMap[x, y].IsInited) continue;
+                    if (_cardsMap[x, y] == null || _cardsMap[x, y].IsMarked) continue;
 
                     vacantCards.Add(_cardsMap[x, y]);
                 }
@@ -98,7 +98,7 @@ namespace GameplayServices
                     for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
                     {
                         Card card = _cardsMap[colunmI, cardI];
-                        if (card == null || card.IsInited || vacantCards.Contains(card)) continue;
+                        if (card == null || card.IsMarked || vacantCards.Contains(card)) continue;
 
                         Vector2 cardCoords = new Vector2Int(colunmI, cardI);
                         float distance = Vector2.Distance(originCardCoords, cardCoords);

@@ -18,7 +18,7 @@ namespace Gameplay
             HasCard = true;
             Card = card;
 
-            card.transform.localScale = transform.localScale;
+            // card.transform.localScale = transform.localScale;
             card.Move(transform.position);
         }
 

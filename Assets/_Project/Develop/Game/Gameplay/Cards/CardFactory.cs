@@ -4,14 +4,16 @@ using Zenject;
 
 namespace GameplayServices
 {
-    public class CardFactory : PlaceholderFactory<Card>
+    public class CardFactory : PlaceholderFactory<CardView>
     {
         public Card Create(Vector2 position)
         {
-            Card newCard =  base.Create();
-            newCard.transform.position = position;
+            CardView view =  base.Create();
+            Card card = new Card(view);
 
-            return newCard;
+            view.transform.position = position;
+
+            return card;
         }
     }
 }
