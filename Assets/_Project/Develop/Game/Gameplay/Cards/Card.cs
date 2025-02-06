@@ -26,13 +26,7 @@ namespace Gameplay
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
 
-        private CardMatchingService _cardMatching;
-
-        [Inject]
-        private void Construct(CardMatchingService cardMatching)
-        {
-            _cardMatching = cardMatching;
-        }
+        private CardMatchingService _cardMatchingService;
 
         private void Awake()
         {
@@ -52,14 +46,18 @@ namespace Gameplay
             _rankView.text = CardMarkingMapper.RanksMap[rank];
         }
 
+        public void SetMatchingService(CardMatchingService service)
+        {
+            _cardMatchingService = service;
+        }
+
         public void Select()
         {
-            _cardMatching.PlaceCard(this);
+            _cardMatchingService.PlaceCard(this);
         }
 
         public void Move(Vector2 position)
         {
-            Debug.Log($"Move {position}");
             transform.position = position;
         }
     }

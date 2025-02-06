@@ -14,7 +14,6 @@ namespace GameplayInstallers
         {
             BindUI();
             BindFactories();
-            BindCardServices();
             BindSlotBar();
         }
 
@@ -31,13 +30,6 @@ namespace GameplayInstallers
 
             Slot slotPrefab = Resources.Load<Slot>("Prefabs/Gameplay/Slot");
             Container.BindFactory<Slot, SlotFactory>().FromComponentInNewPrefab(slotPrefab);
-        }
-
-        private void BindCardServices()
-        {
-            Container.Bind<CardLayoutService>().AsTransient();
-            Container.Bind<CardMarkingService>().AsTransient();
-            Container.Bind<CardMatchingService>().AsSingle();
         }
 
         private void BindSlotBar()

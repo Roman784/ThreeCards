@@ -15,10 +15,9 @@ namespace GameplayServices
         private CardLayoutSettings _layout;
         private int _maxColumnLength;
 
-        [Inject]
-        private void Construct(ISettingsProvider settingsProvider, CardFactory cardFactory)
+        public CardLayoutService(CardLayoutsSettings layouts, CardFactory cardFactory)
         {
-            _layouts = settingsProvider.GameSettings.CardLayoutsSettings;
+            _layouts = layouts;
             _cardFactory = cardFactory;
         }
 
