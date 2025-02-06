@@ -2,15 +2,16 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class Slot : MonoBehaviour
+    public class Slot
     {
+        public SlotView View { get; private set; }
+
         public bool HasCard { get; private set; }
         public Card Card { get; private set; }
 
-        private void Awake()
+        public Slot(SlotView view)
         {
-            HasCard = false;
-            Card = null;
+            View = view;
         }
 
         public void PlaceCard(Card card)
@@ -18,8 +19,7 @@ namespace Gameplay
             HasCard = true;
             Card = card;
 
-            // card.transform.localScale = transform.localScale;
-            card.Move(transform.position);
+            card.Move(View.transform);
         }
 
         public void RemoveCard()
@@ -29,12 +29,12 @@ namespace Gameplay
 
         public void SetParent(Transform parent)
         {
-            transform.SetParent(parent, false);
+            View.SetParent(parent);
         }
 
         public void SetPosition(Vector2 position)
         {
-            transform.position = position;
+            View.SetPosition(position);
         }
     }
 }

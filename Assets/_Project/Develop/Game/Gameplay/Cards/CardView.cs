@@ -42,9 +42,10 @@ namespace Gameplay
             OnPicked.Invoke();
         }
 
-        public void Move(Vector2 position)
+        public void Move(Transform slot)
         {
-            transform.position = position;
+            transform.localScale = slot.localScale;
+            transform.position = slot.position;
         }
     }
 }

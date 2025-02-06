@@ -16,7 +16,6 @@ namespace Gameplay
         public Card(CardView view)
         {
             View = view;
-
             View.OnPicked.AddListener(Pick);
         }
 
@@ -34,9 +33,9 @@ namespace Gameplay
             _cardMatchingService = service;
         }
 
-        public void Move(Vector2 position)
+        public void Move(Transform slot)
         {
-            View.Move(position);
+            View.Move(slot);
         }
 
         private void Pick()

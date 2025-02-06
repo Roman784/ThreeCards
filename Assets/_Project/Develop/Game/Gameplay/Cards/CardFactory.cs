@@ -6,12 +6,18 @@ namespace GameplayServices
 {
     public class CardFactory : PlaceholderFactory<CardView>
     {
-        public Card Create(Vector2 position)
+        public new Card Create()
         {
-            CardView view =  base.Create();
+            CardView view = base.Create();
             Card card = new Card(view);
 
-            view.transform.position = position;
+            return card;
+        }
+
+        public Card Create(Vector2 position)
+        {
+            Card card = Create();
+            card.View.transform.position = position;
 
             return card;
         }

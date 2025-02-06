@@ -4,14 +4,22 @@ using Zenject;
 
 namespace GameplayServices
 {
-    public class SlotFactory : PlaceholderFactory<Slot>
+    public class SlotFactory : PlaceholderFactory<SlotView>
     {
+        public new Slot Create()
+        {
+            SlotView view = base.Create();
+            Slot slot = new Slot(view);
+
+            return slot;
+        }
+
         public Slot Create(Vector2 position)
         {
-            Slot newSlot = base.Create();
-            newSlot.transform.position = position;
+            Slot slot = Create();
+            slot.View.transform.position = position;
 
-            return newSlot;
+            return slot;
         }
     }
 }
