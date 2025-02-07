@@ -38,9 +38,9 @@ namespace Gameplay
             _cardMatchingService = service;
         }
 
-        public void Move(Transform slot)
+        public void Place(Transform slot)
         {
-            View.Move(slot);
+            View.Place(slot);
         }
 
         public void Close(bool instantly = false)

@@ -19,7 +19,7 @@ namespace Gameplay
             HasCard = true;
             Card = card;
 
-            card.Move(View.transform);
+            card.Place(View.transform);
         }
 
         public void RemoveCard()
