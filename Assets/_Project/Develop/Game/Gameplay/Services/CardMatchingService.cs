@@ -1,5 +1,6 @@
 using Gameplay;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 namespace GameplayServices
 {
@@ -7,7 +8,9 @@ namespace GameplayServices
     {
         private List<Slot> _slots = new();
 
-        public void Init(List<Slot> slots)
+        public UnityEvent<Card> OnCardPlaced = new();
+
+        public CardMatchingService(List<Slot> slots)
         {
             _slots = slots;
         }
@@ -19,6 +22,7 @@ namespace GameplayServices
                 if (!slot.HasCard)
                 {
                     slot.PlaceCard(card);
+                    OnCardPlaced.Invoke(card);
                     break;
                 }
             }

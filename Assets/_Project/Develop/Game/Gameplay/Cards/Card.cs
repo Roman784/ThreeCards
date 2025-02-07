@@ -11,10 +11,14 @@ namespace Gameplay
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
 
+        private bool _isClosed;
+
         private CardMatchingService _cardMatchingService;
 
         public Card(CardView view)
         {
+            _isClosed = true;
+
             View = view;
             View.OnPicked.AddListener(Pick);
         }
@@ -26,6 +30,7 @@ namespace Gameplay
             Rank = rank;
 
             View.Mark(suit, rank);
+            View.Close(true);
         }
 
         public void SetMatchingService(CardMatchingService service)
@@ -38,8 +43,22 @@ namespace Gameplay
             View.Move(slot);
         }
 
+        public void Close(bool instantly = false)
+        {
+            _isClosed = true;
+            View.Close(instantly);
+        }
+
+        public void Open()
+        {
+            _isClosed = false;
+            View.Open();
+        }
+
         private void Pick()
         {
+            if (_isClosed) return;
+
             _cardMatchingService.PlaceCard(this);
         }
     }

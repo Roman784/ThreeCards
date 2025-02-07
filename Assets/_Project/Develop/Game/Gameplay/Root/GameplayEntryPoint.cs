@@ -42,16 +42,14 @@ namespace GameplayRoot
             var layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
             var layout = layouts.GetLayout(enterParams.LevelNumber);
 
-            // Services.
-            var cardLayoutService = new CardLayoutService(layouts, _cardFactory);
-            var cardMarkingService = new CardMarkingService();
-            var cardMatchingService = new CardMatchingService();
-
             // Slots setup.
             var slots = _slotBar.CreateSlots();
-            cardMatchingService.Init(slots);
+            var cardMatchingService = new CardMatchingService(slots);
 
             // Cards setup.
+            var cardLayoutService = new CardLayoutService(layouts, _cardFactory);
+            var cardMarkingService = new CardMarkingService();
+
             var cards = cardLayoutService.SetUp(layout);
             cardMarkingService.Mark(cards, layout.CardSpreadRange);
 
@@ -60,6 +58,9 @@ namespace GameplayRoot
                 if (card == null) continue;
                 card.SetMatchingService(cardMatchingService);
             }
+
+            var cardFlippingService = new CardFlippingService(cards, cardMatchingService);
+            cardFlippingService.OpenFirstCards();
         }
     }
 }
