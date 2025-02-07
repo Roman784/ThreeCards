@@ -25,6 +25,7 @@ namespace Gameplay
         public void RemoveCard()
         {
             HasCard = false;
+            Card.Destroy();
         }
 
         public void SetParent(Transform parent)

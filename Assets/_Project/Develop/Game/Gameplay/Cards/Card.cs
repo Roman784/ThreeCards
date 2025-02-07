@@ -55,6 +55,11 @@ namespace Gameplay
             View.Open();
         }
 
+        public void Destroy()
+        {
+            Object.Destroy(View.gameObject);
+        }
+
         private void Pick()
         {
             if (_isClosed) return;
