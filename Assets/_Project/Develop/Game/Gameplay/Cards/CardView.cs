@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -30,6 +31,7 @@ namespace Gameplay
         [Space]
 
         [SerializeField] private float _moveSpeed;
+        [SerializeField] private float _flipSpeed;
 
         private Sprite _faceSprite;
         private Sprite _backSprite;
@@ -37,6 +39,7 @@ namespace Gameplay
         private Dictionary<Suits, Sprite> _spritesMap = new();
 
         private Coroutine _moveRoutine;
+        private Coroutine _flipRoutine;
 
         [HideInInspector] public UnityEvent OnPicked = new();
 
@@ -50,8 +53,7 @@ namespace Gameplay
 
         private void OnDestroy()
         {
-            if (_moveRoutine != null)
-                StopCoroutine(_moveRoutine);
+            StopAllRoutines();
         }
 
         public void Mark(Suits suit, Ranks rank)
@@ -80,30 +82,69 @@ namespace Gameplay
 
         public void Close(bool instantly = false)
         {
+            _raycaster.enabled = false;
+
             if (instantly)
             {
                 _spriteView.sprite = _backSprite;
                 _rankView.gameObject.SetActive(false);
-                _raycaster.enabled = false;
+                return;
             }
+
+            _flipRoutine = StartCoroutine(FlipRoutine(1, -1, _backSprite, false));
         }
 
         public void Open()
         {
-            _spriteView.sprite = _faceSprite;
-            _rankView.gameObject.SetActive(true);
             _raycaster.enabled = true;
+            _flipRoutine = StartCoroutine(FlipRoutine(-1, 1, _faceSprite, true));
         }
 
-        private IEnumerator MoveRoutine(Vector2 targetPosition)
+        private IEnumerator MoveRoutine(Vector3 targetPosition)
         {
-            while (Vector2.Distance(transform.position, targetPosition) > 0.05f)
+            while (Vector2.Distance(transform.position, targetPosition) > 0.03f)
             {
-                yield return null;
                 transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * _moveSpeed);
+                yield return null;
             }
 
             transform.position = targetPosition;
+        }
+
+        private IEnumerator FlipRoutine(float from, float to, Sprite sprite, bool rankActive)
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            transform.localScale = new Vector2(from, 1f);
+            
+            yield return RotateRoutine(0, Vector2.MoveTowards);
+
+            _spriteView.sprite = sprite;
+            _rankView.gameObject.SetActive(rankActive);
+
+            yield return RotateRoutine(to, Vector2.Lerp);
+        }
+
+        private IEnumerator RotateRoutine(float to, Func<Vector2, Vector2, float, Vector2> action)
+        {
+            Vector2 targetScale = new Vector2(to, 1f);
+
+            while (math.abs(to - transform.localScale.x) > 0.03f)
+            {
+                transform.localScale = action(transform.localScale, targetScale, Time.deltaTime * _flipSpeed);
+                yield return null;
+            }
+
+            transform.localScale = targetScale;
+        }
+
+        private void StopAllRoutines()
+        {
+            if (_moveRoutine != null)
+                StopCoroutine(_moveRoutine);
+
+            if (_flipRoutine != null)
+                StopCoroutine(_flipRoutine);
         }
     }
 }

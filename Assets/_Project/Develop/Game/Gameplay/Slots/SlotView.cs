@@ -9,7 +9,7 @@ namespace Gameplay
             transform.SetParent(parent, false);
         }
 
-        public void SetPosition(Vector2 position)
+        public void SetPosition(Vector3 position)
         {
             transform.position = position;
         }

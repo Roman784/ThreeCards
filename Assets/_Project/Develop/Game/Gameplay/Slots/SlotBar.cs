@@ -48,7 +48,7 @@ namespace Gameplay
             for (int i = 0; i < _slots.Count; i++)
             {
                 var slot = _slots[i];
-                var position = new Vector2(startX + _spacing * i, transform.position.y);
+                var position = new Vector3(startX + _spacing * i, transform.position.y, transform.position.z);
 
                 slot.SetParent(transform);
                 slot.SetPosition(position);

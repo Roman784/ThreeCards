@@ -33,7 +33,7 @@ namespace Gameplay
             View.SetParent(parent);
         }
 
-        public void SetPosition(Vector2 position)
+        public void SetPosition(Vector3 position)
         {
             View.SetPosition(position);
         }
