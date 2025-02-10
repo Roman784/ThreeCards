@@ -1,6 +1,7 @@
 using Gameplay;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using R3;
 
 namespace GameplayServices
 {
@@ -14,8 +15,6 @@ namespace GameplayServices
         public CardMatchingService(List<Slot> slots)
         {
             _slots = slots;
-
-            OnCardPlaced.AddListener((Card _) => Match());
         }
 
         public void PlaceCard(Card card)
@@ -24,7 +23,10 @@ namespace GameplayServices
             {
                 if (!slot.HasCard)
                 {
-                    slot.PlaceCard(card);
+                    slot.PlaceCard(card).Subscribe(_ => 
+                    {
+                        Match();
+                    });
                     OnCardPlaced.Invoke(card);
                     break;
                 }

@@ -1,3 +1,4 @@
+using R3;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,10 +75,14 @@ namespace Gameplay
             OnPicked.Invoke();
         }
 
-        public void Place(Transform slot)
+        public Observable<bool> Place(Transform slot)
         {
             transform.SetParent(slot);
-            _moveRoutine = StartCoroutine(MoveRoutine(slot.position));
+
+            var moveCompletedSubject = new Subject<bool>();
+            _moveRoutine = StartCoroutine(MoveRoutine(slot.position, moveCompletedSubject));
+
+            return moveCompletedSubject;
         }
 
         public void Close(bool instantly = false)
@@ -100,7 +105,7 @@ namespace Gameplay
             _flipRoutine = StartCoroutine(FlipRoutine(-1, 1, _faceSprite, true));
         }
 
-        private IEnumerator MoveRoutine(Vector3 targetPosition)
+        private IEnumerator MoveRoutine(Vector3 targetPosition, Subject<bool> moveCompletedSubject)
         {
             while (Vector2.Distance(transform.position, targetPosition) > 0.03f)
             {
@@ -109,12 +114,13 @@ namespace Gameplay
             }
 
             transform.position = targetPosition;
+
+            moveCompletedSubject.OnNext(true);
+            moveCompletedSubject.OnCompleted();
         }
 
         private IEnumerator FlipRoutine(float from, float to, Sprite sprite, bool rankActive)
         {
-            yield return new WaitForSeconds(0.1f);
-
             transform.localScale = new Vector2(from, 1f);
             
             yield return RotateRoutine(0, Vector2.MoveTowards);

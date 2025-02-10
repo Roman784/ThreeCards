@@ -1,3 +1,4 @@
+using R3;
 using UnityEngine;
 
 namespace Gameplay
@@ -14,12 +15,12 @@ namespace Gameplay
             View = view;
         }
 
-        public void PlaceCard(Card card)
+        public Observable<bool> PlaceCard(Card card)
         {
             HasCard = true;
             Card = card;
 
-            card.Place(View.transform);
+            return card.Place(View.transform);
         }
 
         public void RemoveCard()

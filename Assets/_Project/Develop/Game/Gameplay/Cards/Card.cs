@@ -1,4 +1,5 @@
 using GameplayServices;
+using R3;
 using UnityEngine;
 
 namespace Gameplay
@@ -38,9 +39,9 @@ namespace Gameplay
             _cardMatchingService = service;
         }
 
-        public void Place(Transform slot)
+        public Observable<bool> Place(Transform slot)
         {
-            View.Place(slot);
+            return View.Place(slot);
         }
 
         public void Close(bool instantly = false)
