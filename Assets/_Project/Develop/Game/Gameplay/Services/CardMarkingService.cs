@@ -48,7 +48,7 @@ namespace GameplayServices
                 AddAbscentVacantCards(originCardCoords, vacantCards);
             }
 
-            var shuffledVacantCards = ShuffleCards(vacantCards);
+            var shuffledVacantCards = ShuffleCards(vacantCards.ToList());
             InitCards(shuffledVacantCards);
         }
 
@@ -118,9 +118,15 @@ namespace GameplayServices
             }
         }
 
-        private List<Card> ShuffleCards(IEnumerable<Card> cards)
+        private List<Card> ShuffleCards(List<Card> cards)
         {
-            return cards.OrderBy(x => System.Guid.NewGuid()).ToList();
+            var firstCard = cards[0];
+            var sublist = cards.GetRange(1, cards.Count - 1);
+
+            var shuffledList = sublist.OrderBy(x => System.Guid.NewGuid()).ToList();
+            shuffledList.Insert(0, firstCard);
+
+            return shuffledList;
         }
     }
 }

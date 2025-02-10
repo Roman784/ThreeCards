@@ -19,6 +19,7 @@ namespace Gameplay
         public Card(CardView view)
         {
             _isClosed = true;
+            IsMarked = false;
 
             View = view;
             View.OnPicked.AddListener(Pick);
