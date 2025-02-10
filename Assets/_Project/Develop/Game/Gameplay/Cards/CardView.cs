@@ -11,6 +11,7 @@ using Utils;
 
 namespace Gameplay
 {
+    [RequireComponent(typeof(Animator))]
     public class CardView : MonoBehaviour
     {
         [SerializeField] private Image _spriteView;
@@ -33,6 +34,7 @@ namespace Gameplay
 
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _flipSpeed;
+        [SerializeField] private float _destroyingDuration;
 
         private Sprite _faceSprite;
         private Sprite _backSprite;
@@ -42,10 +44,14 @@ namespace Gameplay
         private Coroutine _moveRoutine;
         private Coroutine _flipRoutine;
 
+        private Animator _animator;
+
         [HideInInspector] public UnityEvent OnPicked = new();
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
+
             _spritesMap[Suits.Diamonds] = _diamonds;
             _spritesMap[Suits.Heart] = _hearts;
             _spritesMap[Suits.Club] = _clubs;
@@ -75,11 +81,11 @@ namespace Gameplay
             OnPicked.Invoke();
         }
 
-        public Observable<bool> Place(Transform slot)
+        public Observable<Unit> Place(Transform slot)
         {
             transform.SetParent(slot);
 
-            var moveCompletedSubject = new Subject<bool>();
+            var moveCompletedSubject = new Subject<Unit>();
             _moveRoutine = StartCoroutine(MoveRoutine(slot.position, moveCompletedSubject));
 
             return moveCompletedSubject;
@@ -105,7 +111,15 @@ namespace Gameplay
             _flipRoutine = StartCoroutine(FlipRoutine(-1, 1, _faceSprite, true));
         }
 
-        private IEnumerator MoveRoutine(Vector3 targetPosition, Subject<bool> moveCompletedSubject)
+        public Observable<Unit> Destroy()
+        {
+            var animationCompletedSubject = new Subject<Unit>();
+            Coroutines.StartRoutine(DestroyRoutine(animationCompletedSubject));
+
+            return animationCompletedSubject;
+        }
+
+        private IEnumerator MoveRoutine(Vector3 targetPosition, Subject<Unit> moveCompletedSubject)
         {
             while (Vector2.Distance(transform.position, targetPosition) > 0.03f)
             {
@@ -115,7 +129,7 @@ namespace Gameplay
 
             transform.position = targetPosition;
 
-            moveCompletedSubject.OnNext(true);
+            moveCompletedSubject.OnNext(Unit.Default);
             moveCompletedSubject.OnCompleted();
         }
 
@@ -142,6 +156,16 @@ namespace Gameplay
             }
 
             transform.localScale = targetScale;
+        }
+
+        private IEnumerator DestroyRoutine(Subject<Unit> animationCompletedSubject)
+        {
+            _animator.SetTrigger("Destroying");
+
+            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+
+            animationCompletedSubject.OnNext(Unit.Default);
+            animationCompletedSubject.OnCompleted();
         }
 
         private void StopAllRoutines()

@@ -40,7 +40,7 @@ namespace Gameplay
             _cardMatchingService = service;
         }
 
-        public Observable<bool> Place(Transform slot)
+        public Observable<Unit> Place(Transform slot)
         {
             return View.Place(slot);
         }
@@ -59,7 +59,10 @@ namespace Gameplay
 
         public void Destroy()
         {
-            Object.Destroy(View.gameObject);
+            View.Destroy().Subscribe(_ => 
+            {
+                Object.Destroy(View.gameObject);
+            });
         }
 
         private void Pick()

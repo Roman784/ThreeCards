@@ -15,7 +15,7 @@ namespace Gameplay
             View = view;
         }
 
-        public Observable<bool> PlaceCard(Card card)
+        public Observable<Unit> PlaceCard(Card card)
         {
             HasCard = true;
             Card = card;
