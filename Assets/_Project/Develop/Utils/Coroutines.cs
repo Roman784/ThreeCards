@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -34,6 +35,18 @@ namespace Utils
         public static void StopAllRoutines()
         {
             instance.StopAllCoroutines();
+        }
+
+        public static void Invoke(Action action, float time)
+        {
+            instance.StartCoroutine(InvokeRoutine(action, time));
+        }
+
+        private static IEnumerator InvokeRoutine(Action action, float time)
+        {
+            yield return new WaitForSeconds(time);
+
+            action.Invoke();
         }
     }
 }

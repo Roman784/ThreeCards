@@ -29,6 +29,11 @@ namespace Gameplay
             Card.Destroy();
         }
 
+        public void Release()
+        {
+            HasCard = false;
+        }
+
         public void SetParent(Transform parent)
         {
             View.SetParent(parent);
