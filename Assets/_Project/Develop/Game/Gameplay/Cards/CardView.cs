@@ -41,9 +41,6 @@ namespace Gameplay
 
         private Dictionary<Suits, Sprite> _spritesMap = new();
 
-        private Coroutine _moveRoutine;
-        private Coroutine _flipRoutine;
-
         private Animator _animator;
 
         [HideInInspector] public UnityEvent OnPicked = new();
@@ -60,7 +57,7 @@ namespace Gameplay
 
         private void OnDestroy()
         {
-            StopAllRoutines();
+            StopAllCoroutines();
         }
 
         public void Mark(Suits suit, Ranks rank)
@@ -86,7 +83,7 @@ namespace Gameplay
             transform.SetParent(slot);
 
             var moveCompletedSubject = new Subject<Unit>();
-            _moveRoutine = StartCoroutine(MoveRoutine(slot.position, moveCompletedSubject));
+            StartCoroutine(MoveRoutine(slot.position, moveCompletedSubject));
 
             return moveCompletedSubject;
         }
@@ -97,24 +94,35 @@ namespace Gameplay
 
             if (instantly)
             {
-                _spriteView.sprite = _backSprite;
-                _rankView.gameObject.SetActive(false);
+                SetCloseView();
                 return;
             }
 
-            _flipRoutine = StartCoroutine(FlipRoutine(1, -1, _backSprite, false));
+            _animator.SetTrigger("Closing");
         }
 
         public void Open()
         {
             _raycaster.enabled = true;
-            _flipRoutine = StartCoroutine(FlipRoutine(-1, 1, _faceSprite, true));
+            _animator.SetTrigger("Opening");
+        }
+
+        public void SetOpenView()
+        {
+            _rankView.gameObject.SetActive(true);
+            _spriteView.sprite = _faceSprite;
+        }
+
+        public void SetCloseView()
+        {
+            _rankView.gameObject.SetActive(false);
+            _spriteView.sprite = _backSprite;
         }
 
         public Observable<Unit> Destroy()
         {
             var animationCompletedSubject = new Subject<Unit>();
-            Coroutines.StartRoutine(DestroyRoutine(animationCompletedSubject));
+            StartCoroutine(DestroyRoutine(animationCompletedSubject));
 
             return animationCompletedSubject;
         }
@@ -133,31 +141,6 @@ namespace Gameplay
             moveCompletedSubject.OnCompleted();
         }
 
-        private IEnumerator FlipRoutine(float from, float to, Sprite sprite, bool rankActive)
-        {
-            transform.localScale = new Vector2(from, 1f);
-            
-            yield return RotateRoutine(0, Vector2.MoveTowards);
-
-            _spriteView.sprite = sprite;
-            _rankView.gameObject.SetActive(rankActive);
-
-            yield return RotateRoutine(to, Vector2.Lerp);
-        }
-
-        private IEnumerator RotateRoutine(float to, Func<Vector2, Vector2, float, Vector2> action)
-        {
-            Vector2 targetScale = new Vector2(to, 1f);
-
-            while (math.abs(to - transform.localScale.x) > 0.03f)
-            {
-                transform.localScale = action(transform.localScale, targetScale, Time.deltaTime * _flipSpeed);
-                yield return null;
-            }
-
-            transform.localScale = targetScale;
-        }
-
         private IEnumerator DestroyRoutine(Subject<Unit> animationCompletedSubject)
         {
             _animator.SetTrigger("Destroying");
@@ -166,15 +149,6 @@ namespace Gameplay
 
             animationCompletedSubject.OnNext(Unit.Default);
             animationCompletedSubject.OnCompleted();
-        }
-
-        private void StopAllRoutines()
-        {
-            if (_moveRoutine != null)
-                StopCoroutine(_moveRoutine);
-
-            if (_flipRoutine != null)
-                StopCoroutine(_flipRoutine);
         }
     }
 }

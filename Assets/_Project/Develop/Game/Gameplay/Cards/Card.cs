@@ -68,7 +68,6 @@ namespace Gameplay
         private void Pick()
         {
             if (_isClosed) return;
-
             _cardMatchingService.PlaceCard(this);
         }
     }

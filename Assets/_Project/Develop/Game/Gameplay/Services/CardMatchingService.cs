@@ -111,7 +111,7 @@ namespace GameplayServices
                 }
 
                 _canPlaceCard = true;
-            }, 0.4f);
+            }, 0.5f);
         }
     }
 }
