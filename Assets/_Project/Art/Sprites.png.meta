@@ -249,7 +249,7 @@ TextureImporter:
         width: 144
         height: 204
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -270,7 +270,7 @@ TextureImporter:
         width: 144
         height: 204
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -300,6 +300,7 @@ TextureImporter:
       Sprites_4: -1892888966
       Sprites_5: -1995358413
       Sprites_6: -598515592
+      Sprites_7: 960552072
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

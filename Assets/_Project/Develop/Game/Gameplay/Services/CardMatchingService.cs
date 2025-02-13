@@ -11,7 +11,6 @@ namespace GameplayServices
     public class CardMatchingService
     {
         private List<Slot> _slots = new();
-        private Dictionary<Suits, List<Slot>> _slotsBySuitMap = new();
 
         public UnityEvent<Card> OnCardPlaced = new();
         public UnityEvent OnCardsRemoved = new();
