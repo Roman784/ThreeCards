@@ -57,6 +57,16 @@ namespace Gameplay
             View.Open();
         }
 
+        public void PutDown()
+        {
+            View.PutDown();
+        }
+
+        public void Disable()
+        {
+            View.Disable();
+        }
+
         public void Destroy()
         {
             View.Destroy().Subscribe(_ => 

@@ -2,8 +2,10 @@ using Gameplay;
 using GameplayServices;
 using GameRoot;
 using Settings;
+using System.Collections;
 using UI;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace GameplayRoot
@@ -51,17 +53,19 @@ namespace GameplayRoot
             var cardLayoutService = new CardLayoutService(layouts, _cardFactory);
             var cardMarkingService = new CardMarkingService();
 
-            var cards = cardLayoutService.SetUp(layout);
-            cardMarkingService.Mark(cards, layout.CardSpreadRange);
+            var cardsMap = cardLayoutService.SetUp(layout);
+            cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
-            foreach (var card in cards)
+            foreach (var card in cardsMap)
             {
                 if (card == null) continue;
                 card.SetMatchingService(cardMatchingService);
             }
 
-            var cardFlippingService = new CardFlippingService(cards, cardMatchingService);
-            cardFlippingService.OpenFirstCards();
+            // Animations.
+            var cardFlippingService = new CardFlippingService(cardsMap, cardMatchingService);
+            var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
+            fieldAnimationService.LayOutCards();
         }
     }
 }

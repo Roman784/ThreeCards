@@ -49,7 +49,11 @@ namespace GameplayServices
             for (int cardI = 0; cardI < column.CardCount; cardI++)
             {
                 Vector2 cardPosition = columnPosition + new Vector2(0, -_layouts.StepBetweenCards * cardI);
-                _cardsMap[columnI, cardI] = _cardFactory.Create(cardPosition);
+
+                Card card = _cardFactory.Create(cardPosition);
+                card.Disable();
+
+                _cardsMap[columnI, cardI] = card;
             }
         }
 

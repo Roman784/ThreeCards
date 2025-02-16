@@ -119,6 +119,17 @@ namespace Gameplay
             _spriteView.sprite = _backSprite;
         }
 
+        public void PutDown()
+        {
+            gameObject.SetActive(true);
+            _animator.SetTrigger("Appearing");
+        }
+
+        public void Disable()
+        {
+            gameObject.SetActive(false);
+        }
+
         public Observable<Unit> Destroy()
         {
             var animationCompletedSubject = new Subject<Unit>();
