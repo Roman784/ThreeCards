@@ -40,6 +40,14 @@ namespace Currencies
         private void UpdateView()
         {
             _countView.text = _currentCount.ToString();
+            ResizeView();
+        }
+
+        private void ResizeView()
+        {
+            Vector2 size = _countView.rectTransform.sizeDelta;
+            size.x = _countView.preferredWidth;
+            _countView.rectTransform.sizeDelta = size;
         }
     }
 }
