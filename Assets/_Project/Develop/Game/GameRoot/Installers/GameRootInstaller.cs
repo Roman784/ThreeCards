@@ -1,3 +1,4 @@
+using Currencies;
 using GameState;
 using Settings;
 using UI;
@@ -12,19 +13,23 @@ namespace GameRootInstallers
         {
             BindSettingsProvider();
             BindGameStateProvider();
+            BindCurrencies();
             BindUI();
         }
 
         private void BindSettingsProvider()
         {
-            var settingsProvider = new SettingsProvider();
-            Container.Bind<ISettingsProvider>().FromInstance(settingsProvider).AsSingle();
+            Container.Bind<ISettingsProvider>().To<SettingsProvider>().AsSingle();
         }
 
         private void BindGameStateProvider()
         {
-            var gameStateProvider = new PlayerPrefsGameStateProvider();
-            Container.Bind<IGameStateProvider>().FromInstance(gameStateProvider).AsSingle();
+            Container.Bind<IGameStateProvider>().To<PlayerPrefsGameStateProvider>().AsSingle();
+        }
+
+        private void BindCurrencies()
+        {
+            Container.Bind<ChipsCounter>().AsSingle();
         }
 
         private void BindUI()

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ffc4baa16afb745b61024e2beb3340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _chipsCounter: {fileID: 6791618749777936807}
+  _chipsCounterView: {fileID: 6604258739094734315}
 --- !u!1 &6315772762016847819
 GameObject:
   m_ObjectHideFlags: 0
@@ -55,7 +55,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3957911732071348165}
-  - component: {fileID: 6791618749777936807}
+  - component: {fileID: 6604258739094734315}
   m_Layer: 5
   m_Name: ChipsCounter
   m_TagString: Untagged
@@ -83,7 +83,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 1}
---- !u!114 &6791618749777936807
+--- !u!114 &6604258739094734315
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,10 +92,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6315772762016847819}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a910d35d19257684890585288d8db790, type: 3}
+  m_Script: {fileID: 11500000, guid: cfefe3242198b344b9a77f7cd7b691a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _counterView: {fileID: 8520496741145062661}
+  _countView: {fileID: 8520496741145062661}
 --- !u!1 &7186264719645636056
 GameObject:
   m_ObjectHideFlags: 0

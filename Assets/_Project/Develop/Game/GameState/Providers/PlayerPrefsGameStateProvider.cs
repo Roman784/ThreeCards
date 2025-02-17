@@ -47,7 +47,7 @@ namespace GameState
         {
             var gameState = new GameState
             {
-                Chips = 9999,
+                Chips = 10,
             };
 
             return new GameStateProxy(gameState, this);

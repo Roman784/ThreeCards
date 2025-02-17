@@ -1,15 +1,23 @@
 using Currencies;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
     public class GameplayUI : MonoBehaviour
     {
-        [SerializeField] private ChipsCounter _chipsCounter;
+        [SerializeField] private ChipsCounterView _chipsCounterView;
+        private ChipsCounter _chipsCounter;
 
-        public void Init()
+        [Inject]
+        private void Construct(ChipsCounter chipsCounter)
         {
-            _chipsCounter.Init();
+            _chipsCounter = chipsCounter;
+        }
+
+        public void BindViews()
+        {
+            _chipsCounter.BindView(_chipsCounterView);
         }
     }
 }

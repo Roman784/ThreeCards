@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using R3;
 using Utils;
+using Currencies;
 
 namespace GameplayServices
 {
     public class CardMatchingService
     {
         private List<Slot> _slots = new();
+        private ChipsCounter _chipsCounter;
 
         public UnityEvent<Card> OnCardPlaced = new();
-        public UnityEvent<int> OnCardsRemoved = new();
+        public UnityEvent OnCardsRemoved = new();
 
         private bool _canPlaceCard;
 
-        public CardMatchingService(List<Slot> slots)
+        public CardMatchingService(List<Slot> slots, ChipsCounter chipsCounter)
         {
             _slots = slots;
+            _chipsCounter = chipsCounter;
             _canPlaceCard = true;
 
             OnCardsRemoved.AddListener(ShiftCards);
@@ -77,7 +80,10 @@ namespace GameplayServices
             }
 
             if (wasRemoved)
-                OnCardsRemoved.Invoke(chipsCount);
+            {
+                _chipsCounter.Add(chipsCount);
+                OnCardsRemoved.Invoke();
+            }
         }
 
         private void AddSlot<TKey>(Dictionary<TKey, List<Slot>> map, TKey key, Slot slot)
@@ -88,7 +94,7 @@ namespace GameplayServices
             map[key].Add(slot);
         }
 
-        private void ShiftCards(int _)
+        private void ShiftCards()
         {
             _canPlaceCard = false;
 

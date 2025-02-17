@@ -1,45 +1,38 @@
 using GameState;
-using TMPro;
-using UnityEngine;
 using Zenject;
 using R3;
 
 namespace Currencies
 {
-    public class ChipsCounter : MonoBehaviour
+    public class ChipsCounter
     {
-        [SerializeField] private TMP_Text _counterView;
-
         private ReactiveProperty<int> _chipsCount = new();
         private IGameStateProvider _gameStateProvider;
 
+        private ChipsCounterView _view;
+
         [Inject]
-        public void Construct(IGameStateProvider gameStateProvider)
+        private void Construct(IGameStateProvider gameStateProvider)
         {
             _gameStateProvider = gameStateProvider;
-            Debug.Log("inject");
-            Debug.Log(_gameStateProvider);
         }
 
-        public void Init()
+        public void BindView(ChipsCounterView view)
         {
-            /*_chipsCount.Subscribe(value => UpdateView());
-            Debug.Log(_gameStateProvider);
-            Debug.Log(_gameStateProvider.GameState);
-            Debug.Log(_gameStateProvider.GameState.Chips);
-            Debug.Log(_gameStateProvider.GameState.Chips.Value);
-            _chipsCount.Value = _gameStateProvider.GameState.Chips.Value;*/
+            _view = view;
+            _chipsCount.Subscribe(value => _view.IncreaseCounter(_chipsCount.Value));
+        }
+
+        public void LoadChips()
+        {
+            _chipsCount.Value = _gameStateProvider.GameState.Chips.Value;
+            _view?.SetCurrentCount(_chipsCount.Value);
         }
 
         public void Add(int value)
         {
             _chipsCount.Value += value;
             _gameStateProvider.GameState.Chips.Value = _chipsCount.Value;
-        }
-
-        private void UpdateView()
-        {
-            _counterView.text = _chipsCount.Value.ToString();
         }
     }
 }
