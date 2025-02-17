@@ -7,9 +7,7 @@ namespace GameState
     {
         private const string GAME_STATE_KEY = nameof(GAME_STATE_KEY);
 
-        public GameStateProxy GameState {  get; private set; }
-
-        private GameState _gameStateOrigin;
+        public GameStateProxy GameState { get; private set; }
 
         public Observable<GameStateProxy> LoadGameState()
         {
@@ -21,8 +19,8 @@ namespace GameState
             else
             {
                 var json = PlayerPrefs.GetString(GAME_STATE_KEY);
-                _gameStateOrigin = JsonUtility.FromJson<GameState>(json);
-                GameState = new GameStateProxy(_gameStateOrigin);
+                var gameState = JsonUtility.FromJson<GameState>(json);
+                GameState = new GameStateProxy(gameState, this);
             }
 
             return Observable.Return(GameState);
@@ -30,7 +28,7 @@ namespace GameState
 
         public Observable<bool> SaveGameState()
         {
-            var json = JsonUtility.ToJson(_gameStateOrigin, true);
+            var json = JsonUtility.ToJson(GameState.State, true);
             PlayerPrefs.SetString(GAME_STATE_KEY, json);
 
             return Observable.Return(true);
@@ -47,11 +45,12 @@ namespace GameState
         // Балванка.
         private GameStateProxy CreateGameStateFromSettings()
         {
-            _gameStateOrigin = new GameState
+            var gameState = new GameState
             {
+                Chips = 9999,
             };
 
-            return new GameStateProxy(_gameStateOrigin);
+            return new GameStateProxy(gameState, this);
         }
     }
 }

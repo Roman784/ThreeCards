@@ -20,7 +20,7 @@ namespace GameplayInstallers
         private void BindUI()
         {
             GameplayUI gameplayUIPrefab = Resources.Load<GameplayUI>("UI/GameplayUI");
-            Container.Bind<GameplayUI>().FromInstance(gameplayUIPrefab).AsSingle();
+            Container.Bind<GameplayUI>().FromComponentInNewPrefab(gameplayUIPrefab).AsSingle();
         }
 
         private void BindFactories()

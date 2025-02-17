@@ -60,6 +60,11 @@ namespace Gameplay
             StopAllCoroutines();
         }
 
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;
+        }
+
         public void Mark(Suits suit, Ranks rank)
         {
             _faceSprite = _spritesMap[suit];
@@ -70,7 +75,7 @@ namespace Gameplay
                 _backSprite = _blackCardBack;
 
             _spriteView.sprite = _faceSprite;
-            _rankView.text = CardMarkingMapper.RanksMap[rank];
+            _rankView.text = CardMarkingMapper.GetRankView(rank);
         }
 
         public void Pick()

@@ -6,23 +6,27 @@ namespace Gameplay
 {
     public class Card
     {
-        public CardView View { get; private set; }
+        private CardView _view;
+        private bool _isClosed;
+
+        private CardMatchingService _cardMatchingService;
 
         public bool IsMarked { get; private set; }
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
-
-        private bool _isClosed;
-
-        private CardMatchingService _cardMatchingService;
 
         public Card(CardView view)
         {
             _isClosed = true;
             IsMarked = false;
 
-            View = view;
-            View.OnPicked.AddListener(Pick);
+            _view = view;
+            _view.OnPicked.AddListener(Pick);
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            _view.SetPosition(position);
         }
 
         public void Mark(Suits suit, Ranks rank)
@@ -31,8 +35,8 @@ namespace Gameplay
             Suit = suit;
             Rank = rank;
 
-            View.Mark(suit, rank);
-            View.Close(true);
+            _view.Mark(suit, rank);
+            _view.Close(true);
         }
 
         public void SetMatchingService(CardMatchingService service)
@@ -42,36 +46,36 @@ namespace Gameplay
 
         public Observable<Unit> Place(Transform slot)
         {
-            return View.Place(slot);
+            return _view.Place(slot);
         }
 
         public void Close(bool instantly = false)
         {
             _isClosed = true;
-            View.Close(instantly);
+            _view.Close(instantly);
         }
 
         public void Open()
         {
             _isClosed = false;
-            View.Open();
+            _view.Open();
         }
 
         public void PutDown()
         {
-            View.PutDown();
+            _view.PutDown();
         }
 
         public void Disable()
         {
-            View.Disable();
+            _view.Disable();
         }
 
         public void Destroy()
         {
-            View.Destroy().Subscribe(_ => 
+            _view.Destroy().Subscribe(_ => 
             {
-                Object.Destroy(View.gameObject);
+                Object.Destroy(_view.gameObject);
             });
         }
 

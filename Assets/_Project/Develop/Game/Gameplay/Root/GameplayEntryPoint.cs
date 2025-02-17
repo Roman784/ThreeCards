@@ -1,17 +1,17 @@
 using Gameplay;
 using GameplayServices;
-using GameRoot;
+using GameState;
 using Settings;
-using System.Collections;
 using UI;
 using UnityEngine;
-using Utils;
 using Zenject;
+using R3;
 
 namespace GameplayRoot
 {
     public class GameplayEntryPoint : MonoBehaviour
     {
+        private IGameStateProvider _gameStateProvider;
         private UIRootView _uiRoot;
         private GameplayUI _gameplayUIPrefab;
         private ISettingsProvider _settingsProvider;
@@ -19,12 +19,14 @@ namespace GameplayRoot
         private CardFactory _cardFactory;
 
         [Inject]
-        private void Construct(UIRootView uiRoot,
+        private void Construct(IGameStateProvider gameStateProvider,
+                               UIRootView uiRoot,
                                GameplayUI gameplayUIPrefab,
                                ISettingsProvider settingsProvider,
                                SlotBar slotBar,
                                CardFactory cardFactory)
         {
+            _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
             _gameplayUIPrefab = gameplayUIPrefab;
             _settingsProvider = settingsProvider;
@@ -34,38 +36,39 @@ namespace GameplayRoot
 
         public void Run(GameplayEnterParams enterParams)
         {
-            Debug.Log($"Level number {enterParams.LevelNumber}");
-            Debug.Log("Gameplay scene loaded");
-
-            // UI.
-            var gameplayUI = Instantiate(_gameplayUIPrefab);
-            _uiRoot.AttachSceneUI(gameplayUI.gameObject);
-
-            // Settings data.
-            var layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
-            var layout = layouts.GetLayout(enterParams.LevelNumber);
-
-            // Slots setup.
-            var slots = _slotBar.CreateSlots();
-            var cardMatchingService = new CardMatchingService(slots);
-
-            // Cards setup.
-            var cardLayoutService = new CardLayoutService(layouts, _cardFactory);
-            var cardMarkingService = new CardMarkingService();
-
-            var cardsMap = cardLayoutService.SetUp(layout);
-            cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
-
-            foreach (var card in cardsMap)
+            _gameStateProvider.LoadGameState().Subscribe(_ => 
             {
-                if (card == null) continue;
-                card.SetMatchingService(cardMatchingService);
-            }
+                // UI.
+                var gameplayUI = Instantiate(_gameplayUIPrefab);
+                _uiRoot.AttachSceneUI(gameplayUI.gameObject);
+                gameplayUI.Init();
 
-            // Animations.
-            var cardFlippingService = new CardFlippingService(cardsMap, cardMatchingService);
-            var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
-            fieldAnimationService.LayOutCards();
+                // Settings data.
+                var layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
+                var layout = layouts.GetLayout(enterParams.LevelNumber);
+
+                // Slots setup.
+                var slots = _slotBar.CreateSlots();
+                var cardMatchingService = new CardMatchingService(slots);
+
+                // Cards setup.
+                var cardLayoutService = new CardLayoutService(layouts, _cardFactory);
+                var cardMarkingService = new CardMarkingService();
+
+                var cardsMap = cardLayoutService.SetUp(layout);
+                cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
+
+                foreach (var card in cardsMap)
+                {
+                    if (card == null) continue;
+                    card.SetMatchingService(cardMatchingService);
+                }
+
+                // Animations.
+                var cardFlippingService = new CardFlippingService(cardsMap, cardMatchingService);
+                var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
+                fieldAnimationService.LayOutCards();
+            });
         }
     }
 }

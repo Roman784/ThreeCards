@@ -8,25 +8,19 @@ namespace GameState
     {
         private readonly GameState _gameState;
 
-        public ReactiveProperty<float> SoundVolume { get; }
+        public GameState State => _gameState;
+        public ReactiveProperty<int> Chips { get; }
 
-        private IGameStateProvider _stateProvider;
 
-        [Inject]
-        private void Construct(IGameStateProvider stateProvider)
-        {
-            _stateProvider = stateProvider;
-        }
-
-        public GameStateProxy(GameState gameState)
+        public GameStateProxy(GameState gameState, IGameStateProvider stateProvider)
         {
             _gameState = gameState;
 
-            SoundVolume.Subscribe(value =>
+            Chips = new(_gameState.Chips);
+            Chips.Skip(1).Subscribe(value => 
             {
-                _gameState.SoundVolume = value;
-                _stateProvider.SaveGameState();
-                Debug.Log($"Sound volume changed {value}");
+                _gameState.Chips = value;
+                stateProvider.SaveGameState();
             });
         }
     }

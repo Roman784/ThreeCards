@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using R3;
 using Utils;
-using UnityEditorInternal.VR;
-using UnityEngine;
 
 namespace GameplayServices
 {
@@ -13,7 +11,7 @@ namespace GameplayServices
         private List<Slot> _slots = new();
 
         public UnityEvent<Card> OnCardPlaced = new();
-        public UnityEvent OnCardsRemoved = new();
+        public UnityEvent<int> OnCardsRemoved = new();
 
         private bool _canPlaceCard;
 
@@ -61,6 +59,7 @@ namespace GameplayServices
         private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)
         {
             bool wasRemoved = false;
+            int chipsCount = 0;
 
             foreach (var item in map)
             {
@@ -69,14 +68,16 @@ namespace GameplayServices
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        slots[i].RemoveCard();
+                        Slot slot = slots[i];
+                        chipsCount += CardMarkingMapper.GetRankValue(slot.Card.Rank);
+                        slot.RemoveCard();
                     }
                     wasRemoved = true;
                 }
             }
 
             if (wasRemoved)
-                OnCardsRemoved.Invoke();
+                OnCardsRemoved.Invoke(chipsCount);
         }
 
         private void AddSlot<TKey>(Dictionary<TKey, List<Slot>> map, TKey key, Slot slot)
@@ -87,7 +88,7 @@ namespace GameplayServices
             map[key].Add(slot);
         }
 
-        private void ShiftCards()
+        private void ShiftCards(int _)
         {
             _canPlaceCard = false;
 

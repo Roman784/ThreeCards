@@ -7,7 +7,8 @@ namespace Gameplay
 {
     public sealed class CardMarkingMapper
     {
-        public static Dictionary<Ranks, string> RanksMap { get; private set; } = new();
+        private static Dictionary<Ranks, string> _ranksViewMap = new();
+        private static Dictionary<Ranks, int> _ranksValueMap = new();
 
         private static List<Ranks> _ranks = new();
         private static List<Suits> _suits = new();
@@ -21,6 +22,8 @@ namespace Gameplay
             InitSuits();
         }
 
+        public static string GetRankView(Ranks rank) => _ranksViewMap[rank];
+        public static int GetRankValue(Ranks rank) => _ranksValueMap[rank];
         public static Ranks GetRandomRank() => _ranks[UnityEngine.Random.Range(0, _ranks.Count)];
         public static Suits GetRandomSuits() => _suits[UnityEngine.Random.Range(0, _suits.Count)];
         public static Suits GetRandomRedSuits() => _redSuits[UnityEngine.Random.Range(0, _redSuits.Count)];
@@ -28,15 +31,25 @@ namespace Gameplay
 
         private static void InitRanksMap()
         {
-            RanksMap[Ranks.Six] = "6";
-            RanksMap[Ranks.Seven] = "7";
-            RanksMap[Ranks.Eight] = "8";
-            RanksMap[Ranks.Nine] = "9";
-            RanksMap[Ranks.Ten] = "10";
-            RanksMap[Ranks.Jack] = "J";
-            RanksMap[Ranks.Queen] = "Q";
-            RanksMap[Ranks.King] = "K";
-            RanksMap[Ranks.Ace] = "T";
+            _ranksViewMap[Ranks.Six] = "6";
+            _ranksViewMap[Ranks.Seven] = "7";
+            _ranksViewMap[Ranks.Eight] = "8";
+            _ranksViewMap[Ranks.Nine] = "9";
+            _ranksViewMap[Ranks.Ten] = "10";
+            _ranksViewMap[Ranks.Jack] = "J";
+            _ranksViewMap[Ranks.Queen] = "Q";
+            _ranksViewMap[Ranks.King] = "K";
+            _ranksViewMap[Ranks.Ace] = "T";
+
+            _ranksValueMap[Ranks.Six] = 6;
+            _ranksValueMap[Ranks.Seven] = 7;
+            _ranksValueMap[Ranks.Eight] = 8;
+            _ranksValueMap[Ranks.Nine] = 9;
+            _ranksValueMap[Ranks.Ten] = 10;
+            _ranksValueMap[Ranks.Jack] = 11;
+            _ranksValueMap[Ranks.Queen] = 12;
+            _ranksValueMap[Ranks.King] = 13;
+            _ranksValueMap[Ranks.Ace] = 14;
         }
 
         private static void InitRanks()
@@ -57,7 +70,7 @@ namespace Gameplay
             _blackSuits.Remove(Suits.Diamonds);
         }
 
-        public static List<T> ToList<T>() where T : Enum
+        private static List<T> ToList<T>() where T : Enum
         {
             return Enum.GetValues(typeof(T)).Cast<T>().ToList();
         }

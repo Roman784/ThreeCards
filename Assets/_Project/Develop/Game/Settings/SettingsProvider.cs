@@ -13,16 +13,12 @@ namespace Settings
         public SettingsProvider()
         {
             ApplicationSettings = Resources.Load<ApplicationSettings>("ApplicationSettings");
-            Debug.Log("Application setting loaded");
-
             LoadSettings();
         }
 
         public Task<GameSettings> LoadGameSettings()
         {
             _gameSettings = Resources.Load<GameSettings>("GameSettings");
-            Debug.Log("Game setting loaded");
-
             return Task.FromResult(_gameSettings);
         }
 

@@ -17,7 +17,7 @@ namespace GameplayServices
         public Card Create(Vector2 position)
         {
             Card card = Create();
-            card.View.transform.position = position;
+            card.SetPosition(position);
 
             return card;
         }
