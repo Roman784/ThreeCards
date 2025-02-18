@@ -24,10 +24,8 @@ namespace Gameplay
             _view.OnPicked.AddListener(Pick);
         }
 
-        public void SetPosition(Vector3 position)
-        {
-            _view.SetPosition(position);
-        }
+        public Vector3 GetPosition() => _view.GetPosition();
+        public void SetPosition(Vector3 position) => _view.SetPosition(position);
 
         public void Mark(Suits suit, Ranks rank)
         {

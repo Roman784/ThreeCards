@@ -1,6 +1,7 @@
 using GameState;
 using Zenject;
 using R3;
+using UnityEngine;
 
 namespace Currencies
 {
@@ -33,6 +34,12 @@ namespace Currencies
         {
             _chipsCount.Value += value;
             _gameStateProvider.GameState.Chips.Value = _chipsCount.Value;
+        }
+
+        public void Add(int value, Vector3 initialColectionPosition)
+        {
+            Add(value);
+            _view.AnimateCollection(value, initialColectionPosition);
         }
     }
 }

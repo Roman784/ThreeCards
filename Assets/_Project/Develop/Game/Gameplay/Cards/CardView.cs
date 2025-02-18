@@ -60,10 +60,8 @@ namespace Gameplay
             StopAllCoroutines();
         }
 
-        public void SetPosition(Vector3 position)
-        {
-            transform.position = position;
-        }
+        public Vector3 GetPosition() => transform.position;
+        public void SetPosition(Vector3 position) => transform.position = position;
 
         public void Mark(Suits suit, Ranks rank)
         {

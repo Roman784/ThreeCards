@@ -62,17 +62,21 @@ namespace GameplayServices
         private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)
         {
             bool wasRemoved = false;
-            int chipsCount = 0;
 
             foreach (var item in map)
             {
-                List<Slot> slots = item.Value;
+                var slots = item.Value;
                 if (slots.Count >= 3)
                 {
                     for (int i = 0; i < 3; i++)
                     {
-                        Slot slot = slots[i];
-                        chipsCount += CardMarkingMapper.GetRankValue(slot.Card.Rank);
+                        var slot = slots[i];
+                        var card = slot.Card;
+
+                        var chipsCount = CardMarkingMapper.GetRankValue(card.Rank);
+                        var cardPosition = card.GetPosition();
+                        _chipsCounter.Add(chipsCount, cardPosition);
+
                         slot.RemoveCard();
                     }
                     wasRemoved = true;
@@ -80,10 +84,7 @@ namespace GameplayServices
             }
 
             if (wasRemoved)
-            {
-                _chipsCounter.Add(chipsCount);
                 OnCardsRemoved.Invoke();
-            }
         }
 
         private void AddSlot<TKey>(Dictionary<TKey, List<Slot>> map, TKey key, Slot slot)
