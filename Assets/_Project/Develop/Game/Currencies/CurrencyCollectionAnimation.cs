@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using Utils;
 
 namespace Currencies
 {
     public class CurrencyCollectionAnimation : MonoBehaviour
     {
-        [SerializeField] private GameObject _currencyPrefab;
+        [SerializeField] private CurrencyParticle _currencyPrefab;
         [SerializeField] private Transform _instancesContainer;
 
         [Space]
@@ -19,6 +20,13 @@ namespace Currencies
         [HideInInspector] public UnityEvent OnCollected = new();
         [HideInInspector] public UnityEvent OnAllCollected = new();
 
+        private ObjectPool<CurrencyParticle> _currenciesPool;
+
+        private void Awake()
+        {
+            _currenciesPool = new(_currencyPrefab, 10);
+        }
+
         public void StartCollecting(int count, Vector3 from, Vector3 to)
         {
             StartCoroutine(CollectionRoutine(count, from, to));
@@ -28,7 +36,7 @@ namespace Currencies
         {
             for (int i = 0; i < count; i++)
             {
-                var newInstance = Instantiate(_currencyPrefab);
+                var newInstance = _currenciesPool.GetInstance();
                 newInstance.transform.SetParent(_instancesContainer, false);
 
                 var remaining = count - i - 1;
@@ -60,10 +68,9 @@ namespace Currencies
             onFlewIn?.Invoke();
         }
 
-        private void DestroyCurrencyInstance(GameObject instance, int remaining)
+        private void DestroyCurrencyInstance(CurrencyParticle instance, int remaining)
         {
-            Debug.Log(remaining);
-            Destroy(instance);
+            _currenciesPool.ReleaseInstance(instance);
             OnCollected.Invoke();
 
             if (remaining <= 0)

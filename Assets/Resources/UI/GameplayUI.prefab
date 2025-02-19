@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dee6600c079628b449ef53c8e6c21390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _currencyPrefab: {fileID: 353179575956745561, guid: 9f475b02f2a27744fa2bd6e419e7a29c, type: 3}
+  _currencyPrefab: {fileID: 5511687835919563519, guid: 9f475b02f2a27744fa2bd6e419e7a29c, type: 3}
   _instancesContainer: {fileID: 441434376174938954}
   _delayBetweenPrefabCreation: 0.1
   _flightSpeed: 2000
