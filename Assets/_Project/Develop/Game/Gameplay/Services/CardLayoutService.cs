@@ -10,15 +10,17 @@ namespace GameplayServices
     {
         private CardLayoutsSettings _layouts;
         private CardFactory _cardFactory;
+        private CardPlacingService _placingService;
 
         private Card[,] _cardsMap;
         private CardLayoutSettings _layout;
         private int _maxColumnLength;
 
-        public CardLayoutService(CardLayoutsSettings layouts, CardFactory cardFactory)
+        public CardLayoutService(CardLayoutsSettings layouts, CardFactory cardFactory, CardPlacingService placingService)
         {
             _layouts = layouts;
             _cardFactory = cardFactory;
+            _placingService = placingService;
         }
 
         public Card[,] SetUp(CardLayoutSettings layout)
@@ -51,6 +53,7 @@ namespace GameplayServices
                 Vector2 cardPosition = columnPosition + new Vector2(0, -_layouts.StepBetweenCards * cardI);
 
                 Card card = _cardFactory.Create(cardPosition);
+                card.SetPlacingService(_placingService);
                 card.Disable();
 
                 _cardsMap[columnI, cardI] = card;

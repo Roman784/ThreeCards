@@ -56,22 +56,17 @@ namespace GameplayRoot
                 // Slots setup.
                 var slots = _slotBar.CreateSlots();
                 var cardMatchingService = new CardMatchingService(slots, _chipsCounter);
+                var cardPlacingService = new CardPlacingService(slots, cardMatchingService);
 
                 // Cards setup.
-                var cardLayoutService = new CardLayoutService(layouts, _cardFactory);
+                var cardLayoutService = new CardLayoutService(layouts, _cardFactory, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
 
                 var cardsMap = cardLayoutService.SetUp(layout);
                 cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
-                foreach (var card in cardsMap)
-                {
-                    if (card == null) continue;
-                    card.SetMatchingService(cardMatchingService);
-                }
-
                 // Animations.
-                var cardFlippingService = new CardFlippingService(cardsMap, cardMatchingService);
+                var cardFlippingService = new CardFlippingService(cardsMap, cardPlacingService);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 fieldAnimationService.LayOutCards();
             });

@@ -9,7 +9,7 @@ namespace Gameplay
         private CardView _view;
         private bool _isClosed;
 
-        private CardMatchingService _cardMatchingService;
+        private CardPlacingService _cardPlacingService;
 
         public bool IsMarked { get; private set; }
         public Suits Suit { get; private set; }
@@ -37,9 +37,9 @@ namespace Gameplay
             _view.Close(true);
         }
 
-        public void SetMatchingService(CardMatchingService service)
+        public void SetPlacingService(CardPlacingService service)
         {
-            _cardMatchingService = service;
+            _cardPlacingService = service;
         }
 
         public Observable<Unit> Place(Transform slot)
@@ -80,7 +80,7 @@ namespace Gameplay
         private void Pick()
         {
             if (_isClosed) return;
-            _cardMatchingService.PlaceCard(this);
+            _cardPlacingService.PlaceCard(this);
         }
     }
 }

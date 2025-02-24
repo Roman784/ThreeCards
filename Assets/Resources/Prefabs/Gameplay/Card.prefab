@@ -300,7 +300,7 @@ MonoBehaviour:
   _spades: {fileID: 867331234, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _redCardBack: {fileID: -1995358413, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _blackCardBack: {fileID: -598515592, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
-  _moveSpeed: 30
+  _moveSpeed: 5
   _flipSpeed: 8
   _destroyingDuration: 0
 --- !u!95 &1408381207218013141

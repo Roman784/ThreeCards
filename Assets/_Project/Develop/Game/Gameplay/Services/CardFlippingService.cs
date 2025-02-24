@@ -7,11 +7,11 @@ namespace GameplayServices
     {
         private Card[,] _cardsMap;
 
-        public CardFlippingService(Card[,] cardsMap, CardMatchingService cardMatchingService)
+        public CardFlippingService(Card[,] cardsMap, CardPlacingService cardPlacingService)
         {
             _cardsMap = cardsMap;
 
-            cardMatchingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
+            cardPlacingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
         }
 
         public void OpenFirstCards()

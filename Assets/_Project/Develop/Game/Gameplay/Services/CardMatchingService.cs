@@ -1,8 +1,6 @@
 using Gameplay;
 using System.Collections.Generic;
-using UnityEngine.Events;
 using R3;
-using Utils;
 using Currencies;
 
 namespace GameplayServices
@@ -12,42 +10,16 @@ namespace GameplayServices
         private List<Slot> _slots = new();
         private ChipsCounter _chipsCounter;
 
-        private bool _canPlaceCard;
-
-        private Subject<Card> _cardPlacedsSub = new();
         private Subject<Unit> _cardRemovedSubj = new();
-
-        public Observable<Card> OnCardPlaced => _cardPlacedsSub;
         public Observable<Unit> OnCardsRemoved => _cardRemovedSubj;
 
         public CardMatchingService(List<Slot> slots, ChipsCounter chipsCounter)
         {
             _slots = slots;
             _chipsCounter = chipsCounter;
-            _canPlaceCard = true;
-
-            OnCardsRemoved.Subscribe(_ => ShiftCards());
         }
 
-        public void PlaceCard(Card card)
-        {
-            if (!_canPlaceCard) return;
-
-            foreach (var slot in _slots)
-            {
-                if (!slot.HasCard)
-                {
-                    slot.PlaceCard(card).Subscribe(_ => 
-                    {
-                        Match();
-                    });
-                    _cardPlacedsSub.OnNext(card);
-                    break;
-                }
-            }
-        }
-
-        private void Match()
+        public void Match()
         {
             var slotsBySuitMap = new Dictionary<Suits, List<Slot>>();
 
@@ -96,32 +68,6 @@ namespace GameplayServices
                 map[key] = new();
 
             map[key].Add(slot);
-        }
-
-        private void ShiftCards()
-        {
-            _canPlaceCard = false;
-
-            Coroutines.Invoke(() =>
-            {
-                foreach (var slot in _slots)
-                {
-                    if (!slot.HasCard) continue;
-
-                    Card card = slot.Card;
-                    slot.Release();
-
-                    foreach (var newSlot in _slots)
-                    {
-                        if (newSlot.HasCard) continue;
-
-                        newSlot.PlaceCard(card);
-                        break;
-                    }
-                }
-
-                _canPlaceCard = true;
-            }, 0.5f);
         }
     }
 }

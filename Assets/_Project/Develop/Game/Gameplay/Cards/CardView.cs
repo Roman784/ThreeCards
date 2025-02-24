@@ -88,7 +88,7 @@ namespace Gameplay
             transform.SetParent(slot);
 
             var targetPosition = slot.position;
-            var moveDuration = Vector2.Distance(transform.position, targetPosition) / _moveSpeed;
+            var moveDuration = 1f / _moveSpeed;
             var moveCompletedSubj = new Subject<Unit>();
 
             transform.DOMove(targetPosition, moveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
