@@ -1,3 +1,4 @@
+using DG.Tweening;
 using R3;
 using System;
 using System.Collections;
@@ -43,7 +44,8 @@ namespace Gameplay
 
         private Animator _animator;
 
-        [HideInInspector] public UnityEvent OnPicked = new();
+        public Observable<Unit> OnPicked => _pickedSubj;
+        private Subject<Unit> _pickedSubj = new();
 
         private void Awake()
         {
@@ -78,17 +80,24 @@ namespace Gameplay
 
         public void Pick()
         {
-            OnPicked.Invoke();
+            _pickedSubj.OnNext(Unit.Default);
         }
 
         public Observable<Unit> Place(Transform slot)
         {
             transform.SetParent(slot);
 
-            var moveCompletedSubject = new Subject<Unit>();
-            StartCoroutine(MoveRoutine(slot.position, moveCompletedSubject));
+            var targetPosition = slot.position;
+            var moveDuration = Vector2.Distance(transform.position, targetPosition) / _moveSpeed;
+            var moveCompletedSubj = new Subject<Unit>();
 
-            return moveCompletedSubject;
+            transform.DOMove(targetPosition, moveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
+            {
+                moveCompletedSubj.OnNext(Unit.Default);
+                moveCompletedSubj.OnCompleted();
+            });
+
+            return moveCompletedSubj;
         }
 
         public void Close(bool instantly = false)
@@ -135,34 +144,17 @@ namespace Gameplay
 
         public Observable<Unit> Destroy()
         {
-            var animationCompletedSubject = new Subject<Unit>();
-            StartCoroutine(DestroyRoutine(animationCompletedSubject));
-
-            return animationCompletedSubject;
-        }
-
-        private IEnumerator MoveRoutine(Vector3 targetPosition, Subject<Unit> moveCompletedSubject)
-        {
-            while (Vector2.Distance(transform.position, targetPosition) > 0.03f)
-            {
-                transform.position = Vector2.Lerp(transform.position, targetPosition, Time.deltaTime * _moveSpeed);
-                yield return null;
-            }
-
-            transform.position = targetPosition;
-
-            moveCompletedSubject.OnNext(Unit.Default);
-            moveCompletedSubject.OnCompleted();
-        }
-
-        private IEnumerator DestroyRoutine(Subject<Unit> animationCompletedSubject)
-        {
             _animator.SetTrigger("Destroying");
+            var animationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
+            var animationCompletedSubj = new Subject<Unit>();
 
-            yield return new WaitForSeconds(_animator.GetCurrentAnimatorStateInfo(0).length);
+            DOVirtual.DelayedCall(animationDuration, () =>
+            {
+                animationCompletedSubj.OnNext(Unit.Default);
+                animationCompletedSubj.OnCompleted();
+            });
 
-            animationCompletedSubject.OnNext(Unit.Default);
-            animationCompletedSubject.OnCompleted();
+            return animationCompletedSubj;
         }
     }
 }

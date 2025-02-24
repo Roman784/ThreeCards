@@ -21,7 +21,7 @@ namespace Gameplay
             IsMarked = false;
 
             _view = view;
-            _view.OnPicked.AddListener(Pick);
+            _view.OnPicked.Subscribe(_ => Pick());
         }
 
         public Vector3 GetPosition() => _view.GetPosition();
