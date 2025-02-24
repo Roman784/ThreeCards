@@ -12,10 +12,13 @@ namespace GameplayServices
         private List<Slot> _slots = new();
         private ChipsCounter _chipsCounter;
 
-        public UnityEvent<Card> OnCardPlaced = new();
-        public UnityEvent OnCardsRemoved = new();
-
         private bool _canPlaceCard;
+
+        private Subject<Card> _cardPlacedsSub = new();
+        private Subject<Unit> _cardRemovedSubj = new();
+
+        public Observable<Card> OnCardPlaced => _cardPlacedsSub;
+        public Observable<Unit> OnCardsRemoved => _cardRemovedSubj;
 
         public CardMatchingService(List<Slot> slots, ChipsCounter chipsCounter)
         {
@@ -23,7 +26,7 @@ namespace GameplayServices
             _chipsCounter = chipsCounter;
             _canPlaceCard = true;
 
-            OnCardsRemoved.AddListener(ShiftCards);
+            OnCardsRemoved.Subscribe(_ => ShiftCards());
         }
 
         public void PlaceCard(Card card)
@@ -38,7 +41,7 @@ namespace GameplayServices
                     {
                         Match();
                     });
-                    OnCardPlaced.Invoke(card);
+                    _cardPlacedsSub.OnNext(card);
                     break;
                 }
             }
@@ -84,7 +87,7 @@ namespace GameplayServices
             }
 
             if (wasRemoved)
-                OnCardsRemoved.Invoke();
+                _cardRemovedSubj.OnNext(Unit.Default);
         }
 
         private void AddSlot<TKey>(Dictionary<TKey, List<Slot>> map, TKey key, Slot slot)

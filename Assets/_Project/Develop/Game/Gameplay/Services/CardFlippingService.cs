@@ -1,5 +1,5 @@
 using Gameplay;
-using UnityEngine;
+using R3;
 
 namespace GameplayServices
 {
@@ -11,7 +11,7 @@ namespace GameplayServices
         {
             _cardsMap = cardsMap;
 
-            cardMatchingService.OnCardPlaced.AddListener(OpenNextCard);
+            cardMatchingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
         }
 
         public void OpenFirstCards()

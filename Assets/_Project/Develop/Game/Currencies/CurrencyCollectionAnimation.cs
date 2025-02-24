@@ -1,7 +1,7 @@
+using R3;
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using Utils;
 
 namespace Currencies
@@ -17,10 +17,13 @@ namespace Currencies
         [SerializeField] private float _flightSpeed;
         [SerializeField] private AnimationCurve _rescalingDuringFlight;
 
-        [HideInInspector] public UnityEvent OnCollected = new();
-        [HideInInspector] public UnityEvent OnAllCollected = new();
-
         private ObjectPool<CurrencyParticle> _currenciesPool;
+
+        private Subject<Unit> _collectedSubj = new();
+        private Subject<Unit> _allCollectedSubj = new();
+
+        public Observable<Unit> OnCollected => _collectedSubj;
+        public Observable<Unit> OnAllCollected => _allCollectedSubj;
 
         private void Awake()
         {
@@ -71,10 +74,10 @@ namespace Currencies
         private void DestroyCurrencyInstance(CurrencyParticle instance, int remaining)
         {
             _currenciesPool.ReleaseInstance(instance);
-            OnCollected.Invoke();
+            _collectedSubj.OnNext(Unit.Default);
 
             if (remaining <= 0)
-                OnAllCollected?.Invoke();
+                _allCollectedSubj.OnNext(Unit.Default);
         }
     }
 }

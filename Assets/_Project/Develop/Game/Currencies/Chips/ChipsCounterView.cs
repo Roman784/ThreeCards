@@ -3,6 +3,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using Utils;
+using R3;
 
 namespace Currencies
 {
@@ -23,9 +24,9 @@ namespace Currencies
         {
             _camera = Camera.main;
 
-            _collectionAnimation.OnCollected.AddListener(() => _pulsationAnimator.Pulse(_chipsIcon));
-            _collectionAnimation.OnCollected.AddListener(() => _canIncrease = true);
-            _collectionAnimation.OnAllCollected.AddListener(() => _canIncrease = false);
+            _collectionAnimation.OnCollected.Subscribe(_ => _pulsationAnimator.Pulse(_chipsIcon) );
+            _collectionAnimation.OnCollected.Subscribe(_ => _canIncrease = true);
+            _collectionAnimation.OnAllCollected.Subscribe(_ => _canIncrease = false);
         }
 
         public void SetCurrentCount(int count)
