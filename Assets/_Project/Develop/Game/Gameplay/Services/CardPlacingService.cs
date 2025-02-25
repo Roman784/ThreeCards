@@ -12,8 +12,8 @@ namespace GameplayServices
 
         private CardMatchingService _matchingService;
 
-        private Subject<Card> _cardPlacedsSub = new();
-        public Observable<Card> OnCardPlaced => _cardPlacedsSub;
+        private Subject<Card> _cardPlacedSub = new();
+        public Observable<Card> OnCardPlaced => _cardPlacedSub;
 
         public CardPlacingService(List<Slot> slots, CardMatchingService matchingService)
         {
@@ -36,7 +36,7 @@ namespace GameplayServices
                     {
                         _matchingService.Match();
                     });
-                    _cardPlacedsSub.OnNext(card);
+                    _cardPlacedSub.OnNext(card);
                     break;
                 }
             }

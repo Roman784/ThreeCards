@@ -6,5 +6,6 @@ namespace GameState
     public class GameState
     {
         public int Chips;
+        public GameSessionState CurrentGameSession;
     }
 }

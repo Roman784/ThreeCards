@@ -6,7 +6,6 @@ using UI;
 using UnityEngine;
 using Zenject;
 using R3;
-using Currencies;
 using Utils;
 
 namespace GameplayRoot
@@ -61,6 +60,9 @@ namespace GameplayRoot
                 var cardFlippingService = new CardFlippingService(cardsMap, cardPlacingService);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 fieldAnimationService.LayOutCards();
+
+                // Game session state.
+                var gameSessionStateProvider = new GameSessionStateProvider();
 
                 // UI.
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);

@@ -8,19 +8,23 @@ namespace GameState
         private const string GAME_STATE_KEY = nameof(GAME_STATE_KEY);
 
         public GameStateProxy GameState { get; private set; }
+        public GameSessionStateProvider GameSessionStateProvider { get; private set; }
 
         public Observable<GameStateProxy> LoadGameState()
         {
             if (!PlayerPrefs.HasKey(GAME_STATE_KEY))
             {
                 GameState = CreateGameStateFromSettings();
+                GameSessionStateProvider = new(GameState.CurrentGameSession.Value);
                 SaveGameState();
             }
             else
             {
                 var json = PlayerPrefs.GetString(GAME_STATE_KEY);
                 var gameState = JsonUtility.FromJson<GameState>(json);
+
                 GameState = new GameStateProxy(gameState, this);
+                GameSessionStateProvider = new(GameState.CurrentGameSession.Value);
             }
 
             return Observable.Return(GameState);
@@ -37,6 +41,7 @@ namespace GameState
         public Observable<bool> ResetGameState()
         {
             GameState = CreateGameStateFromSettings();
+            GameSessionStateProvider = new(GameState.CurrentGameSession.Value);
             SaveGameState();
 
             return Observable.Return(true);
