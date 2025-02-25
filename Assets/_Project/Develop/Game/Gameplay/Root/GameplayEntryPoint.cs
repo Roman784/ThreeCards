@@ -7,6 +7,7 @@ using UnityEngine;
 using Zenject;
 using R3;
 using Currencies;
+using Utils;
 
 namespace GameplayRoot
 {
@@ -18,7 +19,6 @@ namespace GameplayRoot
         private ISettingsProvider _settingsProvider;
         private SlotBar _slotBar;
         private CardFactory _cardFactory;
-        private ChipsCounter _chipsCounter;
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
@@ -26,8 +26,7 @@ namespace GameplayRoot
                                GameplayUI gameplayUI,
                                ISettingsProvider settingsProvider,
                                SlotBar slotBar,
-                               CardFactory cardFactory,
-                               ChipsCounter chipsCounter)
+                               CardFactory cardFactory)
         {
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
@@ -35,28 +34,19 @@ namespace GameplayRoot
             _settingsProvider = settingsProvider;
             _slotBar = slotBar;
             _cardFactory = cardFactory;
-            _chipsCounter = chipsCounter;
         }
 
         public void Run(GameplayEnterParams enterParams)
         {
             _gameStateProvider.LoadGameState().Subscribe(_ => 
             {
-                // UI.
-                _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
-                _gameplayUI.BindViews();
-                _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
-
-                // Currencies.
-                _chipsCounter.LoadChips();
-
                 // Settings data.
                 var layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
                 var layout = layouts.GetLayout(enterParams.LevelNumber);
 
                 // Slots setup.
                 var slots = _slotBar.CreateSlots();
-                var cardMatchingService = new CardMatchingService(slots, _chipsCounter);
+                var cardMatchingService = new CardMatchingService(slots);
                 var cardPlacingService = new CardPlacingService(slots, cardMatchingService);
 
                 // Cards setup.
@@ -64,12 +54,22 @@ namespace GameplayRoot
                 var cardMarkingService = new CardMarkingService();
 
                 var cardsMap = cardLayoutService.SetUp(layout);
+                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
                 cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
                 // Animations.
                 var cardFlippingService = new CardFlippingService(cardsMap, cardPlacingService);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 fieldAnimationService.LayOutCards();
+
+                // UI.
+                _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
+                _gameplayUI.BindViews();
+
+                _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
+                _gameplayUI.InitProgressBar(totalCardCount, cardMatchingService);
+
+                _gameplayUI.InitChips(cardMatchingService);
             });
         }
     }

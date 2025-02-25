@@ -1,22 +1,20 @@
 using Gameplay;
 using System.Collections.Generic;
 using R3;
-using Currencies;
+using UnityEngine;
 
 namespace GameplayServices
 {
     public class CardMatchingService
     {
         private List<Slot> _slots = new();
-        private ChipsCounter _chipsCounter;
 
-        private Subject<Unit> _cardRemovedSubj = new();
-        public Observable<Unit> OnCardsRemoved => _cardRemovedSubj;
+        private Subject<List<RemovedCard>> _cardRemovedSubj = new();
+        public Observable<List<RemovedCard>> OnCardsRemoved => _cardRemovedSubj;
 
-        public CardMatchingService(List<Slot> slots, ChipsCounter chipsCounter)
+        public CardMatchingService(List<Slot> slots)
         {
             _slots = slots;
-            _chipsCounter = chipsCounter;
         }
 
         public void Match()
@@ -36,7 +34,7 @@ namespace GameplayServices
 
         private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)
         {
-            bool wasRemoved = false;
+            var removedCards = new List<RemovedCard>();
 
             foreach (var item in map)
             {
@@ -48,18 +46,15 @@ namespace GameplayServices
                         var slot = slots[i];
                         var card = slot.Card;
 
-                        var chipsCount = CardMarkingMapper.GetRankValue(card.Rank);
-                        var cardPosition = card.GetPosition();
-                        _chipsCounter.Add(chipsCount, cardPosition);
+                        removedCards.Add(new RemovedCard(card.Rank, card.GetPosition()));
 
                         slot.RemoveCard();
                     }
-                    wasRemoved = true;
                 }
             }
 
-            if (wasRemoved)
-                _cardRemovedSubj.OnNext(Unit.Default);
+            if (removedCards.Count > 0)
+                _cardRemovedSubj.OnNext(removedCards);
         }
 
         private void AddSlot<TKey>(Dictionary<TKey, List<Slot>> map, TKey key, Slot slot)
@@ -68,6 +63,18 @@ namespace GameplayServices
                 map[key] = new();
 
             map[key].Add(slot);
+        }
+
+        public sealed class RemovedCard
+        {
+            public readonly Ranks Rank;
+            public readonly Vector3 Position;
+
+            public RemovedCard(Ranks rank, Vector3 position)
+            {
+                Rank = rank;
+                Position = position;
+            }
         }
     }
 }

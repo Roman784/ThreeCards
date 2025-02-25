@@ -1,4 +1,5 @@
 using Currencies;
+using GameplayServices;
 using UnityEngine;
 using Zenject;
 
@@ -25,9 +26,19 @@ namespace UI
             _chipsCounter.BindView(_chipsCounterView);
         }
 
+        public void InitChips(CardMatchingService cardMatchingService)
+        {
+            _chipsCounter.InitChips(cardMatchingService);
+        }
+
         public void SetLevelNumber(int levelNumber)
         {
             _levelProgress.SetLevelNumber(levelNumber);
+        }
+
+        public void InitProgressBar(int totalCardCount, CardMatchingService cardMatchingService)
+        {
+            _levelProgress.InitProgressBar(totalCardCount, cardMatchingService);
         }
     }
 }
