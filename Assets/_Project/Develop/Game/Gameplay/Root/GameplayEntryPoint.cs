@@ -62,7 +62,7 @@ namespace GameplayRoot
                 fieldAnimationService.LayOutCards();
 
                 // Game session state.
-                var gameSessionStateProvider = new GameSessionStateProvider();
+                var gameSessionStateProvider = new GameSessionStateProvider(cardsMap, slots, cardPlacingService, cardMatchingService);
 
                 // UI.
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);

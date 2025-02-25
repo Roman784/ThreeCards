@@ -7,7 +7,6 @@ namespace GameState
     {
         public int Rank;
         public int Suit;
-        public bool IsClosed;
         public int ColumnIndex;
         public int RowIndex;
     }

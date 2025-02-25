@@ -15,7 +15,6 @@ namespace GameState
             if (!PlayerPrefs.HasKey(GAME_STATE_KEY))
             {
                 GameState = CreateGameStateFromSettings();
-                GameSessionStateProvider = new(GameState.CurrentGameSession.Value);
                 SaveGameState();
             }
             else
@@ -24,7 +23,6 @@ namespace GameState
                 var gameState = JsonUtility.FromJson<GameState>(json);
 
                 GameState = new GameStateProxy(gameState, this);
-                GameSessionStateProvider = new(GameState.CurrentGameSession.Value);
             }
 
             return Observable.Return(GameState);
@@ -41,7 +39,6 @@ namespace GameState
         public Observable<bool> ResetGameState()
         {
             GameState = CreateGameStateFromSettings();
-            GameSessionStateProvider = new(GameState.CurrentGameSession.Value);
             SaveGameState();
 
             return Observable.Return(true);

@@ -6,5 +6,6 @@ namespace GameState
     public class GameSessionState
     {
         public CardLayoutEntity CardLayoutEntity;
+        public SlotsEntity SlotsEntity;
     }
 }
