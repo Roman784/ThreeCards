@@ -45,10 +45,10 @@ namespace GameplayRoot
 
                 // Slots setup.
                 var slots = _slotBar.CreateSlots();
-                var cardMatchingService = new CardMatchingService(slots);
-                var cardPlacingService = new CardPlacingService(slots, cardMatchingService);
 
                 // Cards setup.
+                var cardMatchingService = new CardMatchingService(slots);
+                var cardPlacingService = new CardPlacingService(slots, cardMatchingService);
                 var cardLayoutService = new CardLayoutService(layouts, _cardFactory, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
 
@@ -62,7 +62,7 @@ namespace GameplayRoot
                 fieldAnimationService.LayOutCards();
 
                 // Game session state.
-                var gameSessionStateProvider = new GameSessionStateProvider(cardsMap, slots, cardPlacingService, cardMatchingService);
+                // var gameSessionStateProvider = new GameSessionStateProvider(cardsMap, slots, cardPlacingService, cardMatchingService);
 
                 // UI.
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);

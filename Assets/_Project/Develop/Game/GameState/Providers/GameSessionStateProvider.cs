@@ -4,40 +4,73 @@ using Gameplay;
 using GameplayServices;
 using R3;
 using UnityEngine;
-using Unity.Collections.LowLevel.Unsafe;
 using System.IO;
+using Utils;
 
 namespace GameState
 {
     public class GameSessionStateProvider
     {
-        private List<GameSessionState> _states = new();
+        private Stack<GameSessionState> _states = new();
 
         private Card[,] _cardsMap;
         private List<Slot> _slots;
+        private CardPlacingService _cardPlacingService;
+        private CardMatchingService _cardMatchingService;
+        private CardFactory _cardFactory;
 
         public GameSessionStateProvider(Card[,] cardsMap, List<Slot> slots, 
-                                        CardPlacingService cardPlacingService, CardMatchingService cardMatchingService)
+                                        CardPlacingService cardPlacingService, CardMatchingService cardMatchingService,
+                                        CardFactory cardFactory)
         {
             _cardsMap = cardsMap;
             _slots = slots;
+            _cardPlacingService = cardPlacingService;
+            _cardMatchingService = cardMatchingService;
+            _cardFactory = cardFactory;
 
-            cardPlacingService.OnCardPlaced.Subscribe(_ => CreateState());
-            cardMatchingService.OnCardsRemoved.Subscribe(_ => CreateState());
+            _cardPlacingService.OnCardPlaced.Subscribe(_ => CreateState());
+            _cardMatchingService.OnCardsRemoved.Subscribe(_ => CreateState());
         }
 
-        public GameSessionState GetLastState()
+        public void SetLastState()
+        {
+            /*var state = GetLastState();
+
+            foreach (var slot in _slots)
+            {
+                slot.RemoveCard();
+            }
+
+            foreach (var card in _cardsMap)
+            {
+                card?.Destroy();
+            }
+
+            var cardLayoutService = new CardLayoutService(layouts, _cardFactory, _cardPlacingService);
+            var cardMarkingService = new CardMarkingService();
+
+            var cardsMap = cardLayoutService.SetUp(layout);
+            cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
+
+            // Animations.
+            var cardFlippingService = new CardFlippingService(cardsMap, _cardPlacingService);
+            var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
+            fieldAnimationService.LayOutCards();*/
+        }
+
+        private GameSessionState GetLastState()
         {
             if (_states.Count == 0)
                 throw new NullReferenceException("The game session state list is empty.");
 
-            return _states[_states.Count - 1];
+            return _states.Peek();
         }
 
         private void CreateState()
         {
             var gameSessionState = CreateGameSessionState();
-            _states.Add(gameSessionState);
+            _states.Push(gameSessionState);
 
             // <- Тест.
             var path = Path.Combine(Application.dataPath, "gameSession.json");

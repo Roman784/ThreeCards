@@ -14,6 +14,7 @@ namespace Gameplay
         private SlotFactory _slotFactory;
 
         private List<Slot> _slots = new();
+        public IEnumerable<Slot> Slots => _slots;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, SlotFactory slotFactory)

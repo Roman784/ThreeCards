@@ -25,8 +25,8 @@ namespace Gameplay
 
         public void RemoveCard()
         {
-            HasCard = false;
-            Card.Destroy();
+            Release();
+            Card?.Destroy();
         }
 
         public void Release()
