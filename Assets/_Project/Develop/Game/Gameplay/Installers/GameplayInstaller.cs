@@ -21,6 +21,8 @@ namespace GameplayInstallers
         {
             GameplayUI gameplayUIPrefab = Resources.Load<GameplayUI>("UI/GameplayUI");
             Container.Bind<GameplayUI>().FromComponentInNewPrefab(gameplayUIPrefab).AsSingle();
+
+            Container.Bind<LevelProgress>().AsSingle();
         }
 
         private void BindFactories()

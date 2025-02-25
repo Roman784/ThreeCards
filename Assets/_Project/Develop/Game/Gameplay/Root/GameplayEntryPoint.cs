@@ -45,6 +45,7 @@ namespace GameplayRoot
                 // UI.
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
+                _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
 
                 // Currencies.
                 _chipsCounter.LoadChips();
