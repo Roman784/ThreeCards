@@ -14,6 +14,7 @@ namespace Gameplay
         public Vector2Int Coordinates { get; private set; }
         public bool IsClosed { get; private set; }
         public bool IsMarked { get; private set; }
+        public bool IsPlaced { get; private set; }
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
         public bool IsDestroyed => _view == null;
@@ -49,6 +50,7 @@ namespace Gameplay
 
         public Observable<Unit> Place(Transform slot)
         {
+            IsPlaced = true;
             return _view.Place(slot);
         }
 
@@ -89,7 +91,7 @@ namespace Gameplay
 
         private void Pick()
         {
-            if (IsClosed) return;
+            if (IsClosed || IsPlaced) return;
             _cardPlacingService.PlaceCard(this);
         }
     }

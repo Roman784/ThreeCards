@@ -85,6 +85,7 @@ namespace Gameplay
 
         public Observable<Unit> Place(Transform slot)
         {
+            _raycaster.enabled = false;
             transform.SetParent(slot);
             return Move(slot.position, Ease.OutQuad);
         }
