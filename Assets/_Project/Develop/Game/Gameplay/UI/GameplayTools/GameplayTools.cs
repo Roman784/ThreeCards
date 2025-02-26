@@ -1,4 +1,6 @@
 using GameplayServices;
+using R3;
+using UnityEngine;
 
 namespace UI
 {
@@ -40,13 +42,25 @@ namespace UI
         private void ShuffleField()
         {
             if (!_isEnabled) return;
-            _fieldShufflingService.Shuffle();
+
+            var onCompleted = _fieldShufflingService.Shuffle();
+            DisableUntilComplete(onCompleted);
         }
 
         private void PickThree()
         {
             if (!_isEnabled) return;
-            _magicStickService.PickThree();
+
+            var onCompleted = _magicStickService.PickThree();
+        }
+
+        private void DisableUntilComplete(Observable<Unit> onCompleted)
+        {
+            if (onCompleted != null)
+            {
+                Disable();
+                onCompleted.Subscribe(_ => Enable());
+            }
         }
     }
 }

@@ -26,9 +26,11 @@ namespace GameplayServices
             _cardFlippingService = cardFlippingService;
         }
 
-        public void Shuffle()
+        public Observable<Unit> Shuffle()
         {
-            if (_isShuffling) return;
+            var completedSubj = new Subject<Unit>();
+
+            if (_isShuffling) return null;
             _isShuffling = true;
 
             SetCards();
@@ -39,11 +41,16 @@ namespace GameplayServices
                 {
                     _cardFlippingService.OpenFirstCards();
                     _isShuffling = false;
+
+                    completedSubj.OnNext(Unit.Default);
+                    completedSubj.OnCompleted();
                 });
 
                 if (_cardsReplacingRoutine != null) Coroutines.StopRoutine(_cardsReplacingRoutine);
                 _cardsReplacingRoutine = Coroutines.StartRoutine(ReplaceCardsRoutine(cardsReplacedSubj));
             });
+
+            return completedSubj;
         }
 
         private void SetCards()

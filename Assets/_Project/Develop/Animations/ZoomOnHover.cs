@@ -20,10 +20,20 @@ namespace ScriptAnimations
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _target.DOScale(_initialScale * _zoomScale, _duration).SetEase(_ease);
+            ZoomIn();
         }
 
         public void OnPointerExit(PointerEventData eventData)
+        {
+            ZoomOut();
+        }
+
+        public void ZoomIn()
+        {
+            _target.DOScale(_initialScale * _zoomScale, _duration).SetEase(_ease);
+        }
+
+        public void ZoomOut()
         {
             _target.DOScale(_initialScale, _duration).SetEase(_ease);
         }

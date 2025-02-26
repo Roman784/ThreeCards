@@ -33,7 +33,7 @@ namespace GameplayServices
             RemoveTripleCards(slotsBySuitMap);
         }
 
-        public void RemoveCards(List<Card> cards)
+        public Observable<List<RemovedCard>> RemoveCards(List<Card> cards)
         {
             var removedCards = new List<RemovedCard>();
 
@@ -51,6 +51,8 @@ namespace GameplayServices
 
             if (removedCards.Count > 0)
                 _cardRemovedSubj.OnNext(removedCards);
+
+            return OnCardsRemoved;
         }
 
         private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)

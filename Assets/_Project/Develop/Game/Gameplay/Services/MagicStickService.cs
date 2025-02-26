@@ -14,6 +14,8 @@ namespace GameplayServices
         private CardMatchingService _cardMatchingService;
         private CardLayoutService _cardLayoutService;
 
+        private Subject<Unit> _cardsPickedSubj = new();
+
         public MagicStickService(Card[,] cardsMap, SlotBar slotBar, 
                                  CardMatchingService cardMatchingService, CardLayoutService cardLayoutService)
         {
@@ -25,10 +27,9 @@ namespace GameplayServices
             _cardMatchingService.OnCardsRemoved.Subscribe(_ => ShiftCards());
         }
 
-        public void PickThree()
+        public Observable<Unit> PickThree()
         {
             var originCard = GetOriginCard();
-
             var cards = new List<Card>();
             cards.Capacity = 3;
             cards.Add(originCard);
@@ -46,6 +47,8 @@ namespace GameplayServices
             }
 
             _cardMatchingService.RemoveCards(cards);
+
+            return _cardsPickedSubj;
         }
 
         private Card GetOriginCard()
@@ -79,7 +82,10 @@ namespace GameplayServices
 
                         if (nextCard == null) break;
 
-                        MoveCard(nextCard, new Vector2Int(columnI, cardI));
+                        MoveCard(nextCard, new Vector2Int(columnI, cardI)).Subscribe(_ =>
+                        {
+                            _cardsPickedSubj.OnNext(Unit.Default);
+                        });
                     }
                 }
             }
