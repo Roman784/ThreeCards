@@ -28,6 +28,10 @@ namespace Gameplay
         public static Suits GetRandomSuits() => _suits[UnityEngine.Random.Range(0, _suits.Count)];
         public static Suits GetRandomRedSuits() => _redSuits[UnityEngine.Random.Range(0, _redSuits.Count)];
         public static Suits GetRandomBlackSuits() => _blackSuits[UnityEngine.Random.Range(0, _blackSuits.Count)];
+        public static int GetRankIndex(Ranks rank) => _ranks.IndexOf(rank);
+        public static int GetSuitIndex(Suits suits) => _suits.IndexOf(suits);
+        public static Ranks GetRankByIndex(int index) => _ranks[index];
+        public static Suits GetSuitByIndex(int index) => _suits[index];
 
         private static void InitRanksMap()
         {

@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Gameplay;
 using R3;
 using System.Collections.Generic;
@@ -46,7 +47,7 @@ namespace GameplayServices
         {
             _canPlaceCard = false;
 
-            Coroutines.Invoke(() =>
+            DOVirtual.DelayedCall(0.5f, () =>
             {
                 foreach (var slot in _slots)
                 {
@@ -65,7 +66,7 @@ namespace GameplayServices
                 }
 
                 _canPlaceCard = true;
-            }, 0.5f);
+            });
         }
     }
 }

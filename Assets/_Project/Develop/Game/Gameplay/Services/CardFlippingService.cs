@@ -6,10 +6,12 @@ namespace GameplayServices
     public class CardFlippingService
     {
         private Card[,] _cardsMap;
+        private SlotBar _slotBar;
 
-        public CardFlippingService(Card[,] cardsMap, CardPlacingService cardPlacingService)
+        public CardFlippingService(Card[,] cardsMap, SlotBar slotBar, CardPlacingService cardPlacingService)
         {
             _cardsMap = cardsMap;
+            _slotBar = slotBar;
 
             cardPlacingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
         }
@@ -21,10 +23,12 @@ namespace GameplayServices
                 for (int cardI = _cardsMap.GetLength(1) - 1; cardI >= 0; cardI--)
                 {
                     Card card = _cardsMap[colunmI, cardI];
-                    if (card == null) continue;
 
-                    card.Open();
-                    break;
+                    if (card != null && !card.IsDestroyed && !_slotBar.ContainsCard(card))
+                    {
+                        card.Open();
+                        break;
+                    }
                 }
             }
         }

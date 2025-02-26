@@ -22,6 +22,16 @@ namespace Gameplay
             _slotFactory = slotFactory;
         }
 
+        public bool ContainsCard(Card card)
+        {
+            foreach (var slot in _slots)
+            {
+                if (slot.Card == card)
+                    return true;
+            }
+            return false;
+        }
+
         public List<Slot> CreateSlots()
         {
             for (int i = 0; i < _slotsSettings.Count; i++)

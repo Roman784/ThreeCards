@@ -58,18 +58,21 @@ namespace GameplayRoot
                 cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
                 // Animations.
-                var cardFlippingService = new CardFlippingService(cardsMap, cardPlacingService);
+                var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, cardPlacingService);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 fieldAnimationService.LayOutCards();
 
                 // UI.
+                var fieldShufflingService = new FieldShufflingService(cardsMap, _slotBar, cardFlippingService);
+
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
 
                 _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
                 _gameplayUI.InitProgressBar(totalCardCount, cardMatchingService);
-
                 _gameplayUI.InitChips(cardMatchingService);
+
+                _gameplayUI.SetToolsServcies(fieldShufflingService);
             });
         }
     }

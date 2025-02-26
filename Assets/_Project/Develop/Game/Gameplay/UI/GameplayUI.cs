@@ -13,11 +13,19 @@ namespace UI
         private LevelProgress _levelProgress;
         private ChipsCounter _chipsCounter;
 
+        private FieldShufflingService _fieldShufflingService;
+
         [Inject]
         private void Construct(LevelProgress levelProgress, ChipsCounter chipsCounter)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+                _fieldShufflingService?.Shuffle();
         }
 
         public void BindViews()
@@ -39,6 +47,11 @@ namespace UI
         public void InitProgressBar(int totalCardCount, CardMatchingService cardMatchingService)
         {
             _levelProgress.InitProgressBar(totalCardCount, cardMatchingService);
+        }
+
+        public void SetToolsServcies(FieldShufflingService fieldShufflingService)
+        {
+            _fieldShufflingService = fieldShufflingService;
         }
     }
 }
