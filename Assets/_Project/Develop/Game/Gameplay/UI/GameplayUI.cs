@@ -9,29 +9,26 @@ namespace UI
     {
         [SerializeField] private LevelProgressView _levelProgressView;
         [SerializeField] private ChipsCounterView _chipsCounterView;
+        [SerializeField] private GameplayToolsView _gameplayToolsView;
 
         private LevelProgress _levelProgress;
         private ChipsCounter _chipsCounter;
-
-        private FieldShufflingService _fieldShufflingService;
+        private GameplayTools _gameplayTools;
 
         [Inject]
         private void Construct(LevelProgress levelProgress, ChipsCounter chipsCounter)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
-        }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.S))
-                _fieldShufflingService?.Shuffle();
+            _gameplayTools = new();
         }
 
         public void BindViews()
         {
             _levelProgress.BindView(_levelProgressView);
             _chipsCounter.BindView(_chipsCounterView);
+            _gameplayTools.BindView(_gameplayToolsView);
         }
 
         public void InitChips(CardMatchingService cardMatchingService)
@@ -51,7 +48,17 @@ namespace UI
 
         public void SetToolsServcies(FieldShufflingService fieldShufflingService)
         {
-            _fieldShufflingService = fieldShufflingService;
+            _gameplayTools.Init(fieldShufflingService);
+        }
+
+        public void EnableTools()
+        {
+            _gameplayTools.Enable();
+        }
+
+        public void DisableTools()
+        {
+            _gameplayTools.Disable();
         }
     }
 }

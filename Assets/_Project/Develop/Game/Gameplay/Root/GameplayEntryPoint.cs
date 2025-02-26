@@ -6,7 +6,6 @@ using UI;
 using UnityEngine;
 using Zenject;
 using R3;
-using Currencies;
 using Utils;
 
 namespace GameplayRoot
@@ -60,7 +59,7 @@ namespace GameplayRoot
                 // Animations.
                 var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, cardPlacingService);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
-                fieldAnimationService.LayOutCards();
+                var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
 
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(cardsMap, _slotBar, cardFlippingService);
@@ -73,6 +72,7 @@ namespace GameplayRoot
                 _gameplayUI.InitChips(cardMatchingService);
 
                 _gameplayUI.SetToolsServcies(fieldShufflingService);
+                layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
             });
         }
     }

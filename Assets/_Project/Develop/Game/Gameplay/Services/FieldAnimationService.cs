@@ -1,4 +1,5 @@
 using Gameplay;
+using R3;
 using System.Collections;
 using UnityEngine;
 using Utils;
@@ -16,12 +17,15 @@ namespace GameplayServices
             _cardFlippingService = cardFlippingService;
         }
 
-        public void LayOutCards()
+        public Observable<Unit> LayOutCards()
         {
-            Coroutines.StartRoutine(LayOutCardsRoutine());
+            var completedSubj = new Subject<Unit>();
+            Coroutines.StartRoutine(LayOutCardsRoutine(completedSubj));
+
+            return completedSubj;
         }
 
-        private IEnumerator LayOutCardsRoutine()
+        private IEnumerator LayOutCardsRoutine(Subject<Unit> completedSubj)
         {
             for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
             {
@@ -39,6 +43,9 @@ namespace GameplayServices
             yield return new WaitForSeconds(0.4f);
 
             _cardFlippingService.OpenFirstCards();
+
+            completedSubj.OnNext(Unit.Default);
+            completedSubj.OnCompleted();
         }
     }
 }
