@@ -620,6 +620,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1535721652752334}
   - component: {fileID: 2131675854887314953}
+  - component: {fileID: 8770833206429164477}
+  - component: {fileID: 8885109985729156186}
   m_Layer: 5
   m_Name: MagicStick
   m_TagString: Untagged
@@ -703,6 +705,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8770833206429164477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2627512820019487111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7764fdbdc8e0e9d4492e75bb5cc3534b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 8860613367667588112}
+  _zoomScale: 1.15
+  _duration: 0.2
+  _ease: 27
+--- !u!114 &8885109985729156186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2627512820019487111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a3844c2ce9e384dac980e3c5f1999a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 5732219277654564114}
+  _duration: 0.25
+  _fadeValue: 0.9
 --- !u!1 &3916678876744147700
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,6 +1399,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _shuffleIconView: {fileID: 2092286439014618457}
+  _magicStickView: {fileID: 8885109985729156186}
 --- !u!1 &6315772762016847819
 GameObject:
   m_ObjectHideFlags: 0

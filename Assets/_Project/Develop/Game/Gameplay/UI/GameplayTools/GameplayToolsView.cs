@@ -7,28 +7,24 @@ namespace UI
     public class GameplayToolsView : MonoBehaviour
     {
         [SerializeField] private FadeImage _shuffleIconView;
+        [SerializeField] private FadeImage _magicStickView;
 
         public event Action OnShuffleField;
         public event Action OnPickThree;
 
+        public void ShuffleField() => OnShuffleField?.Invoke();
+        public void PickThree() => OnPickThree?.Invoke();
+
         public void Enable()
         {
             _shuffleIconView.FadeIn();
+            _magicStickView.FadeIn();
         }
 
         public void Disable()
         {
             _shuffleIconView.FadeOut();
-        }
-
-        public void ShuffleField()
-        {
-            OnShuffleField?.Invoke();
-        }
-
-        public void PickThree()
-        {
-            OnPickThree?.Invoke();
+            _magicStickView.FadeOut();
         }
     }
 }
