@@ -1,5 +1,6 @@
 using Gameplay;
 using R3;
+using System.Collections.Generic;
 
 namespace GameplayServices
 {
@@ -16,8 +17,34 @@ namespace GameplayServices
             cardPlacingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
         }
 
-        public void OpenFirstCards()
+        public Observable<Unit> OpenFirstCards()
         {
+            Observable<Unit> cardsOpened = null;
+
+            foreach (var card in GetFirstCards())
+            {
+                cardsOpened = card.Open();
+            }
+
+            return cardsOpened;
+        }
+
+        public Observable<Unit> CloseFirstCards()
+        {
+            Observable<Unit> cardsClosed = null;
+
+            foreach (var card in GetFirstCards())
+            {
+                cardsClosed = card.Close();
+            }
+
+            return cardsClosed;
+        }
+
+        private List<Card> GetFirstCards()
+        {
+            var cards = new List<Card>();
+
             for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
             {
                 for (int cardI = _cardsMap.GetLength(1) - 1; cardI >= 0; cardI--)
@@ -26,11 +53,13 @@ namespace GameplayServices
 
                     if (card != null && !card.IsDestroyed && !_slotBar.ContainsCard(card))
                     {
-                        card.Open();
+                        cards.Add(card);
                         break;
                     }
                 }
             }
+
+            return cards;
         }
 
         private void OpenNextCard(Card currentCard)

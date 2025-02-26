@@ -32,7 +32,7 @@ namespace GameplayServices
             _isShuffling = true;
 
             SetCards();
-            CloseAllCards()?.Subscribe(_ =>
+            _cardFlippingService.CloseFirstCards()?.Subscribe(_ =>
             {
                 var cardsReplacedSubj = new Subject<Unit>();
                 cardsReplacedSubj.Subscribe(_ =>
@@ -54,23 +54,6 @@ namespace GameplayServices
                 if (card != null && !_slotBar.ContainsCard(card) && !card.IsDestroyed)
                     _cards.Add(card);
             }
-        }
-
-        private Observable<Unit> CloseAllCards()
-        {
-            Observable<Unit> onFisrtCardsClosed = null;
-
-            foreach (var card in _cards)
-            {
-                if (card.IsClosed) continue;
-
-                var onCardClosed = card.Close();
-
-                if (onFisrtCardsClosed == null)
-                    onFisrtCardsClosed = onCardClosed;
-            }
-
-            return onFisrtCardsClosed;
         }
 
         private IEnumerator ReplaceCardsRoutine(Subject<Unit> cardsReplacedSubj)
