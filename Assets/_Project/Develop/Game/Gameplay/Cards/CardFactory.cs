@@ -1,4 +1,5 @@
 using Gameplay;
+using System;
 using UnityEngine;
 using Zenject;
 
@@ -14,9 +15,17 @@ namespace GameplayServices
             return card;
         }
 
-        public Card Create(Vector2 position)
+        public Card Create(Vector2Int coordinates)
         {
             Card card = Create();
+            card.SetCoordinates(coordinates);
+
+            return card;
+        }
+
+        public Card Create(Vector2 position, Vector2Int coordinates)
+        {
+            Card card = Create(coordinates);
             card.SetPosition(position);
 
             return card;

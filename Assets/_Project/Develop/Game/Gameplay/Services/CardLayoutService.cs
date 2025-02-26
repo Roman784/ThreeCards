@@ -51,8 +51,9 @@ namespace GameplayServices
             for (int cardI = 0; cardI < column.CardCount; cardI++)
             {
                 Vector2 cardPosition = columnPosition + new Vector2(0, -_layouts.StepBetweenCards * cardI);
+                Vector2Int coordinates = new Vector2Int(columnI, cardI);
 
-                Card card = _cardFactory.Create(cardPosition);
+                Card card = _cardFactory.Create(cardPosition, coordinates);
                 card.SetPlacingService(_placingService);
                 card.Disable();
 

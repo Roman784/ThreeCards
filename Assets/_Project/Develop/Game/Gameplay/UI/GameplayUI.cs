@@ -10,9 +10,11 @@ namespace UI
     {
         [SerializeField] private LevelProgressView _levelProgressView;
         [SerializeField] private ChipsCounterView _chipsCounterView;
+        [SerializeField] private GameplayToolsView _gameplayToolsView;
 
         private LevelProgress _levelProgress;
         private ChipsCounter _chipsCounter;
+        private GameplayTools _gameplayTools;
 
         private GameSessionStateProvider _gameSessionStateProvider;
 
@@ -21,6 +23,8 @@ namespace UI
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
+
+            _gameplayTools = new();
         }
 
         private void Update()
@@ -35,6 +39,7 @@ namespace UI
         {
             _levelProgress.BindView(_levelProgressView);
             _chipsCounter.BindView(_chipsCounterView);
+            _gameplayTools.BindView(_gameplayToolsView);
         }
 
         public void SetGameSessionStateProvider(GameSessionStateProvider gameSessionStateProvider)
@@ -55,6 +60,21 @@ namespace UI
         public void InitProgressBar(int totalCardCount, CardMatchingService cardMatchingService)
         {
             _levelProgress.InitProgressBar(totalCardCount, cardMatchingService);
+        }
+
+        public void SetToolsServcies(FieldShufflingService fieldShufflingService)
+        {
+            _gameplayTools.Init(fieldShufflingService);
+        }
+
+        public void EnableTools()
+        {
+            _gameplayTools.Enable();
+        }
+
+        public void DisableTools()
+        {
+            _gameplayTools.Disable();
         }
     }
 }

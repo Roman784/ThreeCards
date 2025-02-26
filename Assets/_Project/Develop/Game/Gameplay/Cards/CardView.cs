@@ -86,12 +86,17 @@ namespace Gameplay
         public Observable<Unit> Place(Transform slot)
         {
             transform.SetParent(slot);
+            return Move(slot.position, Ease.OutQuad);
+        }
 
-            var targetPosition = slot.position;
-            var moveDuration = 1f / _moveSpeed;
+        public Observable<Unit> Move(Vector3 position, Ease ease, float moveDuration = 0, float speedMultiplyer = 1)
+        {
+            if (moveDuration == 0)
+                moveDuration = 1f / (_moveSpeed * speedMultiplyer);
+
             var moveCompletedSubj = new Subject<Unit>();
 
-            transform.DOMove(targetPosition, moveDuration).SetEase(Ease.OutQuad).OnComplete(() =>
+            transform.DOMove(position, moveDuration).SetEase(ease).OnComplete(() =>
             {
                 moveCompletedSubj.OnNext(Unit.Default);
                 moveCompletedSubj.OnCompleted();
@@ -100,23 +105,25 @@ namespace Gameplay
             return moveCompletedSubj;
         }
 
-        public void Close(bool instantly = false)
+        public Observable<Unit> Close(bool instantly = false)
         {
             _raycaster.enabled = false;
 
             if (instantly)
             {
                 SetCloseView();
-                return;
+                return null;
             }
 
             _animator.SetTrigger("Closing");
+            return CurrentAnimationDelayedCall();
         }
 
-        public void Open()
+        public Observable<Unit> Open()
         {
             _raycaster.enabled = true;
             _animator.SetTrigger("Opening");
+            return CurrentAnimationDelayedCall();
         }
 
         public void SetOpenView()
@@ -145,6 +152,11 @@ namespace Gameplay
         public Observable<Unit> Destroy()
         {
             _animator.SetTrigger("Destroying");
+            return CurrentAnimationDelayedCall();
+        }
+
+        private Observable<Unit> CurrentAnimationDelayedCall()
+        {
             var animationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
             var animationCompletedSubj = new Subject<Unit>();
 

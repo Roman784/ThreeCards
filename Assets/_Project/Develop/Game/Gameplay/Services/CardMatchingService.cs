@@ -46,7 +46,7 @@ namespace GameplayServices
                         var slot = slots[i];
                         var card = slot.Card;
 
-                        removedCards.Add(new RemovedCard(card.Rank, card.GetPosition()));
+                        removedCards.Add(new RemovedCard(card.Rank, card.Position));
 
                         slot.RemoveCard();
                     }

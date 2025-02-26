@@ -1,3 +1,4 @@
+using DG.Tweening;
 using GameplayServices;
 using R3;
 using UnityEngine;
@@ -7,24 +8,28 @@ namespace Gameplay
     public class Card
     {
         private CardView _view;
-        private bool _isClosed;
 
         private CardPlacingService _cardPlacingService;
 
+        public Vector2Int Coordinates { get; private set; }
+        public bool IsClosed { get; private set; }
         public bool IsMarked { get; private set; }
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
+        public bool IsDestroyed => _view == null;
+        public Vector3 Position => _view.GetPosition();
 
         public Card(CardView view)
         {
-            _isClosed = true;
+            IsClosed = true;
             IsMarked = false;
 
             _view = view;
+
             _view.OnPicked.Subscribe(_ => Pick());
         }
 
-        public Vector3 GetPosition() => _view.GetPosition();
+        public void SetCoordinates(Vector2Int coordinates) => Coordinates = coordinates;
         public void SetPosition(Vector3 position) => _view.SetPosition(position);
 
         public void Mark(Suits suit, Ranks rank)
@@ -47,16 +52,21 @@ namespace Gameplay
             return _view.Place(slot);
         }
 
-        public void Close(bool instantly = false)
+        public Observable<Unit> Move(Vector3 position, Ease ease = Ease.OutQuad, float moveDuration = 0, float speedMultiplyer = 1)
         {
-            _isClosed = true;
-            _view.Close(instantly);
+            return _view.Move(position, ease, moveDuration, speedMultiplyer);
         }
 
-        public void Open()
+        public Observable<Unit> Close(bool instantly = false)
         {
-            _isClosed = false;
-            _view.Open();
+            IsClosed = true;
+            return _view.Close(instantly);
+        }
+
+        public Observable<Unit> Open()
+        {
+            IsClosed = false;
+            return _view.Open();
         }
 
         public void PutDown()
@@ -79,7 +89,7 @@ namespace Gameplay
 
         private void Pick()
         {
-            if (_isClosed) return;
+            if (IsClosed) return;
             _cardPlacingService.PlaceCard(this);
         }
     }
