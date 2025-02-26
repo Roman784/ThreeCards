@@ -9,12 +9,14 @@ namespace GameplayServices
         private Card[,] _cardsMap;
         private SlotBar _slotBar;
 
-        public CardFlippingService(Card[,] cardsMap, SlotBar slotBar, CardPlacingService cardPlacingService)
+        public CardFlippingService(Card[,] cardsMap, SlotBar slotBar, 
+                                   CardPlacingService cardPlacingService, CardMatchingService cardMatchingService)
         {
             _cardsMap = cardsMap;
             _slotBar = slotBar;
 
             cardPlacingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
+            cardMatchingService.OnCardsRemoved.Subscribe(_ => OpenFirstCards());
         }
 
         public Observable<Unit> OpenFirstCards()
@@ -23,7 +25,8 @@ namespace GameplayServices
 
             foreach (var card in GetFirstCards())
             {
-                cardsOpened = card.Open();
+                if (card.IsClosed)
+                    cardsOpened = card.Open();
             }
 
             return cardsOpened;
@@ -35,7 +38,8 @@ namespace GameplayServices
 
             foreach (var card in GetFirstCards())
             {
-                cardsClosed = card.Close();
+                if (!card.IsClosed)
+                    cardsClosed = card.Close();
             }
 
             return cardsClosed;

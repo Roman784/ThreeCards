@@ -2,6 +2,7 @@ using Gameplay;
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
+using static GameplayServices.CardMatchingService;
 
 namespace GameplayServices
 {
@@ -32,29 +33,42 @@ namespace GameplayServices
             RemoveTripleCards(slotsBySuitMap);
         }
 
-        private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)
+        public void RemoveCards(List<Card> cards)
         {
             var removedCards = new List<RemovedCard>();
 
+            foreach (var card in cards)
+            {
+                removedCards.Add(new RemovedCard(card.Rank, card.Coordinates, card.Position));
+                card.Destroy();
+            }
+
+            foreach (var slot in _slots)
+            {
+                if (slot.HasCard && slot.Card.IsDestroyed)
+                    slot.Release();
+            }
+
+            if (removedCards.Count > 0)
+                _cardRemovedSubj.OnNext(removedCards);
+        }
+
+        private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)
+        {
             foreach (var item in map)
             {
                 var slots = item.Value;
                 if (slots.Count >= 3)
                 {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        var slot = slots[i];
-                        var card = slot.Card;
+                    var cards = new List<Card>();
+                    cards.Capacity = 3;
 
-                        removedCards.Add(new RemovedCard(card.Rank, card.Position));
+                    foreach (var slot in slots)
+                        cards.Add(slot.Card);
 
-                        slot.RemoveCard();
-                    }
+                    RemoveCards(cards);
                 }
             }
-
-            if (removedCards.Count > 0)
-                _cardRemovedSubj.OnNext(removedCards);
         }
 
         private void AddSlot<TKey>(Dictionary<TKey, List<Slot>> map, TKey key, Slot slot)
@@ -68,11 +82,13 @@ namespace GameplayServices
         public sealed class RemovedCard
         {
             public readonly Ranks Rank;
+            public readonly Vector2Int Coordinates;
             public readonly Vector3 Position;
 
-            public RemovedCard(Ranks rank, Vector3 position)
+            public RemovedCard(Ranks rank, Vector2Int coordinates, Vector3 position)
             {
                 Rank = rank;
+                Coordinates = coordinates;
                 Position = position;
             }
         }

@@ -18,6 +18,19 @@ namespace Utils
             return GetRandomValue(values.ToList());
         }
 
+        public static T GetRandomValue<T>(T[,] values)
+        {
+            var valuesList = new List<T>();
+
+            foreach (var value in values)
+            {
+                if (value == null) continue;
+                valuesList.Add(value);
+            }
+
+            return GetRandomValue(valuesList);
+        }
+
         public static T GetRandomValue<T>(List<T> values)
         {
             if (values.Count == 0)

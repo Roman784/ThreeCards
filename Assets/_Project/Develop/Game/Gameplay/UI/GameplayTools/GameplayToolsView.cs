@@ -9,6 +9,7 @@ namespace UI
         [SerializeField] private FadeImage _shuffleIconView;
 
         public event Action OnShuffleField;
+        public event Action OnPickThree;
 
         public void Enable()
         {
@@ -23,6 +24,11 @@ namespace UI
         public void ShuffleField()
         {
             OnShuffleField?.Invoke();
+        }
+
+        public void PickThree()
+        {
+            OnPickThree?.Invoke();
         }
     }
 }

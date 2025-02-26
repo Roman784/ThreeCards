@@ -693,7 +693,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7353159919111808588}
         m_TargetAssemblyTypeName: UI.GameplayToolsView, Assembly-CSharp
-        m_MethodName: ShuffleField
+        m_MethodName: PickThree
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 930771095363206287}
-  _zoomScale: 1.15
+  _zoomScale: 1.125
   _duration: 0.2
   _ease: 27
 --- !u!1 &2578344438992880345

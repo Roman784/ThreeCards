@@ -23,12 +23,6 @@ namespace Gameplay
             return card.Place(View.transform);
         }
 
-        public void RemoveCard()
-        {
-            Release();
-            Card?.Destroy();
-        }
-
         public void Release()
         {
             HasCard = false;

@@ -17,7 +17,7 @@ namespace Gameplay
         public bool IsPlaced { get; private set; }
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
-        public bool IsDestroyed => _view == null;
+        public bool IsDestroyed { get; private set; }
         public Vector3 Position => _view.GetPosition();
 
         public Card(CardView view)
@@ -83,6 +83,7 @@ namespace Gameplay
 
         public void Destroy()
         {
+            IsDestroyed = true;
             _view.Destroy().Subscribe(_ => 
             {
                 Object.Destroy(_view.gameObject);

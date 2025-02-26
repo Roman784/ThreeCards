@@ -8,6 +8,7 @@ namespace UI
         private bool _isEnabled;
 
         private FieldShufflingService _fieldShufflingService;
+        private MagicStickService _magicStickService;
 
         public void BindView(GameplayToolsView view)
         {
@@ -15,11 +16,13 @@ namespace UI
             _view.Disable();
 
             _view.OnShuffleField += () => ShuffleField();
+            _view.OnPickThree += () => PickThree();
         }
 
-        public void Init(FieldShufflingService fieldShufflingService)
+        public void Init(FieldShufflingService fieldShufflingService, MagicStickService magicStickService)
         {
             _fieldShufflingService = fieldShufflingService;
+            _magicStickService = magicStickService;
         }
 
         public void Enable()
@@ -38,6 +41,12 @@ namespace UI
         {
             if (!_isEnabled) return;
             _fieldShufflingService.Shuffle();
+        }
+
+        private void PickThree()
+        {
+            if (!_isEnabled) return;
+            _magicStickService.PickThree();
         }
     }
 }

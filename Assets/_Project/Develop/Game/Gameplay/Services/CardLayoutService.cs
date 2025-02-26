@@ -35,23 +35,27 @@ namespace GameplayServices
             return _cardsMap;
         }
 
+        public Vector2 GetCardPosition(Vector2Int coordinates)
+        {
+            Vector2 columnPosition = StartColumnsPosition + new Vector2(coordinates.x * ColumnSpacing, 0);
+            return columnPosition + new Vector2(0, -_layouts.StepBetweenCards * coordinates.y);
+        }
+
         private void CreateColumns()
         {
             for (int columnI = 0; columnI < _layout.ColumnCount; columnI++)
             {
                 var column = _layout.CardColumns[columnI];
-                Vector2 columnPosition = StartColumnsPosition + new Vector2(columnI * ColumnSpacing, 0);
-
-                CreateColumn(column, columnPosition, columnI);
+                CreateColumn(column, columnI);
             }
         }
 
-        private void CreateColumn(CardColumn column, Vector2 columnPosition, int columnI)
+        private void CreateColumn(CardColumn column, int columnI)
         {
             for (int cardI = 0; cardI < column.CardCount; cardI++)
             {
-                Vector2 cardPosition = columnPosition + new Vector2(0, -_layouts.StepBetweenCards * cardI);
                 Vector2Int coordinates = new Vector2Int(columnI, cardI);
+                Vector2 cardPosition = GetCardPosition(coordinates);
 
                 Card card = _cardFactory.Create(cardPosition, coordinates);
                 card.SetPlacingService(_placingService);
