@@ -1,6 +1,9 @@
+using Currencies;
 using GameplayServices;
 using R3;
+using Settings;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
@@ -11,6 +14,15 @@ namespace UI
 
         private FieldShufflingService _fieldShufflingService;
         private MagicStickService _magicStickService;
+        private ToolsSettings _toolsSettings;
+        private ChipsCounter _chipsCounter;
+
+        [Inject]
+        private void Construct(ISettingsProvider settingsProvider, ChipsCounter chipsCounter)
+        {
+            _toolsSettings = settingsProvider.GameSettings.ToolsSettings;
+            _chipsCounter = chipsCounter;
+        }
 
         public void BindView(GameplayToolsView view)
         {
@@ -43,6 +55,9 @@ namespace UI
         {
             if (!_isEnabled) return;
 
+            if (_chipsCounter.Count < _toolsSettings.FieldShufflingCost) return;
+            _chipsCounter.Reduce(_toolsSettings.FieldShufflingCost);
+
             var onCompleted = _fieldShufflingService.Shuffle();
             DisableUntilComplete(onCompleted);
         }
@@ -50,6 +65,9 @@ namespace UI
         private void PickThree()
         {
             if (!_isEnabled) return;
+
+            if (_chipsCounter.Count < _toolsSettings.MagicStickCost) return;
+            _chipsCounter.Reduce(_toolsSettings.MagicStickCost);
 
             var onCompleted = _magicStickService.PickThree();
             DisableUntilComplete(onCompleted);

@@ -9,10 +9,12 @@ namespace Currencies
 {
     public class ChipsCounter
     {
-        private ReactiveProperty<int> _chipsCount = new();
+        private int _chipsCount = new();
         private IGameStateProvider _gameStateProvider;
 
         private ChipsCounterView _view;
+
+        public int Count => _chipsCount;
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider)
@@ -23,13 +25,12 @@ namespace Currencies
         public void BindView(ChipsCounterView view)
         {
             _view = view;
-            _chipsCount.Subscribe(value => _view.IncreaseCounter(_chipsCount.Value));
         }
 
         public void InitChips(CardMatchingService cardMatchingService)
         {
-            _chipsCount.Value = _gameStateProvider.GameState.Chips.Value;
-            _view?.SetCurrentCount(_chipsCount.Value);
+            _chipsCount = _gameStateProvider.GameState.Chips.Value;
+            _view?.SetCurrentCount(_chipsCount);
 
             cardMatchingService.OnCardsRemoved.Subscribe(removedCards =>
             {
@@ -41,16 +42,33 @@ namespace Currencies
             });
         }
 
-        private void Add(int value, Vector3 initialColectionPosition)
+        public void Reduce(int value)
         {
-            Add(value);
-            _view.AnimateCollection(value, initialColectionPosition);
+            if (value > _chipsCount)
+                value = _chipsCount;
+
+            _chipsCount -= value;
+            _gameStateProvider.GameState.Chips.Value = _chipsCount;
+
+            _view?.ChangeCounter(_chipsCount);
         }
 
-        private void Add(int value)
+        private void Add(int value, Vector3 initialColectionPosition)
         {
-            _chipsCount.Value += value;
-            _gameStateProvider.GameState.Chips.Value = _chipsCount.Value;
+            Add(value, false);
+            _view.AnimateCollection(value, initialColectionPosition).Subscribe(_ => 
+            {
+                _view?.ChangeCounter(_chipsCount);
+            });
+        }
+
+        private void Add(int value, bool changeView = true)
+        {
+            _chipsCount += value;
+            _gameStateProvider.GameState.Chips.Value = _chipsCount;
+
+            if (changeView)
+                _view?.SetCurrentCount(_chipsCount);
         }
     }
 }

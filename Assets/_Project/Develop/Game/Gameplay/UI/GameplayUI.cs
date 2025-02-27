@@ -1,6 +1,7 @@
 using Currencies;
 using GameplayServices;
 using GameState;
+using Settings;
 using UnityEngine;
 using Zenject;
 
@@ -19,12 +20,11 @@ namespace UI
         private GameSessionStateProvider _gameSessionStateProvider;
 
         [Inject]
-        private void Construct(LevelProgress levelProgress, ChipsCounter chipsCounter)
+        private void Construct(LevelProgress levelProgress, ChipsCounter chipsCounter, GameplayTools gameplayTools)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
-
-            _gameplayTools = new();
+            _gameplayTools = gameplayTools;
         }
 
         private void Update()

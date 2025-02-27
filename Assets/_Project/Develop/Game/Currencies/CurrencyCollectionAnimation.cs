@@ -30,9 +30,11 @@ namespace Currencies
             _currenciesPool = new(_currencyPrefab, 10);
         }
 
-        public void StartCollecting(int count, Vector3 from, Vector3 to)
+        public Observable<Unit> StartCollecting(int count, Vector3 from, Vector3 to)
         {
             StartCoroutine(CollectionRoutine(count, from, to));
+
+            return OnCollected;
         }
 
         private IEnumerator CollectionRoutine(int count, Vector3 from, Vector3 to)

@@ -40,7 +40,8 @@ namespace GameplayRoot
             _gameStateProvider.LoadGameState().Subscribe(_ => 
             {
                 // Settings data.
-                var layouts = _settingsProvider.GameSettings.CardLayoutsSettings;
+                var gameSettings = _settingsProvider.GameSettings;
+                var layouts = gameSettings.CardLayoutsSettings;
                 var layout = layouts.GetLayout(enterParams.LevelNumber);
 
                 // Slots setup.

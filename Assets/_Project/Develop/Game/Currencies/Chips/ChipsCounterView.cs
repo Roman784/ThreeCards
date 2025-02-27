@@ -16,7 +16,6 @@ namespace Currencies
 
         private int _currentCount;
         private Coroutine _increaseCounterRoutine;
-        private bool _canIncrease;
 
         private Camera _camera;
 
@@ -25,8 +24,6 @@ namespace Currencies
             _camera = Camera.main;
 
             _collectionAnimation.OnCollected.Subscribe(_ => _pulsationAnimator.Pulse(_chipsIcon) );
-            _collectionAnimation.OnCollected.Subscribe(_ => _canIncrease = true);
-            _collectionAnimation.OnAllCollected.Subscribe(_ => _canIncrease = false);
         }
 
         public void SetCurrentCount(int count)
@@ -35,29 +32,29 @@ namespace Currencies
             UpdateView();
         }
 
-        public void IncreaseCounter(int count)
+        public void ChangeCounter(int count)
         {
             if (_increaseCounterRoutine != null)
                 Coroutines.StopRoutine(_increaseCounterRoutine);
 
-            _increaseCounterRoutine = Coroutines.StartRoutine(IncreaseCounterRoutine(count));
+            _increaseCounterRoutine = Coroutines.StartRoutine(ChangeCounterRoutine(count));
         }
 
-        public void AnimateCollection(int count, Vector3 from)
+        public Observable<Unit> AnimateCollection(int count, Vector3 from)
         {
             from = _camera.WorldToScreenPoint(from);
             count = count / 3;
 
-            _collectionAnimation.StartCollecting(count, from, _chipsIcon.position);
+            return _collectionAnimation.StartCollecting(count, from, _chipsIcon.position);
         }
 
-        private IEnumerator IncreaseCounterRoutine(int count)
+        private IEnumerator ChangeCounterRoutine(int count)
         {
-            yield return new WaitUntil(() => _canIncrease);
+            int step = count > _currentCount ? 1 : -1;
 
-            while (_currentCount < count)
+            while (_currentCount != count)
             {
-                _currentCount += 1;
+                _currentCount += step;
                 UpdateView();
 
                 yield return new WaitForSeconds(0.01f);
