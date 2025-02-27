@@ -52,6 +52,7 @@ namespace UI
             if (!_isEnabled) return;
 
             var onCompleted = _magicStickService.PickThree();
+            DisableUntilComplete(onCompleted);
         }
 
         private void DisableUntilComplete(Observable<Unit> onCompleted)

@@ -23,8 +23,6 @@ namespace GameplayServices
             _slotBar = slotBar;
             _cardMatchingService = cardMatchingService;
             _cardLayoutService = cardLayoutService;
-
-            _cardMatchingService.OnCardsRemoved.Subscribe(_ => ShiftCards());
         }
 
         public Observable<Unit> PickThree()
@@ -46,7 +44,7 @@ namespace GameplayServices
                 if (cards.Count == 3) break;
             }
 
-            _cardMatchingService.RemoveCards(cards);
+            _cardMatchingService.RemoveCards(cards).Subscribe(_ => ShiftCards());
 
             return _cardsPickedSubj;
         }
@@ -71,6 +69,8 @@ namespace GameplayServices
 
         private void ShiftCards()
         {
+            Observable<Unit> onCompleted = null;
+
             for (int columnI = 0; columnI < _cardsMap.GetLength(0); columnI++)
             {
                 for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
@@ -82,13 +82,18 @@ namespace GameplayServices
 
                         if (nextCard == null) break;
 
-                        MoveCard(nextCard, new Vector2Int(columnI, cardI)).Subscribe(_ =>
-                        {
-                            _cardsPickedSubj.OnNext(Unit.Default);
-                        });
+                        onCompleted = MoveCard(nextCard, new Vector2Int(columnI, cardI));
                     }
                 }
             }
+
+            if (onCompleted == null)
+                _cardsPickedSubj.OnNext(Unit.Default);
+            else
+                onCompleted.Subscribe(_ =>
+                {
+                    _cardsPickedSubj.OnNext(Unit.Default);
+                });
         }
 
         private Card GetNextCard(int columnI, int currentCardI)

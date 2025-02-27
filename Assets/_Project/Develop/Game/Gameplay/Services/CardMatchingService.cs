@@ -33,14 +33,15 @@ namespace GameplayServices
             RemoveTripleCards(slotsBySuitMap);
         }
 
-        public Observable<List<RemovedCard>> RemoveCards(List<Card> cards)
+        public Observable<Unit> RemoveCards(List<Card> cards)
         {
             var removedCards = new List<RemovedCard>();
+            Observable<Unit> onCompleted = null;
 
             foreach (var card in cards)
             {
                 removedCards.Add(new RemovedCard(card.Rank, card.Coordinates, card.Position));
-                card.Destroy();
+                onCompleted = card.Destroy();
             }
 
             foreach (var slot in _slots)
@@ -49,10 +50,8 @@ namespace GameplayServices
                     slot.Release();
             }
 
-            if (removedCards.Count > 0)
-                _cardRemovedSubj.OnNext(removedCards);
-
-            return OnCardsRemoved;
+            _cardRemovedSubj.OnNext(removedCards);
+            return onCompleted;
         }
 
         private void RemoveTripleCards<TKey>(Dictionary<TKey, List<Slot>> map)

@@ -81,13 +81,17 @@ namespace Gameplay
             _view.Disable();
         }
 
-        public void Destroy()
+        public Observable<Unit> Destroy()
         {
             IsDestroyed = true;
-            _view.Destroy().Subscribe(_ => 
+            var onDestroyed = _view.Destroy();
+
+            onDestroyed.Subscribe(_ =>
             {
                 Object.Destroy(_view.gameObject);
             });
+
+            return onDestroyed;
         }
 
         private void Pick()
