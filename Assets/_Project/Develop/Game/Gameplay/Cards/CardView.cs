@@ -1,14 +1,9 @@
 using DG.Tweening;
 using R3;
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
-using Utils;
 
 namespace Gameplay
 {
@@ -35,7 +30,6 @@ namespace Gameplay
 
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _flipSpeed;
-        [SerializeField] private float _destroyingDuration;
 
         private Sprite _faceSprite;
         private Sprite _backSprite;
@@ -127,18 +121,6 @@ namespace Gameplay
             return CurrentAnimationDelayedCall();
         }
 
-        public void SetOpenView()
-        {
-            _rankView.gameObject.SetActive(true);
-            _spriteView.sprite = _faceSprite;
-        }
-
-        public void SetCloseView()
-        {
-            _rankView.gameObject.SetActive(false);
-            _spriteView.sprite = _backSprite;
-        }
-
         public void PutDown()
         {
             gameObject.SetActive(true);
@@ -148,6 +130,11 @@ namespace Gameplay
         public void Disable()
         {
             gameObject.SetActive(false);
+        }
+
+        public void Explode()
+        {
+            _animator.SetTrigger("Explosing");
         }
 
         public Observable<Unit> Destroy()
@@ -168,6 +155,25 @@ namespace Gameplay
             });
 
             return animationCompletedSubj;
+        }
+
+        // Invoked from animations.
+        public void SetOpenView()
+        {
+            _rankView.gameObject.SetActive(true);
+            _spriteView.sprite = _faceSprite;
+        }
+
+        public void SetCloseView()
+        {
+            _rankView.gameObject.SetActive(false);
+            _spriteView.sprite = _backSprite;
+        }
+
+        public void RotateToRandomAngle(float duration)
+        {
+            var angle = Random.Range(-15f, 15f);
+            transform.DORotate(new Vector3(0f, 0f, angle), duration, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
         }
     }
 }
