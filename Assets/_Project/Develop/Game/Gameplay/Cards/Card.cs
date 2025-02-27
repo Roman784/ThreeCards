@@ -81,6 +81,12 @@ namespace Gameplay
             _view.Disable();
         }
 
+        public Observable<Unit> Explode()
+        {
+            IsDestroyed = true;
+            return _view.Explode();
+        }
+
         public Observable<Unit> Destroy()
         {
             IsDestroyed = true;
@@ -96,7 +102,7 @@ namespace Gameplay
 
         private void Pick()
         {
-            if (IsClosed || IsPlaced) return;
+            if (IsClosed || IsPlaced || IsDestroyed) return;
             _cardPlacingService.PlaceCard(this);
         }
     }

@@ -62,9 +62,11 @@ namespace UI
             _levelProgress.InitProgressBar(totalCardCount, cardMatchingService);
         }
 
-        public void SetToolsServcies(FieldShufflingService fieldShufflingService, MagicStickService magicStickService)
+        public void SetToolsServcies(FieldShufflingService fieldShufflingService, 
+                                     MagicStickService magicStickService,
+                                     LevelRestarterService levelRestarterService)
         {
-            _gameplayTools.Init(fieldShufflingService, magicStickService);
+            _gameplayTools.Init(fieldShufflingService, magicStickService, levelRestarterService);
         }
 
         public void EnableTools()

@@ -633,7 +633,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _duration: 1
-  _strength: 0.5
+  _strength: 0.2
   _vibrato: 3
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

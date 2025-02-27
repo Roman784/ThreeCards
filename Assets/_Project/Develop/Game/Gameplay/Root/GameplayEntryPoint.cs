@@ -7,6 +7,7 @@ using UnityEngine;
 using Zenject;
 using R3;
 using Utils;
+using CameraUtils;
 
 namespace GameplayRoot
 {
@@ -18,6 +19,7 @@ namespace GameplayRoot
         private ISettingsProvider _settingsProvider;
         private SlotBar _slotBar;
         private CardFactory _cardFactory;
+        private ShakyCamera _shakyCamera;
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
@@ -25,7 +27,8 @@ namespace GameplayRoot
                                GameplayUI gameplayUI,
                                ISettingsProvider settingsProvider,
                                SlotBar slotBar,
-                               CardFactory cardFactory)
+                               CardFactory cardFactory,
+                               ShakyCamera shakyCamera)
         {
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
@@ -33,6 +36,7 @@ namespace GameplayRoot
             _settingsProvider = settingsProvider;
             _slotBar = slotBar;
             _cardFactory = cardFactory;
+            _shakyCamera = shakyCamera;
         }
 
         public void Run(GameplayEnterParams enterParams)
@@ -67,6 +71,7 @@ namespace GameplayRoot
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(cardsMap, _slotBar, cardFlippingService);
                 var magicStickService = new MagicStickService(cardsMap, _slotBar, cardMatchingService, cardLayoutService);
+                var levelRestarterService = new LevelRestarterService(enterParams, cardsMap, _shakyCamera);
                 var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
@@ -76,7 +81,7 @@ namespace GameplayRoot
                 _gameplayUI.InitProgressBar(totalCardCount, cardMatchingService);
                 _gameplayUI.InitChips(cardMatchingService);
 
-                _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService);
+                _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
                 layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
             });
         }

@@ -678,8 +678,10 @@ GameObject:
   m_Component:
   - component: {fileID: 2372601246234210951}
   - component: {fileID: 2954828279295611968}
+  - component: {fileID: 1755006296565578476}
+  - component: {fileID: 626527343293856149}
   m_Layer: 5
-  m_Name: Restart
+  m_Name: RestartLevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -724,7 +726,7 @@ MonoBehaviour:
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
+  m_Transition: 0
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -751,7 +753,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 7353159919111808588}
         m_TargetAssemblyTypeName: UI.GameplayToolsView, Assembly-CSharp
-        m_MethodName: ShuffleField
+        m_MethodName: RestartLevel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -761,6 +763,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1755006296565578476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433598491488490353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7764fdbdc8e0e9d4492e75bb5cc3534b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 7751481758591521621}
+  _zoomScale: 1.15
+  _duration: 0.2
+  _ease: 27
+--- !u!114 &626527343293856149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2433598491488490353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a3844c2ce9e384dac980e3c5f1999a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _image: {fileID: 8187884033968197247}
+  _duration: 0.25
+  _fadeValue: 0.9
 --- !u!1 &2551180840359086545
 GameObject:
   m_ObjectHideFlags: 0
@@ -1664,8 +1697,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shuffleIconView: {fileID: 2092286439014618457}
   _shuffleCostView: {fileID: 837512031641190657}
-  _magicStickView: {fileID: 8885109985729156186}
+  _magicStickIconView: {fileID: 8885109985729156186}
   _magicStickCostView: {fileID: 2021048457953877430}
+  _restartLevelIconView: {fileID: 626527343293856149}
 --- !u!1 &6315772762016847819
 GameObject:
   m_ObjectHideFlags: 0

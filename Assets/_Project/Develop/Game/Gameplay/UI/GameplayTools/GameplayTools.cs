@@ -14,6 +14,7 @@ namespace UI
 
         private FieldShufflingService _fieldShufflingService;
         private MagicStickService _magicStickService;
+        private LevelRestarterService _levelRestarterService;
         private ToolsSettings _toolsSettings;
         private ChipsCounter _chipsCounter;
 
@@ -36,10 +37,13 @@ namespace UI
             _view.OnRestartLevel += () => RestartLevel();
         }
 
-        public void Init(FieldShufflingService fieldShufflingService, MagicStickService magicStickService)
+        public void Init(FieldShufflingService fieldShufflingService, 
+                         MagicStickService magicStickService,
+                         LevelRestarterService levelRestarterService)
         {
             _fieldShufflingService = fieldShufflingService;
             _magicStickService = magicStickService;
+            _levelRestarterService = levelRestarterService;
         }
 
         public void Enable()
@@ -78,7 +82,10 @@ namespace UI
 
         private void RestartLevel()
         {
+            if (!_isEnabled) return;
 
+            var onCompleted = _levelRestarterService.Restart();
+            DisableUntilComplete(onCompleted);
         }
 
         private void DisableUntilComplete(Observable<Unit> onCompleted)
