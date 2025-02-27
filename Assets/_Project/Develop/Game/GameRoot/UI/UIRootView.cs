@@ -1,25 +1,36 @@
+using R3;
+using System.Collections;
 using UnityEngine;
 
 namespace UI
 {
     public class UIRootView : MonoBehaviour
     {
-        [SerializeField] private GameObject _loadingScreen;
+        [SerializeField] private LoadingScreen _loadingScreen;
         [SerializeField] private Transform _uiSceneContainer;
 
-        private void Awake()
+        public IEnumerator ShowLoadingScreen()
         {
-            HideLoadingScreen();
+            bool completed = false;
+
+            _loadingScreen.Show().Subscribe(_ =>
+            {
+                completed = true;
+            });
+
+            yield return new WaitUntil(() => completed);
         }
 
-        public void ShowLoadingScreen()
+        public IEnumerator HideLoadingScreen()
         {
-            _loadingScreen.SetActive(true);
-        }
+            bool completed = false;
 
-        public void HideLoadingScreen()
-        {
-            _loadingScreen.SetActive(false);
+            _loadingScreen.Hide().Subscribe(_ =>
+            {
+                completed = true;
+            });
+
+            yield return new WaitUntil(() => completed);
         }
 
         public void AttachSceneUI(GameObject sceneUI)

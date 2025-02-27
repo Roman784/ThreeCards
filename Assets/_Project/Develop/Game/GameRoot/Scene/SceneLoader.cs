@@ -2,6 +2,7 @@ using BonusWhirlpoolRoot;
 using GameplayRoot;
 using LevelMenuRoot;
 using System.Collections;
+using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
@@ -10,6 +11,13 @@ namespace GameRoot
 {
     public class SceneLoader
     {
+        private UIRootView _ui;
+
+        public SceneLoader()
+        {
+            _ui = Object.FindObjectOfType<UIRootView>();
+        }
+
         public void LoadAndRunGameplay(GameplayEnterParams enterParams)
         {
             Coroutines.StartRoutine(LoadAndRunGameplayRoutine(enterParams));
@@ -27,29 +35,41 @@ namespace GameRoot
 
         private IEnumerator LoadAndRunGameplayRoutine(GameplayEnterParams enterParams)
         {
+            yield return _ui?.ShowLoadingScreen();
+
             yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(Scenes.GAMEPLAY);
 
             var sceneEntryPoint = Object.FindObjectOfType<GameplayEntryPoint>();
             sceneEntryPoint.Run(enterParams);
+
+            yield return _ui?.HideLoadingScreen();
         }
 
         private IEnumerator LoadAndRunLevelMenuRoutine(LevelMenuEnterParams enterParams)
         {
+            yield return _ui?.ShowLoadingScreen();
+
             yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(Scenes.LEVEL_MENU);
 
             var sceneEntryPoint = Object.FindObjectOfType<LevelMenuEntryPoint>();
             sceneEntryPoint.Run(enterParams);
+
+            yield return _ui?.HideLoadingScreen();
         }
 
         private IEnumerator LoadAndRunBonusWhirlpoolRoutine(BonusWhirlpoolEnterParams enterParams)
         {
+            yield return _ui?.ShowLoadingScreen();
+
             yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(Scenes.BONUS_WHIRLPOOL);
 
             var sceneEntryPoint = Object.FindObjectOfType<BonusWhirlpoolEntryPoint>();
             sceneEntryPoint.Run(enterParams);
+
+            yield return _ui?.HideLoadingScreen();
         }
 
         private IEnumerator LoadSceneRoutine(string sceneName)
