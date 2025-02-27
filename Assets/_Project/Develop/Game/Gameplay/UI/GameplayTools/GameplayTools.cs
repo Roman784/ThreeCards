@@ -27,7 +27,9 @@ namespace UI
         public void BindView(GameplayToolsView view)
         {
             _view = view;
+
             _view.Disable();
+            _view.SetCosts(_toolsSettings.FieldShufflingCost, _toolsSettings.MagicStickCost);
 
             _view.OnShuffleField += () => ShuffleField();
             _view.OnPickThree += () => PickThree();

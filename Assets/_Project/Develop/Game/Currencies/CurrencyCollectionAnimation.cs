@@ -32,6 +32,8 @@ namespace Currencies
 
         public Observable<Unit> StartCollecting(int count, Vector3 from, Vector3 to)
         {
+            _collectedSubj = new();
+
             StartCoroutine(CollectionRoutine(count, from, to));
 
             return OnCollected;
@@ -77,6 +79,7 @@ namespace Currencies
         {
             _currenciesPool.ReleaseInstance(instance);
             _collectedSubj.OnNext(Unit.Default);
+            _collectedSubj.OnCompleted();
 
             if (remaining <= 0)
                 _allCollectedSubj.OnNext(Unit.Default);
