@@ -54,7 +54,6 @@ namespace GameplayRoot
                 var cardMarkingService = new CardMarkingService();
 
                 var cardsMap = cardLayoutService.SetUp(layout);
-                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
                 cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
                 // Animations.
@@ -68,6 +67,7 @@ namespace GameplayRoot
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(cardsMap, _slotBar, cardFlippingService);
                 var magicStickService = new MagicStickService(cardsMap, _slotBar, cardMatchingService, cardLayoutService);
+                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();

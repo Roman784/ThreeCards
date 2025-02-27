@@ -132,9 +132,10 @@ namespace Gameplay
             gameObject.SetActive(false);
         }
 
-        public void Explode()
+        public Observable<Unit> Explode()
         {
             _animator.SetTrigger("Explosing");
+            return CurrentAnimationDelayedCall();
         }
 
         public Observable<Unit> Destroy()

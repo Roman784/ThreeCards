@@ -11,14 +11,18 @@ namespace UI
         [SerializeField] private FadeImage _shuffleIconView;
         [SerializeField] private TMP_Text _shuffleCostView;
 
-        [SerializeField] private FadeImage _magicStickView;
+        [SerializeField] private FadeImage _magicStickIconView;
         [SerializeField] private TMP_Text _magicStickCostView;
+
+        [SerializeField] private FadeImage _restartLevelIconView;
 
         public event Action OnShuffleField;
         public event Action OnPickThree;
+        public event Action OnRestartLevel;
 
         public void ShuffleField() => OnShuffleField?.Invoke();
         public void PickThree() => OnPickThree?.Invoke();
+        public void RestartLevel() => OnRestartLevel?.Invoke();
 
         public void SetCosts(int shuffleCost, int magicStickCost)
         {
@@ -29,13 +33,15 @@ namespace UI
         public void Enable()
         {
             _shuffleIconView.FadeIn();
-            _magicStickView.FadeIn();
+            _magicStickIconView.FadeIn();
+            _restartLevelIconView.FadeIn();
         }
 
         public void Disable()
         {
             _shuffleIconView.FadeOut();
-            _magicStickView.FadeOut();
+            _magicStickIconView.FadeOut();
+            _restartLevelIconView.FadeOut();
         }
     }
 }

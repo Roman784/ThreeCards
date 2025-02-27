@@ -1,3 +1,4 @@
+using CameraUtils;
 using Gameplay;
 using GameplayServices;
 using GameState;
@@ -10,12 +11,14 @@ namespace GameplayInstallers
     public class GameplayInstaller : MonoInstaller
     {
         [SerializeField] private SlotBar _slotBar;
+        [SerializeField] private ShakyCamera _shakyCamera;
 
         public override void InstallBindings()
         {
             BindUI();
             BindFactories();
             BindSlotBar();
+            BindCamera();
         }
 
         private void BindUI()
@@ -39,6 +42,11 @@ namespace GameplayInstallers
         private void BindSlotBar()
         {
             Container.Bind<SlotBar>().FromInstance(_slotBar).AsSingle();
+        }
+
+        private void BindCamera()
+        {
+            Container.Bind<ShakyCamera>().FromInstance(_shakyCamera).AsSingle();
         }
     }
 }

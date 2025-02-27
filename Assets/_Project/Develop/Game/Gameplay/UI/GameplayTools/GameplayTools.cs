@@ -33,6 +33,7 @@ namespace UI
 
             _view.OnShuffleField += () => ShuffleField();
             _view.OnPickThree += () => PickThree();
+            _view.OnRestartLevel += () => RestartLevel();
         }
 
         public void Init(FieldShufflingService fieldShufflingService, MagicStickService magicStickService)
@@ -73,6 +74,11 @@ namespace UI
 
             var onCompleted = _magicStickService.PickThree();
             DisableUntilComplete(onCompleted);
+        }
+
+        private void RestartLevel()
+        {
+
         }
 
         private void DisableUntilComplete(Observable<Unit> onCompleted)
