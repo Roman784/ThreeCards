@@ -11,12 +11,7 @@ namespace GameRoot
 {
     public class SceneLoader
     {
-        private UIRootView _ui;
-
-        public SceneLoader()
-        {
-            _ui = Object.FindObjectOfType<UIRootView>();
-        }
+        private UIRootView UI => Object.FindObjectOfType<UIRootView>();
 
         public void LoadAndRunGameplay(GameplayEnterParams enterParams)
         {
@@ -35,7 +30,7 @@ namespace GameRoot
 
         private IEnumerator LoadAndRunGameplayRoutine(GameplayEnterParams enterParams)
         {
-            yield return _ui?.ShowLoadingScreen();
+            yield return UI?.ShowLoadingScreen();
 
             yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(Scenes.GAMEPLAY);
@@ -43,12 +38,12 @@ namespace GameRoot
             var sceneEntryPoint = Object.FindObjectOfType<GameplayEntryPoint>();
             sceneEntryPoint.Run(enterParams);
 
-            yield return _ui?.HideLoadingScreen();
+            yield return UI?.HideLoadingScreen();
         }
 
         private IEnumerator LoadAndRunLevelMenuRoutine(LevelMenuEnterParams enterParams)
         {
-            yield return _ui?.ShowLoadingScreen();
+            yield return UI?.ShowLoadingScreen();
 
             yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(Scenes.LEVEL_MENU);
@@ -56,12 +51,12 @@ namespace GameRoot
             var sceneEntryPoint = Object.FindObjectOfType<LevelMenuEntryPoint>();
             sceneEntryPoint.Run(enterParams);
 
-            yield return _ui?.HideLoadingScreen();
+            yield return UI?.HideLoadingScreen();
         }
 
         private IEnumerator LoadAndRunBonusWhirlpoolRoutine(BonusWhirlpoolEnterParams enterParams)
         {
-            yield return _ui?.ShowLoadingScreen();
+            yield return UI?.ShowLoadingScreen();
 
             yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(Scenes.BONUS_WHIRLPOOL);
@@ -69,7 +64,7 @@ namespace GameRoot
             var sceneEntryPoint = Object.FindObjectOfType<BonusWhirlpoolEntryPoint>();
             sceneEntryPoint.Run(enterParams);
 
-            yield return _ui?.HideLoadingScreen();
+            yield return UI?.HideLoadingScreen();
         }
 
         private IEnumerator LoadSceneRoutine(string sceneName)

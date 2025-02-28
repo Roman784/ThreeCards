@@ -15,5 +15,7 @@ public class ImageScroller : MonoBehaviour
 
 
     private void Update()
-        => _image.uvRect = new Rect(_image.uvRect.position + new Vector2(-_xDirection * _scrollSpeed, _yDirection * _scrollSpeed) * Time.deltaTime / 10, _image.uvRect.size);
+    { 
+        _image.uvRect = new Rect(new Vector2(-_xDirection * _scrollSpeed, _yDirection * _scrollSpeed) * Time.time / 10, _image.uvRect.size);
+    }
 }
