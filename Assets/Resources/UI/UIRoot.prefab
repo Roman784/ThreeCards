@@ -114,7 +114,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _panel: {fileID: 3758146152164562141}
-  _duration: 0.5
+  _showDuration: 0.5
+  _hideDuration: 0.25
 --- !u!1 &4489308113942658640
 GameObject:
   m_ObjectHideFlags: 0
@@ -331,7 +332,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1000
   m_TargetDisplay: 0
 --- !u!114 &1351524059597645157
 MonoBehaviour:

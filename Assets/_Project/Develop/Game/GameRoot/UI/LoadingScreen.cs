@@ -9,7 +9,8 @@ namespace UI
     public class LoadingScreen : MonoBehaviour
     {
         [SerializeField] private CanvasGroup _panel;
-        [SerializeField] private float _duration;
+        [SerializeField] private float _showDuration;
+        [SerializeField] private float _hideDuration;
 
         public Observable<Unit> Show()
         {
@@ -17,7 +18,7 @@ namespace UI
 
             _panel.gameObject.SetActive(true);
             _panel.alpha = 0f;
-            _panel.DOFade(1f, _duration).SetEase(Ease.OutExpo).OnComplete(() => 
+            _panel.DOFade(1f, _showDuration).SetEase(Ease.OutExpo).OnComplete(() => 
             {
                 completedSubj.OnNext(Unit.Default);
                 completedSubj.OnCompleted();
@@ -32,7 +33,7 @@ namespace UI
 
             _panel.gameObject.SetActive(true);
             _panel.alpha = 1f;
-            _panel.DOFade(0f, _duration).SetEase(Ease.InExpo).OnComplete(() =>
+            _panel.DOFade(0f, _hideDuration).SetEase(Ease.InExpo).OnComplete(() =>
             {
                 completedSubj.OnNext(Unit.Default);
                 completedSubj.OnCompleted();

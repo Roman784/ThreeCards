@@ -6,6 +6,7 @@ using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
+using R3;
 
 namespace GameRoot
 {
@@ -36,7 +37,7 @@ namespace GameRoot
             yield return LoadSceneRoutine(Scenes.GAMEPLAY);
 
             var sceneEntryPoint = Object.FindObjectOfType<GameplayEntryPoint>();
-            sceneEntryPoint.Run(enterParams);
+            yield return sceneEntryPoint.Run(enterParams);
 
             yield return UI?.HideLoadingScreen();
         }

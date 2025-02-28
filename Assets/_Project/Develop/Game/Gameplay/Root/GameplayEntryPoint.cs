@@ -8,6 +8,7 @@ using Zenject;
 using R3;
 using Utils;
 using CameraUtils;
+using System.Collections;
 
 namespace GameplayRoot
 {
@@ -39,8 +40,10 @@ namespace GameplayRoot
             _shakyCamera = shakyCamera;
         }
 
-        public void Run(GameplayEnterParams enterParams)
+        public IEnumerator Run(GameplayEnterParams enterParams)
         {
+            var isLoaded = false;
+
             _gameStateProvider.LoadGameState().Subscribe(_ => 
             {
                 // Settings data.
@@ -83,7 +86,11 @@ namespace GameplayRoot
 
                 _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
                 layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
+
+                isLoaded = true;
             });
+
+            yield return new WaitUntil(() => isLoaded);
         }
     }
 }
