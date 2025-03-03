@@ -30,7 +30,7 @@ namespace GameplayServices
                     onCompleted = card.Explode();
             }
 
-            onCompleted?.Subscribe(_ =>
+            (onCompleted ?? Observable.Return(Unit.Default)).Subscribe(_ =>
             {
                 var sceneLoader = new SceneLoader();
                 sceneLoader.LoadAndRunGameplay(_gameplayEnterParams);

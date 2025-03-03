@@ -9,10 +9,11 @@ using R3;
 using Utils;
 using CameraUtils;
 using System.Collections;
+using GameRoot;
 
 namespace GameplayRoot
 {
-    public class GameplayEntryPoint : MonoBehaviour
+    public class GameplayEntryPoint : SceneEntryPoint
     {
         private IGameStateProvider _gameStateProvider;
         private UIRootView _uiRoot;
@@ -40,7 +41,12 @@ namespace GameplayRoot
             _shakyCamera = shakyCamera;
         }
 
-        public IEnumerator Run(GameplayEnterParams enterParams)
+        public override IEnumerator Run<T>(T enterParams)
+        {
+            yield return Run(enterParams.As<GameplayEnterParams>());
+        }
+
+        private IEnumerator Run(GameplayEnterParams enterParams)
         {
             var isLoaded = false;
 
@@ -60,11 +66,14 @@ namespace GameplayRoot
                 var cardLayoutService = new CardLayoutService(layouts, _cardFactory, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
 
+                var onCardPlaced = cardPlacingService.OnCardPlaced;
+                var onCardsRemoved = cardMatchingService.OnCardsRemoved;
+
                 var cardsMap = cardLayoutService.SetUp(layout);
                 cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
                 // Animations.
-                var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, cardPlacingService, cardMatchingService);
+                var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, onCardPlaced, onCardsRemoved);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
 

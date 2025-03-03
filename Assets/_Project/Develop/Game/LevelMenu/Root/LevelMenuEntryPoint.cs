@@ -1,13 +1,19 @@
-using R3;
-using UnityEngine;
+using GameplayRoot;
+using GameRoot;
+using System.Collections;
 
 namespace LevelMenuRoot
 {
-    public class LevelMenuEntryPoint : MonoBehaviour
+    public class LevelMenuEntryPoint : SceneEntryPoint
     {
-        public void Run(LevelMenuEnterParams enterParams)
+        public override IEnumerator Run<T>(T enterParams)
         {
-            Debug.Log("LevelMenu scene loaded");
+            yield return Run(enterParams.As<LevelMenuEnterParams>());
+        }
+
+        private IEnumerator Run(LevelMenuEnterParams enterParams)
+        {
+            yield return null;
         }
     }
 }

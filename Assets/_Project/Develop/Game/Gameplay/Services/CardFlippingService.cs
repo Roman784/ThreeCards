@@ -1,6 +1,7 @@
 using Gameplay;
 using R3;
 using System.Collections.Generic;
+using static GameplayServices.CardMatchingService;
 
 namespace GameplayServices
 {
@@ -10,13 +11,13 @@ namespace GameplayServices
         private SlotBar _slotBar;
 
         public CardFlippingService(Card[,] cardsMap, SlotBar slotBar, 
-                                   CardPlacingService cardPlacingService, CardMatchingService cardMatchingService)
+                                   Observable<Card> onCardPlaced, Observable<List<RemovedCard>> onCardsRemoved)
         {
             _cardsMap = cardsMap;
             _slotBar = slotBar;
 
-            cardPlacingService.OnCardPlaced.Subscribe(card => OpenNextCard(card));
-            cardMatchingService.OnCardsRemoved.Subscribe(_ => OpenFirstCards());
+            onCardPlaced.Subscribe(card => OpenNextCard(card));
+            onCardsRemoved.Subscribe(_ => OpenFirstCards());
         }
 
         public Observable<Unit> OpenFirstCards()

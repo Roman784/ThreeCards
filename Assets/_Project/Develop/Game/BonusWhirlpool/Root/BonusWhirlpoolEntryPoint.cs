@@ -1,13 +1,18 @@
-using R3;
-using UnityEngine;
+using GameRoot;
+using System.Collections;
 
 namespace BonusWhirlpoolRoot
 {
-    public class BonusWhirlpoolEntryPoint : MonoBehaviour
+    public class BonusWhirlpoolEntryPoint : SceneEntryPoint
     {
-        public void Run(BonusWhirlpoolEnterParams enterParams)
+        public override IEnumerator Run<T>(T enterParams)
         {
-            Debug.Log("BonusWhirlpool scene loaded");
+            yield return Run(enterParams.As<BonusWhirlpoolEnterParams>());
+        }
+
+        private IEnumerator Run(BonusWhirlpoolEnterParams enterParams)
+        {
+            yield return null;
         }
     }
 }
