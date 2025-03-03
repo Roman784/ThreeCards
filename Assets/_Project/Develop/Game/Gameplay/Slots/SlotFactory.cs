@@ -14,6 +14,11 @@ namespace GameplayServices
             return slot;
         }
 
+        public Slot Create(SlotView view)
+        {
+            return new Slot(view);
+        }
+
         public Slot Create(Vector2 position)
         {
             Slot slot = Create();

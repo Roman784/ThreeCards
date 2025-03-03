@@ -13,5 +13,10 @@ namespace Gameplay
         {
             transform.position = position;
         }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
+        }
     }
 }

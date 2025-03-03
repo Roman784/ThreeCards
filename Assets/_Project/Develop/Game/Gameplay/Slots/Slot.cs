@@ -9,10 +9,12 @@ namespace Gameplay
 
         public bool HasCard { get; private set; }
         public Card Card { get; private set; }
+        public bool IsDestroyed { get; private set; }
 
         public Slot(SlotView view)
         {
             View = view;
+            IsDestroyed = false;
         }
 
         public Observable<Unit> PlaceCard(Card card)
@@ -36,6 +38,12 @@ namespace Gameplay
         public void SetPosition(Vector3 position)
         {
             View.SetPosition(position);
+        }
+
+        public void Destroy()
+        {
+            IsDestroyed = true;
+            View.Destroy();
         }
     }
 }

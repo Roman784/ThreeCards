@@ -10,17 +10,23 @@ namespace Gameplay
     {
         [SerializeField] private float _spacing;
 
+        [SerializeField] private BonusSlotView _bonusSlotView;
+        private Slot _bonusSlot;
+
         private SlotsSettings _slotsSettings;
         private SlotFactory _slotFactory;
 
         private List<Slot> _slots = new();
         public IEnumerable<Slot> Slots => _slots;
+        public BonusSlotView BonusSlotView => _bonusSlotView;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, SlotFactory slotFactory)
         {
             _slotsSettings = settingsProvider.GameSettings.SlotsSettings;
             _slotFactory = slotFactory;
+
+            _bonusSlot = _slotFactory.Create(_bonusSlotView);
         }
 
         public bool ContainsCard(Card card)
@@ -40,25 +46,38 @@ namespace Gameplay
                 CreateSlot();
             }
 
-            ArrangeSlots();
-
             return _slots;
+        }
+
+        public void CreateBonusSlot()
+        {
+            if (_bonusSlot.IsDestroyed) return;
+
+            _bonusSlot.Destroy();
+            CreateSlot();
         }
 
         private void CreateSlot()
         {
             var newSlot = _slotFactory.Create();
             _slots.Add(newSlot);
+
+            ArrangeSlots();
         }
 
         private void ArrangeSlots()
         {
-            var totalWidth = (_slots.Count - 1) * _spacing;
+            var slots = new List<Slot>(_slots);
+
+            if (!_bonusSlot.IsDestroyed)
+                slots.Add(_bonusSlot);
+
+            var totalWidth = (slots.Count - 1) * _spacing;
             var startX = -totalWidth / 2f;
 
-            for (int i = 0; i < _slots.Count; i++)
+            for (int i = 0; i < slots.Count; i++)
             {
-                var slot = _slots[i];
+                var slot = slots[i];
                 var position = new Vector3(startX + _spacing * i, transform.position.y, transform.position.z);
 
                 slot.SetParent(transform);

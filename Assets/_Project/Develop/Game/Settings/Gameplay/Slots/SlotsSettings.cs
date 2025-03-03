@@ -6,5 +6,6 @@ namespace Settings
     public class SlotsSettings : ScriptableObject
     {
         [field: SerializeField] public int Count {  get; private set; }
+        [field: SerializeField] public int BonusSlotCost { get; private set; }
     }
 }

@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SlotsSettings
   m_EditorClassIdentifier: 
   <Count>k__BackingField: 5
+  <BonusSlotCost>k__BackingField: 100

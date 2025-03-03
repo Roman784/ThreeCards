@@ -1,4 +1,5 @@
 using Currencies;
+using Gameplay;
 using GameplayServices;
 using GameState;
 using Settings;
@@ -16,23 +17,23 @@ namespace UI
         private LevelProgress _levelProgress;
         private ChipsCounter _chipsCounter;
         private GameplayTools _gameplayTools;
-
-        private GameSessionStateProvider _gameSessionStateProvider;
+        private SlotBar _slotBar;
+        private ISettingsProvider _settingsProvider;
 
         [Inject]
-        private void Construct(LevelProgress levelProgress, ChipsCounter chipsCounter, GameplayTools gameplayTools)
+        private void Construct(LevelProgress levelProgress, 
+                               ChipsCounter chipsCounter, 
+                               GameplayTools gameplayTools, 
+                               SlotBar slotBar,
+                               ISettingsProvider settingsProvider)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
             _gameplayTools = gameplayTools;
-        }
+            _slotBar = slotBar;
+            _settingsProvider = settingsProvider;
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                _gameSessionStateProvider.SetLastState();
-            }
+            _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
 
         public void BindViews()
@@ -40,11 +41,6 @@ namespace UI
             _levelProgress.BindView(_levelProgressView);
             _chipsCounter.BindView(_chipsCounterView);
             _gameplayTools.BindView(_gameplayToolsView);
-        }
-
-        public void SetGameSessionStateProvider(GameSessionStateProvider gameSessionStateProvider)
-        {
-            _gameSessionStateProvider = gameSessionStateProvider;
         }
 
         public void InitChips(CardMatchingService cardMatchingService)
@@ -77,6 +73,16 @@ namespace UI
         public void DisableTools()
         {
             _gameplayTools.Disable();
+        }
+
+        public void CreateBonusSlot()
+        {
+            var cost = _settingsProvider.GameSettings.SlotsSettings.BonusSlotCost;
+
+            if (_chipsCounter.Count < cost) return;
+            _chipsCounter.Reduce(cost);
+
+            _slotBar.CreateBonusSlot();
         }
     }
 }

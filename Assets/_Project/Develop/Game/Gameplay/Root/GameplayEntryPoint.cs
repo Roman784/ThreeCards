@@ -77,9 +77,6 @@ namespace GameplayRoot
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
 
-                // Game session state.
-                // var gameSessionStateProvider = new GameSessionStateProvider(cardsMap, slots, cardPlacingService, cardMatchingService);
-
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(cardsMap, _slotBar, cardFlippingService);
                 var magicStickService = new MagicStickService(cardsMap, _slotBar, cardMatchingService, cardLayoutService);
