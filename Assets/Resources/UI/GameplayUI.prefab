@@ -901,11 +901,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 8513360922795731440}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -18, y: 3}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -55.5, y: 3}
   m_SizeDelta: {x: 75, y: 75}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7341896051524814499
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1773,9 +1773,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shuffleIconView: {fileID: 2092286439014618457}
   _shuffleCostView: {fileID: 837512031641190657}
+  _shuffleChipsIconView: {fileID: 7452198590238657129}
   _magicStickIconView: {fileID: 8885109985729156186}
   _magicStickCostView: {fileID: 2021048457953877430}
+  _magicStickChipsIconView: {fileID: 3617091046358389121}
   _restartLevelIconView: {fileID: 626527343293856149}
+  _byeEffectPrefab: {fileID: 3424086959015458363, guid: 2b4040ba9c1859947975b579bc1fb237, type: 3}
 --- !u!1 &6315772762016847819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2955,11 +2958,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 970777653087427636}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -18, y: 3}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -55.5, y: 3}
   m_SizeDelta: {x: 75, y: 75}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &9206063685938022141
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -67,6 +67,8 @@ namespace UI
 
             var onCompleted = _fieldShufflingService.Shuffle();
             DisableUntilComplete(onCompleted);
+
+            _view.CreateShufflingPurchaseEffect();
         }
 
         private void PickThree()
@@ -78,6 +80,8 @@ namespace UI
 
             var onCompleted = _magicStickService.PickThree();
             DisableUntilComplete(onCompleted);
+
+            _view.CreateMagicStickPurchaseEffect();
         }
 
         private void RestartLevel()
