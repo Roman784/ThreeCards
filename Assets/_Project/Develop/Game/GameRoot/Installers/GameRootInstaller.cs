@@ -1,4 +1,6 @@
 using Currencies;
+using Gameplay;
+using GameplayServices;
 using GameState;
 using Settings;
 using UI;
@@ -36,6 +38,14 @@ namespace GameRootInstallers
         {
             UIRootView uiRootPrefab = Resources.Load<UIRootView>("UI/UIRoot");
             Container.Bind<UIRootView>().FromComponentInNewPrefab(uiRootPrefab).AsSingle();
+
+            BindPopUps();
+        }
+
+        private void BindPopUps()
+        {
+            SettingsPopUp settingsPopUpPrefab = Resources.Load<SettingsPopUp>("UI/PopUps/SettingsPopUp");
+            Container.BindFactory<SettingsPopUp, SettingsPopUp.Factory>().FromComponentInNewPrefab(settingsPopUpPrefab);
         }
     }
 }

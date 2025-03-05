@@ -8,6 +8,9 @@ namespace UI
     {
         [SerializeField] private LoadingScreen _loadingScreen;
         [SerializeField] private Transform _uiSceneContainer;
+        [SerializeField] private PopUpsRoot _popUpsRoot;
+
+        public PopUpsRoot PopUpsRoot => _popUpsRoot;
 
         public IEnumerator ShowLoadingScreen()
         {
@@ -35,16 +38,16 @@ namespace UI
 
         public void AttachSceneUI(GameObject sceneUI)
         {
-            ClearSceneUI();
+            ClearContainer(_uiSceneContainer);
             sceneUI.transform.SetParent(_uiSceneContainer, false);
         }
 
-        private void ClearSceneUI()
+        private void ClearContainer(Transform container)
         {
-            var childCount = _uiSceneContainer.childCount;
+            var childCount = container.childCount;
             for (int i = 0; i < childCount; i++)
             {
-                Destroy(_uiSceneContainer.GetChild(i).gameObject);
+                Destroy(container.GetChild(i).gameObject);
             }
         }
     }

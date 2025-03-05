@@ -501,7 +501,7 @@ TextureImporter:
         width: 200
         height: 200
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 90, y: 90, z: 90, w: 90}
       outline: []
       physicsShape: []
@@ -509,6 +509,69 @@ TextureImporter:
       bones: []
       spriteID: 4417aa1a4b3c6cf478290b8d67e27919
       internalID: -1086863251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_18
+      rect:
+        serializedVersion: 2
+        x: 525
+        y: 944
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 554de91f437b3844588bd67789e530d7
+      internalID: -1412631604
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_19
+      rect:
+        serializedVersion: 2
+        x: 414
+        y: 944
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d6a86303424bb794b9b9d21972884eee
+      internalID: 1676701197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_20
+      rect:
+        serializedVersion: 2
+        x: 645
+        y: 944
+        width: 84
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8fed6c408f9544f4dbd1f735014be47b
+      internalID: -446089687
       vertices: []
       indices: 
       edges: []
@@ -534,7 +597,10 @@ TextureImporter:
       Sprites_15: -1774159672
       Sprites_16: -940839473
       Sprites_17: -1086863251
+      Sprites_18: -1412631604
+      Sprites_19: 1676701197
       Sprites_2: 1751605367
+      Sprites_20: -446089687
       Sprites_3: 867331234
       Sprites_4: -1892888966
       Sprites_5: -1995358413

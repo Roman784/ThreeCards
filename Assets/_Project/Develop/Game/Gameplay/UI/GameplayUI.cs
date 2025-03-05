@@ -1,7 +1,6 @@
 using Currencies;
 using Gameplay;
 using GameplayServices;
-using GameState;
 using Settings;
 using UnityEngine;
 using Zenject;
@@ -20,18 +19,23 @@ namespace UI
         private SlotBar _slotBar;
         private ISettingsProvider _settingsProvider;
 
+        private SettingsPopUp _settingsPopUp;
+        private SettingsPopUp.Factory _settingsPopUpFactory;
+
         [Inject]
         private void Construct(LevelProgress levelProgress, 
                                ChipsCounter chipsCounter, 
                                GameplayTools gameplayTools, 
                                SlotBar slotBar,
-                               ISettingsProvider settingsProvider)
+                               ISettingsProvider settingsProvider,
+                               SettingsPopUp.Factory settingsPopUpFactory)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
             _gameplayTools = gameplayTools;
             _slotBar = slotBar;
             _settingsProvider = settingsProvider;
+            _settingsPopUpFactory = settingsPopUpFactory;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -41,6 +45,14 @@ namespace UI
             _levelProgress.BindView(_levelProgressView);
             _chipsCounter.BindView(_chipsCounterView);
             _gameplayTools.BindView(_gameplayToolsView);
+        }
+
+        public void OpenSettings()
+        {
+            if (_settingsPopUp == null)
+                _settingsPopUp = _settingsPopUpFactory.Create();
+
+            _settingsPopUp.Open();
         }
 
         public void InitChips(CardMatchingService cardMatchingService)
