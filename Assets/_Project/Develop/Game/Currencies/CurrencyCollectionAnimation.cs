@@ -79,7 +79,6 @@ namespace Currencies
         {
             _currenciesPool.ReleaseInstance(instance);
             _collectedSubj.OnNext(Unit.Default);
-            _collectedSubj.OnCompleted();
 
             if (remaining <= 0)
                 _allCollectedSubj.OnNext(Unit.Default);

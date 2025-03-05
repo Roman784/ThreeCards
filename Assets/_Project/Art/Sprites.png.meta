@@ -496,13 +496,13 @@ TextureImporter:
       name: Sprites_17
       rect:
         serializedVersion: 2
-        x: 733
-        y: 353
-        width: 60
-        height: 60
+        x: 793
+        y: 503
+        width: 200
+        height: 200
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 90, y: 90, z: 90, w: 90}
       outline: []
       physicsShape: []
       tessellationDetail: 0

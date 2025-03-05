@@ -22,8 +22,6 @@ namespace Currencies
         private void Awake()
         {
             _camera = Camera.main;
-
-            _collectionAnimation.OnCollected.Subscribe(_ => _pulsationAnimator.Pulse(_chipsIcon) );
         }
 
         public void SetCurrentCount(int count)
@@ -45,7 +43,9 @@ namespace Currencies
             from = _camera.WorldToScreenPoint(from);
             count = count / 3;
 
-            return _collectionAnimation.StartCollecting(count, from, _chipsIcon.position);
+            var onCollected = _collectionAnimation.StartCollecting(count, from, _chipsIcon.position);
+            onCollected.Subscribe(_ => _pulsationAnimator.Pulse(_chipsIcon));
+            return onCollected;
         }
 
         private IEnumerator ChangeCounterRoutine(int count)
