@@ -1,39 +1,86 @@
 using DG.Tweening;
+using R3;
 using UnityEngine;
-using Zenject;
 
 namespace UI
 {
     public class PopUp : MonoBehaviour
     {
         [SerializeField] private Transform _view;
-        [SerializeField] private float _rotationDuration;
+        [SerializeField] private float _rotationDuration = 0.2f;
 
         private PopUpsRoot _root;
+        private PopUp _previousPopUp;
 
-        public void SetRoot(PopUpsRoot root)
+        private void Awake()
+        {
+            _view.gameObject.SetActive(false);
+        }
+
+        public void Init(PopUpsRoot root, PopUp previousPopUp = null)
         {
             _root = root;
+            _previousPopUp = previousPopUp;
         }
 
         public void Open()
         {
-            _root.FadeScreen();
+            _root.PushPopUp(this);
 
-            _view.gameObject.SetActive(true);
-            _view.DORotate(new Vector3(0, -90, 0), 0);
-            _view.DORotate(new Vector3(0, 0, 0), _rotationDuration).SetEase(Ease.InOutQuad);
+            if (_previousPopUp == null)
+                _root.FadeScreen();
+
+            (_previousPopUp?.RotateToClose() ?? Observable.Return(Unit.Default)).Subscribe(_ =>
+            {
+                _view.gameObject.SetActive(true);
+                RotateToOpen();
+            });
         }
 
         public void Close()
         {
-            _root.AppearScreen();
+            _root.RemoveLastPopUp();
 
-            _view.DORotate(new Vector3(0, 0, 0), 0);
-            _view.DORotate(new Vector3(0, -90, 0), _rotationDuration).SetEase(Ease.InOutQuad).OnComplete(() =>
+            if (_previousPopUp == null)
+                _root.AppearScreen();
+
+            RotateToClose().Subscribe(_ =>
             {
                 _view.gameObject.SetActive(false);
+
+                if (_previousPopUp != null)
+                    _previousPopUp.RotateToOpen();
             });
+        }
+
+        public Observable<Unit> RotateToOpen()
+        {
+            var from = new Vector3(0, -90, 0);
+            var to = new Vector3(0, 0, 0);
+
+            return Rotate(from, to);
+        }
+
+        public Observable<Unit> RotateToClose()
+        {
+            var from = new Vector3(0, 0, 0);
+            var to = new Vector3(0, -90, 0);
+
+            return Rotate(from, to);
+        }
+
+        private Observable<Unit> Rotate(Vector3 from, Vector3 to)
+        {
+            var onRotated = new Subject<Unit>();
+
+            _view.rotation = Quaternion.Euler(from);
+            _view.DORotate(to, _rotationDuration).SetEase(Ease.InOutQuad).OnComplete(() =>
+            {
+                onRotated.OnNext(Unit.Default);
+                onRotated.OnCompleted();
+            });
+
+            return onRotated;
         }
     }
 }

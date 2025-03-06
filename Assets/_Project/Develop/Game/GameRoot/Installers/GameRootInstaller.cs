@@ -46,6 +46,9 @@ namespace GameRootInstallers
         {
             SettingsPopUp settingsPopUpPrefab = Resources.Load<SettingsPopUp>("UI/PopUps/SettingsPopUp");
             Container.BindFactory<SettingsPopUp, SettingsPopUp.Factory>().FromComponentInNewPrefab(settingsPopUpPrefab);
+
+            GameRulesPopUp gameRulesPopUpPrefab = Resources.Load<GameRulesPopUp>("UI/PopUps/GameRulesPopUp");
+            Container.BindFactory<GameRulesPopUp, GameRulesPopUp.Factory>().FromComponentInNewPrefab(gameRulesPopUpPrefab);
         }
     }
 }

@@ -15,9 +15,10 @@ namespace UI
         public new virtual T Create()
         {
             var root = _uiRoot.PopUpsRoot;
-            T popUp = base.Create();
+            var previousPopUp = root.LastPopUp;
 
-            popUp.SetRoot(root);
+            T popUp = base.Create();
+            popUp.Init(root, previousPopUp);
             root.AttachPopUp(popUp);
 
             return popUp;

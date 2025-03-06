@@ -7,9 +7,9 @@ namespace ScriptAnimations
     public class ZoomOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private Transform _target;
-        [SerializeField] private float _zoomScale;
-        [SerializeField] private float _duration;
-        [SerializeField] private Ease _ease;
+        [SerializeField] private float _zoomScale = 1.15f;
+        [SerializeField] private float _duration = 0.2f;
+        [SerializeField] private Ease _ease = Ease.OutBack;
 
         private Vector3 _initialScale;
 
