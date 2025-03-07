@@ -1,7 +1,9 @@
 using Currencies;
 using Gameplay;
 using GameplayServices;
+using R3;
 using Settings;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -22,13 +24,17 @@ namespace UI
         private SettingsPopUp _settingsPopUp;
         private SettingsPopUp.Factory _settingsPopUpFactory;
 
+        private AdvertisingChipsPopUp _advertisingChipsPopUp;
+        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+
         [Inject]
         private void Construct(LevelProgress levelProgress, 
                                ChipsCounter chipsCounter, 
                                GameplayTools gameplayTools, 
                                SlotBar slotBar,
                                ISettingsProvider settingsProvider,
-                               SettingsPopUp.Factory settingsPopUpFactory)
+                               SettingsPopUp.Factory settingsPopUpFactory,
+                               AdvertisingChipsPopUp.Factory advertisingChipsPopUpFactroy)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
@@ -36,6 +42,7 @@ namespace UI
             _slotBar = slotBar;
             _settingsProvider = settingsProvider;
             _settingsPopUpFactory = settingsPopUpFactory;
+            _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -55,9 +62,9 @@ namespace UI
             _settingsPopUp.Open();
         }
 
-        public void InitChips(CardMatchingService cardMatchingService)
+        public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
         {
-            _chipsCounter.InitChips(cardMatchingService);
+            _chipsCounter.InitChips(onCardsRemoved);
         }
 
         public void SetLevelNumber(int levelNumber)
@@ -65,9 +72,9 @@ namespace UI
             _levelProgress.SetLevelNumber(levelNumber);
         }
 
-        public void InitProgressBar(int totalCardCount, CardMatchingService cardMatchingService)
+        public void InitProgressBar(int totalCardCount, Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
         {
-            _levelProgress.InitProgressBar(totalCardCount, cardMatchingService);
+            _levelProgress.InitProgressBar(totalCardCount, onCardsRemoved);
         }
 
         public void SetToolsServcies(FieldShufflingService fieldShufflingService, 
@@ -91,10 +98,26 @@ namespace UI
         {
             var cost = _settingsProvider.GameSettings.SlotsSettings.BonusSlotCost;
 
-            if (_chipsCounter.Count < cost) return;
+            if (!CheckCost(cost)) return;
             _chipsCounter.Reduce(cost);
 
             _slotBar.CreateBonusSlot();
+        }
+
+        private bool CheckCost(int cost)
+        {
+            if (_chipsCounter.Count >= cost) return true;
+
+            OpenAdvertisingChipsPopUp();
+            return false;
+        }
+
+        private void OpenAdvertisingChipsPopUp()
+        {
+            if (_advertisingChipsPopUp == null)
+                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
+
+            _advertisingChipsPopUp.Open();
         }
     }
 }

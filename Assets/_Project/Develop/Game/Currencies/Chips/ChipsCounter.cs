@@ -4,35 +4,42 @@ using R3;
 using UnityEngine;
 using GameplayServices;
 using Gameplay;
+using System.Collections.Generic;
+using UI;
 
 namespace Currencies
 {
     public class ChipsCounter
     {
-        private int _chipsCount = new();
-        private IGameStateProvider _gameStateProvider;
-
+        private int _chipsCount;
         private ChipsCounterView _view;
+
+        private IGameStateProvider _gameStateProvider;
+        private AdvertisingChipsPopUp _advertisingChipsPopUp;
+        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
 
         public int Count => _chipsCount;
 
         [Inject]
-        private void Construct(IGameStateProvider gameStateProvider)
+        private void Construct(IGameStateProvider gameStateProvider, AdvertisingChipsPopUp.Factory advertisingChipsPopUpFactroy)
         {
             _gameStateProvider = gameStateProvider;
+            _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
         }
 
         public void BindView(ChipsCounterView view)
         {
             _view = view;
+
+            _view.OnGetAdvertisingChips += () => OpenAdvertisingChipsPopUp();
         }
 
-        public void InitChips(CardMatchingService cardMatchingService)
+        public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
         {
             _chipsCount = _gameStateProvider.GameState.Chips.Value;
             _view?.SetCurrentCount(_chipsCount);
 
-            cardMatchingService.OnCardsRemoved.Subscribe(removedCards =>
+            onCardsRemoved.Subscribe(removedCards =>
             {
                 foreach (var card in removedCards)
                 {
@@ -53,6 +60,18 @@ namespace Currencies
             _view?.ChangeCounter(_chipsCount);
         }
 
+        public void Add(int value, bool changeView = true, bool instantly = true)
+        {
+            _chipsCount += value;
+            _gameStateProvider.GameState.Chips.Value = _chipsCount;
+
+            if (changeView)
+                if (instantly)
+                    _view?.SetCurrentCount(_chipsCount);
+                else
+                    _view?.ChangeCounter(_chipsCount);
+        }
+
         private void Add(int value, Vector3 initialColectionPosition)
         {
             Add(value, false);
@@ -62,13 +81,12 @@ namespace Currencies
             });
         }
 
-        private void Add(int value, bool changeView = true)
+        private void OpenAdvertisingChipsPopUp()
         {
-            _chipsCount += value;
-            _gameStateProvider.GameState.Chips.Value = _chipsCount;
+            if (_advertisingChipsPopUp == null)
+                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
 
-            if (changeView)
-                _view?.SetCurrentCount(_chipsCount);
+            _advertisingChipsPopUp.Open();
         }
     }
 }

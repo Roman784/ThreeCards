@@ -18,11 +18,17 @@ namespace UI
         private ToolsSettings _toolsSettings;
         private ChipsCounter _chipsCounter;
 
+        private AdvertisingChipsPopUp _advertisingChipsPopUp;
+        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+
         [Inject]
-        private void Construct(ISettingsProvider settingsProvider, ChipsCounter chipsCounter)
+        private void Construct(ISettingsProvider settingsProvider, 
+                               ChipsCounter chipsCounter, 
+                               AdvertisingChipsPopUp.Factory advertistingChipsPopUpFactory)
         {
             _toolsSettings = settingsProvider.GameSettings.ToolsSettings;
             _chipsCounter = chipsCounter;
+            _advertisingChipsPopUpFactroy = advertistingChipsPopUpFactory;
         }
 
         public void BindView(GameplayToolsView view)
@@ -62,7 +68,7 @@ namespace UI
         {
             if (!_isEnabled) return;
 
-            if (_chipsCounter.Count < _toolsSettings.FieldShufflingCost) return;
+            if (!CheckCost(_toolsSettings.FieldShufflingCost)) return;
             _chipsCounter.Reduce(_toolsSettings.FieldShufflingCost);
 
             var onCompleted = _fieldShufflingService.Shuffle();
@@ -75,7 +81,7 @@ namespace UI
         {
             if (!_isEnabled) return;
 
-            if (_chipsCounter.Count < _toolsSettings.MagicStickCost) return;
+            if (!CheckCost(_toolsSettings.MagicStickCost)) return;
             _chipsCounter.Reduce(_toolsSettings.MagicStickCost);
 
             var onCompleted = _magicStickService.PickThree();
@@ -99,6 +105,22 @@ namespace UI
                 Disable();
                 onCompleted.Subscribe(_ => Enable());
             }
+        }
+
+        private bool CheckCost(int cost)
+        {
+            if (_chipsCounter.Count >= cost) return true;
+
+            OpenAdvertisingChipsPopUp();
+            return false;
+        }
+
+        private void OpenAdvertisingChipsPopUp()
+        {
+            if (_advertisingChipsPopUp == null)
+                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
+
+            _advertisingChipsPopUp.Open();
         }
     }
 }

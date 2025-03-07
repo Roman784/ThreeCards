@@ -2,6 +2,7 @@ using GameplayServices;
 using System;
 using R3;
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace UI
 {
@@ -22,12 +23,12 @@ namespace UI
             _view.SetLevelNumber(levelNumber);
         }
 
-        public void InitProgressBar(int totalCardCount, CardMatchingService cardMatchingService)
+        public void InitProgressBar(int totalCardCount, Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
         {
             _totalCardCount = totalCardCount;
             _currentCardCount = totalCardCount;
 
-            cardMatchingService.OnCardsRemoved.Subscribe(removedCards =>
+            onCardsRemoved.Subscribe(removedCards =>
             {
                 _currentCardCount -= removedCards.Count;
                 if (_currentCardCount < 0) _currentCardCount = 0;

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using Utils;
 using R3;
+using System;
 
 namespace Currencies
 {
@@ -18,6 +19,8 @@ namespace Currencies
         private Coroutine _increaseCounterRoutine;
 
         private Camera _camera;
+
+        public event Action OnGetAdvertisingChips;
 
         private void Awake()
         {
@@ -36,6 +39,11 @@ namespace Currencies
                 Coroutines.StopRoutine(_increaseCounterRoutine);
 
             _increaseCounterRoutine = Coroutines.StartRoutine(ChangeCounterRoutine(count));
+        }
+
+        public void GetAdvertisingChips()
+        {
+            OnGetAdvertisingChips?.Invoke();
         }
 
         public Observable<Unit> AnimateCollection(int count, Vector3 from)
