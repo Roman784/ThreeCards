@@ -19,30 +19,27 @@ namespace UI
         private ChipsCounter _chipsCounter;
         private GameplayTools _gameplayTools;
         private SlotBar _slotBar;
-        private ISettingsProvider _settingsProvider;
 
         private SettingsPopUp _settingsPopUp;
         private SettingsPopUp.Factory _settingsPopUpFactory;
 
-        private AdvertisingChipsPopUp _advertisingChipsPopUp;
-        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+        private BonusSlotPopUp _bonusSlotPopUp;
+        private BonusSlotPopUp.Factory _bonusSlotPopUpfactory;
 
         [Inject]
-        private void Construct(LevelProgress levelProgress, 
-                               ChipsCounter chipsCounter, 
-                               GameplayTools gameplayTools, 
+        private void Construct(LevelProgress levelProgress,
+                               ChipsCounter chipsCounter,
+                               GameplayTools gameplayTools,
                                SlotBar slotBar,
-                               ISettingsProvider settingsProvider,
                                SettingsPopUp.Factory settingsPopUpFactory,
-                               AdvertisingChipsPopUp.Factory advertisingChipsPopUpFactroy)
+                               BonusSlotPopUp.Factory bonusSlotPopUpFactory)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
             _gameplayTools = gameplayTools;
             _slotBar = slotBar;
-            _settingsProvider = settingsProvider;
             _settingsPopUpFactory = settingsPopUpFactory;
-            _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
+            _bonusSlotPopUpfactory = bonusSlotPopUpFactory;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -96,28 +93,10 @@ namespace UI
 
         public void CreateBonusSlot()
         {
-            var cost = _settingsProvider.GameSettings.SlotsSettings.BonusSlotCost;
+            if (_bonusSlotPopUp == null)
+                _bonusSlotPopUp = _bonusSlotPopUpfactory.Create();
 
-            if (!CheckCost(cost)) return;
-            _chipsCounter.Reduce(cost);
-
-            _slotBar.CreateBonusSlot();
-        }
-
-        private bool CheckCost(int cost)
-        {
-            if (_chipsCounter.Count >= cost) return true;
-
-            OpenAdvertisingChipsPopUp();
-            return false;
-        }
-
-        private void OpenAdvertisingChipsPopUp()
-        {
-            if (_advertisingChipsPopUp == null)
-                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
-
-            _advertisingChipsPopUp.Open();
+            _bonusSlotPopUp.Open();
         }
     }
 }

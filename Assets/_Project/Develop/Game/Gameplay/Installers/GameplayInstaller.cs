@@ -28,6 +28,14 @@ namespace GameplayInstallers
 
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<GameplayTools>().AsSingle();
+
+            BindPopUps();
+        }
+
+        private void BindPopUps()
+        {
+            var bonusSlotPopUpPrefab = Resources.Load<BonusSlotPopUp>("UI/PopUps/BonusSlotPopUp");
+            Container.BindFactory<BonusSlotPopUp, BonusSlotPopUp.Factory>().FromComponentInNewPrefab(bonusSlotPopUpPrefab);
         }
 
         private void BindFactories()
