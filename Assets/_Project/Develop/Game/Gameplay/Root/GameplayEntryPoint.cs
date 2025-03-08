@@ -61,19 +61,23 @@ namespace GameplayRoot
                 var slots = _slotBar.CreateSlots();
 
                 // Cards setup.
-                var cardMatchingService = new CardMatchingService(slots);
-                var cardPlacingService = new CardPlacingService(slots, cardMatchingService);
+                var cardPlacingService = new CardPlacingService(slots);
+                var onCardPlaced = cardPlacingService.OnCardPlaced;
+                var onCardReadyToPlaced = cardPlacingService.OnCardReadyToPlaced;
+
+                var cardMatchingService = new CardMatchingService(slots, onCardPlaced);
+                var onCardsRemoved = cardMatchingService.OnCardsRemoved;
+
+                onCardsRemoved.Subscribe(_ => cardPlacingService.ShiftCards());
+
                 var cardLayoutService = new CardLayoutService(layouts, _cardFactory, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
-
-                var onCardPlaced = cardPlacingService.OnCardPlaced;
-                var onCardsRemoved = cardMatchingService.OnCardsRemoved;
 
                 var cardsMap = cardLayoutService.SetUp(layout);
                 cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
 
                 // Animations.
-                var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, onCardPlaced, onCardsRemoved);
+                var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, onCardReadyToPlaced, onCardsRemoved);
                 var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
                 var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
 
@@ -92,6 +96,13 @@ namespace GameplayRoot
 
                 _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
                 layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
+
+                // Winning and losing.
+                onCardPlaced.Subscribe(_ => 
+                {
+                    if (!_slotBar.HasEmptySlots())
+                        _gameplayUI.CreateGameOverPopUp();
+                });
 
                 isLoaded = true;
             });

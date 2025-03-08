@@ -23,7 +23,7 @@ namespace UI
             _previousPopUp = previousPopUp;
         }
 
-        public void Open()
+        public virtual void Open()
         {
             _root.PushPopUp(this);
 
@@ -37,7 +37,7 @@ namespace UI
             });
         }
 
-        public void Close()
+        public virtual void Close()
         {
             _root.RemoveLastPopUp();
 

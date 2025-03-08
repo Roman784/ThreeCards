@@ -19,6 +19,7 @@ namespace Gameplay
         private List<Slot> _slots = new();
         public IEnumerable<Slot> Slots => _slots;
         public BonusSlotView BonusSlotView => _bonusSlotView;
+        public bool IsBonusSlotCreated => _bonusSlot.IsDestroyed;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, SlotFactory slotFactory)
@@ -51,10 +52,21 @@ namespace Gameplay
 
         public void CreateBonusSlot()
         {
-            if (_bonusSlot.IsDestroyed) return;
+            if (IsBonusSlotCreated) return;
 
             _bonusSlot.Destroy();
             CreateSlot();
+        }
+
+        public bool HasEmptySlots()
+        {
+            foreach (var slot in _slots)
+            {
+                if (!slot.HasCard)
+                    return true;
+            }
+
+            return false;
         }
 
         private void CreateSlot()

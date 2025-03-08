@@ -64,38 +64,44 @@ namespace UI
             _view.Disable();
         }
 
-        private void ShuffleField()
+        public bool ShuffleField()
         {
-            if (!_isEnabled) return;
+            if (!_isEnabled) return false;
 
-            if (!CheckCost(_toolsSettings.FieldShufflingCost)) return;
+            if (!CheckCost(_toolsSettings.FieldShufflingCost)) return false;
             _chipsCounter.Reduce(_toolsSettings.FieldShufflingCost);
 
             var onCompleted = _fieldShufflingService.Shuffle();
             DisableUntilComplete(onCompleted);
 
             _view.CreateShufflingPurchaseEffect();
+
+            return true;
         }
 
-        private void PickThree()
+        public bool PickThree()
         {
-            if (!_isEnabled) return;
+            if (!_isEnabled) return false;
 
-            if (!CheckCost(_toolsSettings.MagicStickCost)) return;
+            if (!CheckCost(_toolsSettings.MagicStickCost)) return false;
             _chipsCounter.Reduce(_toolsSettings.MagicStickCost);
 
             var onCompleted = _magicStickService.PickThree();
             DisableUntilComplete(onCompleted);
 
             _view.CreateMagicStickPurchaseEffect();
+
+            return true;
         }
 
-        private void RestartLevel()
+        public bool RestartLevel()
         {
-            if (!_isEnabled) return;
+            if (!_isEnabled) return false;
 
             var onCompleted = _levelRestarterService.Restart();
             DisableUntilComplete(onCompleted);
+
+            return true;
         }
 
         private void DisableUntilComplete(Observable<Unit> onCompleted)

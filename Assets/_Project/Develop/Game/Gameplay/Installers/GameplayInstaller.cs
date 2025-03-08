@@ -36,6 +36,9 @@ namespace GameplayInstallers
         {
             var bonusSlotPopUpPrefab = Resources.Load<BonusSlotPopUp>("UI/PopUps/BonusSlotPopUp");
             Container.BindFactory<BonusSlotPopUp, BonusSlotPopUp.Factory>().FromComponentInNewPrefab(bonusSlotPopUpPrefab);
+
+            var gameOverPopUp = Resources.Load<GameOverPopUp>("UI/PopUps/GameOverPopUp");
+            Container.BindFactory<GameOverPopUp, GameOverPopUp.Factory>().FromComponentInNewPrefab(gameOverPopUp);
         }
 
         private void BindFactories()

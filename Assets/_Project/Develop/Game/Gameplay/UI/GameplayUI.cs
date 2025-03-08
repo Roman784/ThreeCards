@@ -26,13 +26,19 @@ namespace UI
         private BonusSlotPopUp _bonusSlotPopUp;
         private BonusSlotPopUp.Factory _bonusSlotPopUpfactory;
 
+        private GameOverPopUp _gameOverPopUp;
+        private GameOverPopUp.Factory _gameOverPopUpFactory;
+
+        public GameplayTools GameplayTools => _gameplayTools;
+
         [Inject]
         private void Construct(LevelProgress levelProgress,
                                ChipsCounter chipsCounter,
                                GameplayTools gameplayTools,
                                SlotBar slotBar,
                                SettingsPopUp.Factory settingsPopUpFactory,
-                               BonusSlotPopUp.Factory bonusSlotPopUpFactory)
+                               BonusSlotPopUp.Factory bonusSlotPopUpFactory,
+                               GameOverPopUp.Factory gameOverPopUpFactory)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
@@ -40,6 +46,7 @@ namespace UI
             _slotBar = slotBar;
             _settingsPopUpFactory = settingsPopUpFactory;
             _bonusSlotPopUpfactory = bonusSlotPopUpFactory;
+            _gameOverPopUpFactory = gameOverPopUpFactory;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -97,6 +104,14 @@ namespace UI
                 _bonusSlotPopUp = _bonusSlotPopUpfactory.Create();
 
             _bonusSlotPopUp.Open();
+        }
+
+        public void CreateGameOverPopUp()
+        {
+            if (_gameOverPopUp == null)
+                _gameOverPopUp = _gameOverPopUpFactory.Create();
+
+            _gameOverPopUp.Open();
         }
     }
 }

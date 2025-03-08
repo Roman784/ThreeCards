@@ -2,7 +2,6 @@ using Gameplay;
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
-using static GameplayServices.CardMatchingService;
 
 namespace GameplayServices
 {
@@ -13,9 +12,11 @@ namespace GameplayServices
         private Subject<List<RemovedCard>> _cardRemovedSubj = new();
         public Observable<List<RemovedCard>> OnCardsRemoved => _cardRemovedSubj;
 
-        public CardMatchingService(List<Slot> slots)
+        public CardMatchingService(List<Slot> slots, Observable<Card> onCardPlaced)
         {
             _slots = slots;
+
+            onCardPlaced.Subscribe(_ => Match());
         }
 
         public void Match()

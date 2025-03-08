@@ -11,12 +11,12 @@ namespace GameplayServices
         private SlotBar _slotBar;
 
         public CardFlippingService(Card[,] cardsMap, SlotBar slotBar, 
-                                   Observable<Card> onCardPlaced, Observable<List<RemovedCard>> onCardsRemoved)
+                                   Observable<Card> onCardReadyToPlaced, Observable<List<RemovedCard>> onCardsRemoved)
         {
             _cardsMap = cardsMap;
             _slotBar = slotBar;
 
-            onCardPlaced.Subscribe(card => OpenNextCard(card));
+            onCardReadyToPlaced.Subscribe(card => OpenNextCard(card));
             onCardsRemoved.Subscribe(_ => OpenFirstCards());
         }
 

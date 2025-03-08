@@ -3,6 +3,7 @@ using Gameplay;
 using R3;
 using System.Collections.Generic;
 using Utils;
+using static GameplayServices.CardMatchingService;
 
 namespace GameplayServices
 {
@@ -14,15 +15,14 @@ namespace GameplayServices
         private CardMatchingService _matchingService;
 
         private Subject<Card> _cardPlacedSub = new();
+        private Subject<Card> _cardReadyToPlacedSub = new();
         public Observable<Card> OnCardPlaced => _cardPlacedSub;
+        public Observable<Card> OnCardReadyToPlaced => _cardReadyToPlacedSub;
 
-        public CardPlacingService(List<Slot> slots, CardMatchingService matchingService)
+        public CardPlacingService(List<Slot> slots)
         {
             _slots = slots;
             _canPlaceCard = true;
-            _matchingService = matchingService;
-
-            _matchingService.OnCardsRemoved.Subscribe(_ => ShiftCards());
         }
 
         public void PlaceCard(Card card)
@@ -35,15 +35,15 @@ namespace GameplayServices
                 {
                     slot.PlaceCard(card).Subscribe(_ =>
                     {
-                        _matchingService.Match();
+                        _cardPlacedSub.OnNext(card);
                     });
-                    _cardPlacedSub.OnNext(card);
+                    _cardReadyToPlacedSub.OnNext(card);
                     break;
                 }
             }
         }
 
-        private void ShiftCards()
+        public void ShiftCards()
         {
             _canPlaceCard = false;
 
