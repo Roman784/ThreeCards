@@ -58,11 +58,22 @@ namespace Gameplay
             CreateSlot();
         }
 
-        public bool HasEmptySlots()
+        public bool HasEmptySlot()
         {
             foreach (var slot in _slots)
             {
                 if (!slot.HasCard)
+                    return true;
+            }
+
+            return false;
+        }
+
+        public bool HasAnyCard()
+        {
+            foreach (var slot in _slots)
+            {
+                if (slot.HasCard)
                     return true;
             }
 

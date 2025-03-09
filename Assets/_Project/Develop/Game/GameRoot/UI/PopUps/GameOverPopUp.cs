@@ -46,9 +46,9 @@ namespace UI
             _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
         }
 
-        public override void Open()
+        public override void Open(bool fadeScreen = true)
         {
-            base.Open();
+            base.Open(fadeScreen);
             _bonusSlotView.SetActive(!_slotBar.IsBonusSlotCreated);
         }
 

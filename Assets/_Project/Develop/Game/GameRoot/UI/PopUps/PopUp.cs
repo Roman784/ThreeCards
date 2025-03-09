@@ -23,11 +23,11 @@ namespace UI
             _previousPopUp = previousPopUp;
         }
 
-        public virtual void Open()
+        public virtual void Open(bool fadeScreen = true)
         {
             _root.PushPopUp(this);
 
-            if (_previousPopUp == null)
+            if (_previousPopUp == null && fadeScreen)
                 _root.FadeScreen();
 
             (_previousPopUp?.RotateToClose() ?? Observable.Return(Unit.Default)).Subscribe(_ =>
@@ -37,11 +37,11 @@ namespace UI
             });
         }
 
-        public virtual void Close()
+        public virtual void Close(bool appearScreen = true)
         {
             _root.RemoveLastPopUp();
 
-            if (_previousPopUp == null)
+            if (_previousPopUp == null && appearScreen)
                 _root.AppearScreen();
 
             RotateToClose().Subscribe(_ =>
@@ -50,7 +50,14 @@ namespace UI
 
                 if (_previousPopUp != null)
                     _previousPopUp.RotateToOpen();
+
+                Destroy();
             });
+        }
+
+        public void Destroy()
+        {
+            Destroy(gameObject);
         }
 
         public Observable<Unit> RotateToOpen()

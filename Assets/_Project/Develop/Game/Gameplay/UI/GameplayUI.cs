@@ -1,5 +1,6 @@
 using Currencies;
 using Gameplay;
+using GameplayRoot;
 using GameplayServices;
 using R3;
 using Settings;
@@ -29,6 +30,9 @@ namespace UI
         private GameOverPopUp _gameOverPopUp;
         private GameOverPopUp.Factory _gameOverPopUpFactory;
 
+        private LevelCompletionPopUp _levelCompletionPopUp;
+        private LevelCompletionPopUp.Factory _levelCompletionPopUpFactory;
+
         public GameplayTools GameplayTools => _gameplayTools;
 
         [Inject]
@@ -38,7 +42,8 @@ namespace UI
                                SlotBar slotBar,
                                SettingsPopUp.Factory settingsPopUpFactory,
                                BonusSlotPopUp.Factory bonusSlotPopUpFactory,
-                               GameOverPopUp.Factory gameOverPopUpFactory)
+                               GameOverPopUp.Factory gameOverPopUpFactory,
+                               LevelCompletionPopUp.Factory levelCompletionPopUpFactory)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
@@ -47,6 +52,7 @@ namespace UI
             _settingsPopUpFactory = settingsPopUpFactory;
             _bonusSlotPopUpfactory = bonusSlotPopUpFactory;
             _gameOverPopUpFactory = gameOverPopUpFactory;
+            _levelCompletionPopUpFactory = levelCompletionPopUpFactory;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -112,6 +118,14 @@ namespace UI
                 _gameOverPopUp = _gameOverPopUpFactory.Create();
 
             _gameOverPopUp.Open();
+        }
+
+        public void CreateLevelCompletionPopUp(GameplayEnterParams enterParams)
+        {
+            if (_levelCompletionPopUp == null)
+                _levelCompletionPopUp = _levelCompletionPopUpFactory.Create(enterParams);
+
+            _levelCompletionPopUp.Open();
         }
     }
 }

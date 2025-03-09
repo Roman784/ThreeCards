@@ -30,6 +30,16 @@ namespace UI
             popUp.transform.SetParent(_popUpsContainer, false);
         }
 
+        public void DestroyAllPopUps()
+        {
+            foreach (var popUp in _popUps)
+            {
+                popUp.Destroy();
+            }
+
+            _popUps = new();
+        }
+
         public void PushPopUp(PopUp popUp)
         {
             _popUps.Push(popUp);

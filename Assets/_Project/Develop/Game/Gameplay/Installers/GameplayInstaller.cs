@@ -39,6 +39,9 @@ namespace GameplayInstallers
 
             var gameOverPopUp = Resources.Load<GameOverPopUp>("UI/PopUps/GameOverPopUp");
             Container.BindFactory<GameOverPopUp, GameOverPopUp.Factory>().FromComponentInNewPrefab(gameOverPopUp);
+
+            var levelCompletionPopUp = Resources.Load<LevelCompletionPopUp>("UI/PopUps/LevelCompletionPopUp");
+            Container.BindFactory<LevelCompletionPopUp, LevelCompletionPopUp.Factory>().FromComponentInNewPrefab(levelCompletionPopUp);
         }
 
         private void BindFactories()

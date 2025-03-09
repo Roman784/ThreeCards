@@ -100,14 +100,31 @@ namespace GameplayRoot
                 // Winning and losing.
                 onCardPlaced.Subscribe(_ => 
                 {
-                    if (!_slotBar.HasEmptySlots())
+                    if (!_slotBar.HasEmptySlot())
                         _gameplayUI.CreateGameOverPopUp();
+                });
+
+                onCardsRemoved.Subscribe(_ =>
+                {
+                    if (!_slotBar.HasAnyCard() && !HasCard(cardsMap))
+                        _gameplayUI.CreateLevelCompletionPopUp(enterParams);
                 });
 
                 isLoaded = true;
             });
 
             yield return new WaitUntil(() => isLoaded);
+        }
+
+        private bool HasCard(Card[,] cardsMap)
+        {
+            foreach (var card in cardsMap)
+            {
+                if (card != null && !card.IsDestroyed)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

@@ -40,6 +40,8 @@ namespace UI
         {
             ClearContainer(_uiSceneContainer);
             sceneUI.transform.SetParent(_uiSceneContainer, false);
+
+            _popUpsRoot.DestroyAllPopUps();
         }
 
         private void ClearContainer(Transform container)
