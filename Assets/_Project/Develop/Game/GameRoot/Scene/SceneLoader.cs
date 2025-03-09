@@ -34,7 +34,6 @@ namespace GameRoot
         {
             yield return UI?.ShowLoadingScreen();
 
-            yield return LoadSceneRoutine(Scenes.BOOT);
             yield return LoadSceneRoutine(sceneName);
 
             var sceneEntryPoint = Object.FindObjectOfType<TEntryPoint>();

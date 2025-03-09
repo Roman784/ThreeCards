@@ -49,7 +49,8 @@ namespace GameState
         {
             var gameState = new GameState
             {
-                Chips = 10,
+                Chips = 0,
+                LastPassedLevelNumber = 0,
             };
 
             return new GameStateProxy(gameState, this);

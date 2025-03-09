@@ -3,15 +3,31 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Utils;
-using R3;
 using LevelMenuRoot;
 using BonusWhirlpoolRoot;
+using Zenject;
+using GameState;
+using R3;
+using System;
+using Settings;
 
 namespace GameRoot
 {
-    public class GameEntryPoint
+    public class GameEntryPoint : MonoBehaviour
     {
-        private static GameEntryPoint _instance;
+        private static IGameStateProvider _gameStateProvider;
+        private static ISettingsProvider _settingsProvider;
+
+        private static event Action _onDependenciesInjected;
+
+        [Inject]
+        private void Construct(IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider)
+        {
+            _gameStateProvider = gameStateProvider;
+            _settingsProvider = settingsProvider;
+
+            _onDependenciesInjected?.Invoke();
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutostartGame()
@@ -19,11 +35,21 @@ namespace GameRoot
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            _instance = new GameEntryPoint();
-            _instance.RunGame();
+            RunGame();
         }
 
-        private void RunGame()
+        private static void RunGame()
+        {
+            _onDependenciesInjected += () =>
+            {
+                _gameStateProvider.LoadGameState().Subscribe(_ =>
+                {
+                    LoadScene();
+                });
+            };
+        }
+
+        private static void LoadScene()
         {
             var sceneLoader = new SceneLoader();
 
@@ -32,21 +58,21 @@ namespace GameRoot
 
             if (sceneName == Scenes.GAMEPLAY)
             {
-                var defaultGameplayEnterParams = new GameplayEnterParams(1);
+                var defaultGameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunGameplay(defaultGameplayEnterParams);
                 return;
             }
 
             if (sceneName == Scenes.LEVEL_MENU)
             {
-                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(1);
+                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunLevelMenu(defaultLevelMenuEnterParams);
                 return;
             }
 
             if (sceneName == Scenes.BONUS_WHIRLPOOL)
             {
-                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(1);
+                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunBonusWhirlpool(defaultBonusWhirlpoolEnterParams);
                 return;
             }
@@ -57,10 +83,14 @@ namespace GameRoot
             }
 #endif
 
-            var gameplayEnterParams = new GameplayEnterParams(1);
+            var gameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber());
             sceneLoader.LoadAndRunGameplay(gameplayEnterParams);
         }
 
-        
+        private static int GetCurrentLevelNumber()
+        {
+            var levelNumber = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
+            return _settingsProvider.GameSettings.CardLayoutsSettings.ClampLevelNumber(levelNumber);
+        }
     }
 }

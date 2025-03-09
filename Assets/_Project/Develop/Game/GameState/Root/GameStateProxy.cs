@@ -12,7 +12,7 @@ namespace GameState
         public GameState State => _gameState;
 
         public ReactiveProperty<int> Chips { get; }
-        public ReactiveProperty<GameSessionState> CurrentGameSession { get; }
+        public ReactiveProperty<int> LastPassedLevelNumber { get; }
 
         public GameStateProxy(GameState gameState, IGameStateProvider gameStateProvider)
         {
@@ -20,10 +20,10 @@ namespace GameState
             _gameStateProvider = gameStateProvider;
 
             Chips = new(_gameState.Chips);
-            CurrentGameSession = new(_gameState.CurrentGameSession);
+            LastPassedLevelNumber = new(_gameState.LastPassedLevelNumber);
 
             Chips.Skip(1).Subscribe(value => ChangeChips(value));
-            CurrentGameSession.Skip(1).Subscribe(state => ChangeCurrentGameSession(state));
+            LastPassedLevelNumber.Skip(1).Subscribe(value => ChangeLastPassedLevelNumber(value));
         }
 
         private void ChangeChips(int value)
@@ -32,9 +32,9 @@ namespace GameState
             _gameStateProvider.SaveGameState();
         }
 
-        private void ChangeCurrentGameSession(GameSessionState state)
+        private void ChangeLastPassedLevelNumber(int value)
         {
-            _gameState.CurrentGameSession = state;
+            _gameState.LastPassedLevelNumber = value;
             _gameStateProvider.SaveGameState();
         }
     }

@@ -107,7 +107,14 @@ namespace GameplayRoot
                 onCardsRemoved.Subscribe(_ =>
                 {
                     if (!_slotBar.HasAnyCard() && !HasCard(cardsMap))
-                        _gameplayUI.CreateLevelCompletionPopUp(enterParams);
+                    {
+                        _gameStateProvider.GameState.LastPassedLevelNumber.Value = enterParams.LevelNumber;
+
+                        var nextLevelNumber = _settingsProvider.GameSettings.CardLayoutsSettings.ClampLevelNumber(enterParams.LevelNumber + 1);
+                        var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber);
+
+                        _gameplayUI.CreateLevelCompletionPopUp(nextLevelEnterParams);
+                    }
                 });
 
                 isLoaded = true;

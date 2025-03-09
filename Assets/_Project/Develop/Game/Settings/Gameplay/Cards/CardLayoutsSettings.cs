@@ -29,6 +29,11 @@ namespace Settings
             throw new ArgumentNullException($"The card layout with level number {levelNumber} are not exist.");
         }
 
+        public int ClampLevelNumber(int levelNumber)
+        {
+            return Math.Clamp(levelNumber, 1, CardLayoutSettings.Count);
+        }
+
         public float CalculateColumnSpacing(int columnCount)
         {
             float delta = (MaxColumnSpacing - MinColumnSpacing) / (MaxColumnCount - MinColumnCount);
