@@ -10,7 +10,6 @@ using Utils;
 using CameraUtils;
 using System.Collections;
 using GameRoot;
-using System.Linq;
 
 namespace GameplayRoot
 {
@@ -88,7 +87,7 @@ namespace GameplayRoot
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
                 var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
                 var levelRestarterService = new LevelRestarterService(enterParams, fieldService, _shakyCamera);
-                var totalCardCount = fieldService.Cards.Count();
+                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
