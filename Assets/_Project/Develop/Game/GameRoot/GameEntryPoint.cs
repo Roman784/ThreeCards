@@ -18,7 +18,7 @@ namespace GameRoot
         private static IGameStateProvider _gameStateProvider;
         private static ISettingsProvider _settingsProvider;
 
-        private static event Action _onDependenciesInjected;
+        private static Subject<Unit> _dependenciesInjectedSubj = new();
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider)
@@ -26,7 +26,8 @@ namespace GameRoot
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
 
-            _onDependenciesInjected?.Invoke();
+            _dependenciesInjectedSubj.OnNext(Unit.Default);
+            _dependenciesInjectedSubj.OnCompleted();
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -40,13 +41,9 @@ namespace GameRoot
 
         private static void RunGame()
         {
-            _onDependenciesInjected += () =>
-            {
-                _gameStateProvider.LoadGameState().Subscribe(_ =>
-                {
-                    LoadScene();
-                });
-            };
+            _dependenciesInjectedSubj
+                .SelectMany(_ => _gameStateProvider.LoadGameState())
+                .Subscribe(_ => LoadScene());
         }
 
         private static void LoadScene()

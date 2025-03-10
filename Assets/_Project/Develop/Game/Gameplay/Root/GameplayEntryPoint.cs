@@ -98,40 +98,14 @@ namespace GameplayRoot
                 layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
 
                 // Winning and losing.
-                onCardPlaced.Subscribe(_ => 
-                {
-                    if (!_slotBar.HasEmptySlot())
-                        _gameplayUI.CreateGameOverPopUp();
-                });
-
-                onCardsRemoved.Subscribe(_ =>
-                {
-                    if (!_slotBar.HasAnyCard() && !HasCard(cardsMap))
-                    {
-                        _gameStateProvider.GameState.LastPassedLevelNumber.Value = enterParams.LevelNumber;
-
-                        var nextLevelNumber = _settingsProvider.GameSettings.CardLayoutsSettings.ClampLevelNumber(enterParams.LevelNumber + 1);
-                        var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber);
-
-                        _gameplayUI.CreateLevelCompletionPopUp(nextLevelEnterParams);
-                    }
-                });
+                var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
+                                                                      _gameStateProvider, _settingsProvider,
+                                                                      enterParams, _gameplayUI, _slotBar, cardsMap);
 
                 isLoaded = true;
             });
 
             yield return new WaitUntil(() => isLoaded);
-        }
-
-        private bool HasCard(Card[,] cardsMap)
-        {
-            foreach (var card in cardsMap)
-            {
-                if (card != null && !card.IsDestroyed)
-                    return true;
-            }
-
-            return false;
         }
     }
 }
