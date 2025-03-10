@@ -8,12 +8,12 @@ namespace GameplayServices
 {
     public class FieldAnimationService
     {
-        private Card[,] _cardsMap;
+        private FieldService _fieldService;
         private CardFlippingService _cardFlippingService;
 
-        public FieldAnimationService(Card[,] cardsMap, CardFlippingService cardFlippingService)
+        public FieldAnimationService(FieldService fieldService, CardFlippingService cardFlippingService)
         {
-            _cardsMap = cardsMap;
+            _fieldService = fieldService;
             _cardFlippingService = cardFlippingService;
         }
 
@@ -27,12 +27,12 @@ namespace GameplayServices
 
         private IEnumerator LayOutCardsRoutine(Subject<Unit> completedSubj)
         {
-            for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
+            for (int cardI = 0; cardI < _fieldService.VerticalLength; cardI++)
             {
-                for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
+                for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
                 {
-                    Card card = _cardsMap[colunmI, cardI];
-                    if (card == null) continue;
+                    Card card = _fieldService.GetCard(colunmI, cardI);
+                    if (!_fieldService.IsCardExist(card)) continue;
 
                     card.PutDown();
 

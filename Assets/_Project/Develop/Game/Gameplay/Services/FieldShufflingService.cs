@@ -13,16 +13,14 @@ namespace GameplayServices
         private List<Card> _cards;
         private bool _isShuffling;
 
-        private Card[,] _cardsMap;
-        private SlotBar _slotBar;
+        private FieldService _fieldService;
         private CardFlippingService _cardFlippingService;
 
         private Coroutine _cardsReplacingRoutine;
 
-        public FieldShufflingService(Card[,] cardsMap, SlotBar slotBar, CardFlippingService cardFlippingService)
+        public FieldShufflingService(FieldService fieldService, CardFlippingService cardFlippingService)
         {
-            _cardsMap = cardsMap;
-            _slotBar = slotBar;
+            _fieldService = fieldService;
             _cardFlippingService = cardFlippingService;
         }
 
@@ -56,9 +54,9 @@ namespace GameplayServices
         private void SetCards()
         {
             _cards = new();
-            foreach (var card in _cardsMap)
+            foreach (var card in _fieldService.Cards)
             {
-                if (card != null && !_slotBar.ContainsCard(card) && !card.IsDestroyed)
+                if (_fieldService.IsCardExist(card) && !_fieldService.SlotBar.ContainsCard(card))
                     _cards.Add(card);
             }
         }
@@ -87,8 +85,8 @@ namespace GameplayServices
             var coordinates = card1.Coordinates;
             var position = card1.Position;
 
-            _cardsMap[card2.Coordinates.x, card2.Coordinates.y] = card1;
-            _cardsMap[coordinates.x, coordinates.y] = card2;
+            _fieldService.SetCard(card1, card2.Coordinates);
+            _fieldService.SetCard(card2, coordinates);
 
             card1.SetCoordinates(card2.Coordinates);
             card1.Move(card2.Position, Ease.Flash, moveDuration: 0.1f);

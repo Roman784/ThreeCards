@@ -12,8 +12,6 @@ namespace GameplayServices
         private List<Slot> _slots = new();
         private bool _canPlaceCard;
 
-        private CardMatchingService _matchingService;
-
         private Subject<Card> _cardPlacedSub = new();
         private Subject<Card> _cardReadyToPlacedSub = new();
         public Observable<Card> OnCardPlaced => _cardPlacedSub;

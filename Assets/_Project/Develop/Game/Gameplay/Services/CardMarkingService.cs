@@ -9,7 +9,7 @@ namespace GameplayServices
 {
     public class CardMarkingService
     {
-        private Card[,] _cardsMap;
+        private FieldService _fieldService;
         private Vector2Int _cardSpreadRange;
 
         // This is to alternate the color of the suit.
@@ -20,17 +20,17 @@ namespace GameplayServices
             _isRedSuitOrder = Randomizer.GetRandomValue(true, false);
         }
 
-        public void Mark(Card[,] cardsMap, Vector2Int cardSpreadRange)
+        public void Mark(FieldService fieldService, Vector2Int cardSpreadRange)
         {
-            _cardsMap = cardsMap;
+            _fieldService = fieldService;
             _cardSpreadRange = cardSpreadRange;
 
-            for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
+            for (int cardI = 0; cardI < _fieldService.VerticalLength; cardI++)
             {
-                for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
+                for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
                 {
-                    Card card = _cardsMap[colunmI, cardI];
-                    if (card == null || card.IsMarked) continue;
+                    Card card = _fieldService.GetCard(colunmI, cardI);
+                    if (!_fieldService.IsCardExist(card) || card.IsMarked) continue;
 
                     Vector2Int cardCoords = new Vector2Int(colunmI, cardI);
                     InitThreeCards(card, cardCoords);
@@ -69,9 +69,9 @@ namespace GameplayServices
         private void SetVacantCards(HashSet<Card> vacantCards, Card originCard, Vector2Int originCardCoords)
         {
             int startX = Mathf.Clamp(originCardCoords.x - _cardSpreadRange.x, 0, originCardCoords.x);
-            int endX = Mathf.Clamp(originCardCoords.x + _cardSpreadRange.x, originCardCoords.x, _cardsMap.GetLength(0) - 1);
+            int endX = Mathf.Clamp(originCardCoords.x + _cardSpreadRange.x, originCardCoords.x, _fieldService.HorizontalLength - 1);
             int startY = Mathf.Clamp(originCardCoords.y, 0, originCardCoords.y);
-            int endY = Mathf.Clamp(originCardCoords.y + _cardSpreadRange.y, originCardCoords.y, _cardsMap.GetLength(1) - 1);
+            int endY = Mathf.Clamp(originCardCoords.y + _cardSpreadRange.y, originCardCoords.y, _fieldService.VerticalLength - 1);
 
             vacantCards.Add(originCard);
 
@@ -79,9 +79,9 @@ namespace GameplayServices
             {
                 for (int y = startY; y <= endY; y++)
                 {
-                    if (_cardsMap[x, y] == null || _cardsMap[x, y].IsMarked) continue;
+                    if (_fieldService.GetCard(x, y) == null || _fieldService.GetCard(x, y).IsMarked) continue;
 
-                    vacantCards.Add(_cardsMap[x, y]);
+                    vacantCards.Add(_fieldService.GetCard(x, y));
                 }
             }
         }
@@ -93,12 +93,12 @@ namespace GameplayServices
             {
                 Card nearestCard = null;
                 float nearestCardDistance = float.MaxValue;
-                for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
+                for (int cardI = 0; cardI < _fieldService.VerticalLength; cardI++)
                 {
-                    for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
+                    for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
                     {
-                        Card card = _cardsMap[colunmI, cardI];
-                        if (card == null || card.IsMarked || vacantCards.Contains(card)) continue;
+                        Card card = _fieldService.GetCard(colunmI, cardI);
+                        if (!_fieldService.IsCardExist(card) || card.IsMarked || vacantCards.Contains(card)) continue;
 
                         Vector2 cardCoords = new Vector2Int(colunmI, cardI);
                         float distance = Vector2.Distance(originCardCoords, cardCoords);

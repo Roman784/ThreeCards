@@ -9,13 +9,13 @@ namespace GameplayServices
     public class LevelRestarterService
     {
         private GameplayEnterParams _gameplayEnterParams;
-        private Card[,] _cardsMap;
+        private FieldService _fieldService;
         private ShakyCamera _shakyCamera;
 
-        public LevelRestarterService(GameplayEnterParams gameplayEnterParams, Card[,] cardsMap, ShakyCamera shakyCamera)
+        public LevelRestarterService(GameplayEnterParams gameplayEnterParams, FieldService fieldService, ShakyCamera shakyCamera)
         {
             _gameplayEnterParams = gameplayEnterParams;
-            _cardsMap = cardsMap;
+            _fieldService = fieldService;
             _shakyCamera = shakyCamera;
         }
 
@@ -24,9 +24,9 @@ namespace GameplayServices
             Observable<Unit> onCompleted = null;
 
             _shakyCamera.Shake();
-            foreach (var card in _cardsMap)
+            foreach (var card in _fieldService.Cards)
             {
-                if (card != null && !card.IsDestroyed)
+                if (_fieldService.IsCardExist(card))
                     onCompleted = card.Explode();
             }
 

@@ -16,20 +16,18 @@ namespace GameplayServices
         private ISettingsProvider _settingsProvider;
         private GameplayEnterParams _currentGameplayEnterParams;
         private GameplayUI _gameplayUI;
-        private SlotBar _slotBar;
-        private Card[,] _cardsMap;
+        private FieldService _fieldService;
 
         public GameCompletionService(Observable<List<RemovedCard>> onCardsRemoved, Observable<Card> onCardPlaced,
                                      IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider,
                                      GameplayEnterParams currentGameplayEnterParams,
-                                     GameplayUI gameplayUI, SlotBar slotBar, Card[,] cardsMap)
+                                     GameplayUI gameplayUI, FieldService fieldService)
         {
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
             _currentGameplayEnterParams = currentGameplayEnterParams;
             _gameplayUI = gameplayUI;
-            _slotBar = slotBar;
-            _cardsMap = cardsMap;
+            _fieldService = fieldService;
 
             onCardsRemoved.Subscribe(_ => CheckForWin());
             onCardPlaced.Subscribe(_ => CheckForLose());
@@ -37,7 +35,7 @@ namespace GameplayServices
 
         private void CheckForWin()
         {
-            if (!_slotBar.HasAnyCard() && !HasCard(_cardsMap))
+            if (!_fieldService.SlotBar.HasAnyCard() && !_fieldService.HasAnyCard())
             {
                 _gameStateProvider.GameState.LastPassedLevelNumber.Value = 
                     _currentGameplayEnterParams.LevelNumber;
@@ -52,19 +50,8 @@ namespace GameplayServices
 
         private void CheckForLose()
         {
-            if (!_slotBar.HasEmptySlot())
+            if (!_fieldService.SlotBar.HasEmptySlot())
                 _gameplayUI.CreateGameOverPopUp();
-        }
-
-        private bool HasCard(Card[,] cardsMap)
-        {
-            foreach (var card in cardsMap)
-            {
-                if (card != null && !card.IsDestroyed)
-                    return true;
-            }
-
-            return false;
         }
     }
 }

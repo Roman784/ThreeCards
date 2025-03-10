@@ -10,6 +10,7 @@ using Utils;
 using CameraUtils;
 using System.Collections;
 using GameRoot;
+using System.Linq;
 
 namespace GameplayRoot
 {
@@ -57,10 +58,9 @@ namespace GameplayRoot
                 var layouts = gameSettings.CardLayoutsSettings;
                 var layout = layouts.GetLayout(enterParams.LevelNumber);
 
-                // Slots setup.
+                // Fiel setup.
                 var slots = _slotBar.CreateSlots();
 
-                // Cards setup.
                 var cardPlacingService = new CardPlacingService(slots);
                 var onCardPlaced = cardPlacingService.OnCardPlaced;
                 var onCardReadyToPlaced = cardPlacingService.OnCardReadyToPlaced;
@@ -74,18 +74,21 @@ namespace GameplayRoot
                 var cardMarkingService = new CardMarkingService();
 
                 var cardsMap = cardLayoutService.SetUp(layout);
-                cardMarkingService.Mark(cardsMap, layout.CardSpreadRange);
+
+                var fieldService = new FieldService(cardsMap, _slotBar);
+
+                cardMarkingService.Mark(fieldService, layout.CardSpreadRange);
 
                 // Animations.
-                var cardFlippingService = new CardFlippingService(cardsMap, _slotBar, onCardReadyToPlaced, onCardsRemoved);
-                var fieldAnimationService = new FieldAnimationService(cardsMap, cardFlippingService);
+                var cardFlippingService = new CardFlippingService(fieldService, onCardReadyToPlaced, onCardsRemoved);
+                var fieldAnimationService = new FieldAnimationService(fieldService, cardFlippingService);
                 var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
 
                 // UI.
-                var fieldShufflingService = new FieldShufflingService(cardsMap, _slotBar, cardFlippingService);
-                var magicStickService = new MagicStickService(cardsMap, _slotBar, cardMatchingService, cardLayoutService);
-                var levelRestarterService = new LevelRestarterService(enterParams, cardsMap, _shakyCamera);
-                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
+                var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
+                var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
+                var levelRestarterService = new LevelRestarterService(enterParams, fieldService, _shakyCamera);
+                var totalCardCount = fieldService.Cards.Count();
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
@@ -100,7 +103,7 @@ namespace GameplayRoot
                 // Winning and losing.
                 var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
                                                                       _gameStateProvider, _settingsProvider,
-                                                                      enterParams, _gameplayUI, _slotBar, cardsMap);
+                                                                      enterParams, _gameplayUI, fieldService);
 
                 isLoaded = true;
             });

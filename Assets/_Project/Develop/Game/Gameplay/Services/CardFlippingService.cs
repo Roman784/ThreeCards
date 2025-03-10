@@ -7,14 +7,12 @@ namespace GameplayServices
 {
     public class CardFlippingService
     {
-        private Card[,] _cardsMap;
-        private SlotBar _slotBar;
+        private FieldService _fieldService;
 
-        public CardFlippingService(Card[,] cardsMap, SlotBar slotBar, 
+        public CardFlippingService(FieldService fieldService, 
                                    Observable<Card> onCardReadyToPlaced, Observable<List<RemovedCard>> onCardsRemoved)
         {
-            _cardsMap = cardsMap;
-            _slotBar = slotBar;
+            _fieldService = fieldService;
 
             onCardReadyToPlaced.Subscribe(card => OpenNextCard(card));
             onCardsRemoved.Subscribe(_ => OpenFirstCards());
@@ -50,13 +48,13 @@ namespace GameplayServices
         {
             var cards = new List<Card>();
 
-            for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
+            for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
             {
-                for (int cardI = _cardsMap.GetLength(1) - 1; cardI >= 0; cardI--)
+                for (int cardI = _fieldService.VerticalLength - 1; cardI >= 0; cardI--)
                 {
-                    Card card = _cardsMap[colunmI, cardI];
+                    Card card = _fieldService.GetCard(colunmI, cardI);
 
-                    if (card != null && !card.IsDestroyed && !_slotBar.ContainsCard(card))
+                    if (_fieldService.IsCardExist(card) && !_fieldService.SlotBar.ContainsCard(card))
                     {
                         cards.Add(card);
                         break;
@@ -69,15 +67,16 @@ namespace GameplayServices
 
         private void OpenNextCard(Card currentCard)
         {
-            for (int colunmI = 0; colunmI < _cardsMap.GetLength(0); colunmI++)
+            for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
             { 
-                for (int cardI = 0; cardI < _cardsMap.GetLength(1); cardI++)
+                for (int cardI = 0; cardI < _fieldService.VerticalLength; cardI++)
                 {
-                    Card card = _cardsMap[colunmI, cardI];
+                    Card card = _fieldService.GetCard(colunmI, cardI);
                     if (card != currentCard || cardI < 1) continue;
 
-                    Card nextCard = _cardsMap[colunmI, cardI - 1];
+                    Card nextCard = _fieldService.GetCard(colunmI, cardI - 1);
                     nextCard.Open();
+
                     return;
                 }
             }
