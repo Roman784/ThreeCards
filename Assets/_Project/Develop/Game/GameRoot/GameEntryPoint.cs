@@ -36,45 +36,46 @@ namespace GameRoot
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            RunGame();
+            var activeSceneName = SceneManager.GetActiveScene().name;
+            RunGame(activeSceneName);
+
+            new SceneLoader().LoadBoot();
         }
 
-        private static void RunGame()
+        private static void RunGame(string activeSceneName = Scenes.GAMEPLAY)
         {
             _dependenciesInjectedSubj
                 .SelectMany(_ => _gameStateProvider.LoadGameState())
-                .Subscribe(_ => LoadScene());
+                .Subscribe(_ => LoadScene(activeSceneName));
         }
 
-        private static void LoadScene()
+        private static void LoadScene(string activeSceneName = Scenes.GAMEPLAY)
         {
             var sceneLoader = new SceneLoader();
 
 #if UNITY_EDITOR
-            var sceneName = SceneManager.GetActiveScene().name;
-
-            if (sceneName == Scenes.GAMEPLAY)
+            if (activeSceneName == Scenes.GAMEPLAY)
             {
                 var defaultGameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunGameplay(defaultGameplayEnterParams);
                 return;
             }
 
-            if (sceneName == Scenes.LEVEL_MENU)
+            if (activeSceneName == Scenes.LEVEL_MENU)
             {
                 var defaultLevelMenuEnterParams = new LevelMenuEnterParams(GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunLevelMenu(defaultLevelMenuEnterParams);
                 return;
             }
 
-            if (sceneName == Scenes.BONUS_WHIRLPOOL)
+            if (activeSceneName == Scenes.BONUS_WHIRLPOOL)
             {
                 var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunBonusWhirlpool(defaultBonusWhirlpoolEnterParams);
                 return;
             }
 
-            if (sceneName != Scenes.BOOT)
+            if (activeSceneName != Scenes.BOOT)
             {
                 return;
             }

@@ -13,6 +13,11 @@ namespace GameRoot
     {
         private UIRootView UI => Object.FindObjectOfType<UIRootView>();
 
+        public void LoadBoot()
+        {
+            Coroutines.StartRoutine(LoadSceneRoutine(Scenes.BOOT));
+        }
+
         public void LoadAndRunGameplay(GameplayEnterParams enterParams)
         {
             Coroutines.StartRoutine(LoadAndRunSceneRoutine<GameplayEntryPoint, GameplayEnterParams>(Scenes.GAMEPLAY, enterParams));
