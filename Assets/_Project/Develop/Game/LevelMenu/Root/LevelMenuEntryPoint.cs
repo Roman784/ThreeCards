@@ -1,11 +1,30 @@
-using GameplayRoot;
 using GameRoot;
+using GameState;
 using System.Collections;
+using UnityEngine;
+using Zenject;
+using R3;
+using UI;
+using LevelMenu;
 
 namespace LevelMenuRoot
 {
     public class LevelMenuEntryPoint : SceneEntryPoint
     {
+        private IGameStateProvider _gameStateProvider;
+        private UIRootView _uiRoot;
+        private LevelMenuUI _levelMenuUI;
+
+        [Inject]
+        private void Construct(IGameStateProvider gameStateProvider,
+                               UIRootView uiRoot,
+                               LevelMenuUI levelMenuUI)
+        {
+            _gameStateProvider = gameStateProvider;
+            _uiRoot = uiRoot;
+            _levelMenuUI = levelMenuUI;
+        }
+
         public override IEnumerator Run<T>(T enterParams)
         {
             yield return Run(enterParams.As<LevelMenuEnterParams>());
@@ -13,7 +32,18 @@ namespace LevelMenuRoot
 
         private IEnumerator Run(LevelMenuEnterParams enterParams)
         {
-            yield return null;
+            var isLoaded = false;
+
+            _gameStateProvider.LoadGameState().Subscribe(_ =>
+            {
+                _uiRoot.AttachSceneUI(_levelMenuUI.gameObject);
+
+                _levelMenuUI.CreateLevelsBlocks(5);
+
+                isLoaded = true;
+            });
+
+            yield return new WaitUntil(() => isLoaded);
         }
     }
 }

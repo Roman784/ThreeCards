@@ -46,10 +46,10 @@ namespace GameplayInstallers
 
         private void BindFactories()
         {
-            CardView cardPrefab = Resources.Load<CardView>("Prefabs/Gameplay/Card");
+            var cardPrefab = Resources.Load<CardView>("Prefabs/Gameplay/Card");
             Container.BindFactory<CardView, CardFactory>().FromComponentInNewPrefab(cardPrefab);
 
-            SlotView slotPrefab = Resources.Load<SlotView>("Prefabs/Gameplay/Slot");
+            var slotPrefab = Resources.Load<SlotView>("Prefabs/Gameplay/Slot");
             Container.BindFactory<SlotView, SlotFactory>().FromComponentInNewPrefab(slotPrefab);
         }
 
