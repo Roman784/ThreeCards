@@ -6,9 +6,14 @@ namespace LevelMenu
     {
         private LevelsBlockView _view;
 
+        private bool _isOpen;
+
         public LevelsBlock(LevelsBlockView view)
         {
             _view = view;
+            _isOpen = false;
+
+            _view.OnOpenClose += () => OpenClose();
         }
 
         public void Attach(Transform parent)
@@ -24,6 +29,16 @@ namespace LevelMenu
         public void CreateLevelButtons(Vector2Int levelNumberRange)
         {
             _view?.CreateLevelButtons(levelNumberRange);
+        }
+
+        private void OpenClose()
+        {
+            if (_isOpen)
+                _view.Close();
+            else
+                _view.Open();
+
+            _isOpen = !_isOpen;
         }
     }
 }
