@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 namespace LevelMenu
@@ -8,6 +9,14 @@ namespace LevelMenu
         {
             var view = base.Create();
             return new LevelsBlock(view);
+        }
+
+        public LevelsBlock Create(Vector2Int levelNumberRange)
+        {
+            var block = Create();
+            block.SetLevelNumberRange(levelNumberRange);
+
+            return block;
         }
     }
 }

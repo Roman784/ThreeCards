@@ -38,7 +38,7 @@ namespace LevelMenuRoot
             {
                 _uiRoot.AttachSceneUI(_levelMenuUI.gameObject);
 
-                _levelMenuUI.CreateLevelsBlocks(5);
+                _levelMenuUI.CreateLevelsBlocks();
 
                 isLoaded = true;
             });

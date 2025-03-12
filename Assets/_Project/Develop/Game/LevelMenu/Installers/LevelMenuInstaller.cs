@@ -25,6 +25,9 @@ namespace LevelMenuInstallers
         {
             var levelsBlockPrefab = Resources.Load<LevelsBlockView>("UI/Levels/LevelsBlock");
             Container.BindFactory<LevelsBlockView, LevelsBlockFactory>().FromComponentInNewPrefab(levelsBlockPrefab);
+
+            var levelButtonPrefab = Resources.Load<LevelButtonView>("UI/Levels/LevelButton");
+            Container.BindFactory<LevelButtonView, LevelButtonFactory>().FromComponentInNewPrefab(levelButtonPrefab);
         }
     }
 }

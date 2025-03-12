@@ -16,6 +16,8 @@ namespace Settings
         [field: SerializeField] public float StepBetweenCards { get; private set; }
         [field: SerializeField] public Vector2 ColumnsOffset { get; private set; }
 
+        public int LayoutsCount => CardLayoutSettings.Count;
+
         public CardLayoutSettings GetLayout(int levelNumber)
         {
             foreach (var layout in CardLayoutSettings)
