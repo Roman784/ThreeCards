@@ -28,13 +28,14 @@ namespace LevelMenu
             _view?.Attach(parent);
         }
 
-        public void CreateLevelButtons(Vector2Int levelnumberRange, float progress, LevelMenuUI levelMenu)
+        public void CreateLevelButtons(Vector2Int levelNumberRange, int lastPassedLevelNumber, LevelMenuUI levelMenu)
         {
-            for (int number = levelnumberRange.x; number <= levelnumberRange.y; number++)
+            for (int number = levelNumberRange.x; number <= levelNumberRange.y; number++)
             {
-                var isPassed = Mathf.Clamp01(1f - (float)(levelnumberRange.y - number + 1) / (levelnumberRange.y - levelnumberRange.x + 1)) < progress;
-                Debug.Log($"{number} | {(float)(levelnumberRange.y - number + 1) / (levelnumberRange.y - levelnumberRange.x + 1)} | {progress}");
-                CreateLevelButton(number, isPassed, levelMenu);
+                var isPassed = number <= lastPassedLevelNumber;
+                var isLocked = number > lastPassedLevelNumber + 1;
+
+                CreateLevelButton(number, isPassed, isLocked, levelMenu);
             }
         }
 
@@ -48,9 +49,9 @@ namespace LevelMenu
             _isOpen = !_isOpen;
         }
 
-        private void CreateLevelButton(int number, bool isPassed, LevelMenuUI levelMenu)
+        private void CreateLevelButton(int number, bool isPassed, bool isLocked, LevelMenuUI levelMenu)
         {
-            var button = _view?.CreateLevelButton(number, isPassed, levelMenu);
+            var button = _view?.CreateLevelButton(number, isPassed, isLocked, levelMenu);
             _view?.AttachButton(button);
         }
     }

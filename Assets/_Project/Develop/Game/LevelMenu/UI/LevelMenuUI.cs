@@ -83,15 +83,15 @@ namespace LevelMenu
                 int currentBlockLevelCount = endLevelNumber - startLevelNumber + 1;
                 float progress = Mathf.Clamp01((float)completedLevelsInBlock / currentBlockLevelCount);
 
-                CreateLevelsBlock(levelNumberRange, progress);
+                CreateLevelsBlock(levelNumberRange, progress, lastPassedLevelNumber);
             }
         }
 
-        private void CreateLevelsBlock(Vector2Int levelNumberRange, float progress)
+        private void CreateLevelsBlock(Vector2Int levelNumberRange, float progress, int lastPassedLevelNumber)
         {
             var levelsBlock = _levelsBlockFactory.Create(levelNumberRange, progress);
             levelsBlock.Attach(_levelBlcoksContainer);
-            levelsBlock.CreateLevelButtons(levelNumberRange, progress, this);
+            levelsBlock.CreateLevelButtons(levelNumberRange, lastPassedLevelNumber, this);
         }
     }
 }

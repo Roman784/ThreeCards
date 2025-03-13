@@ -9,6 +9,7 @@ namespace LevelMenu
     {
         [SerializeField] private TMP_Text _numberView;
         [SerializeField] private Image _backgroundView;
+        [SerializeField] private GameObject _lockView;
 
         public event Action OnOpenLevel;
 
@@ -25,6 +26,12 @@ namespace LevelMenu
         public void Fill(bool isPassed)
         {
             _backgroundView.gameObject.SetActive(isPassed);
+        }
+
+        public void Lock(bool isLocked)
+        {
+            _lockView.SetActive(isLocked);
+            _numberView.gameObject.SetActive(!isLocked);
         }
 
         public void OpenLevel()

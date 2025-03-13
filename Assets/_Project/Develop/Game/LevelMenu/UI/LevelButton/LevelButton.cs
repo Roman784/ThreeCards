@@ -8,16 +8,19 @@ namespace LevelMenu
         private LevelButtonView _view;
 
         private int _number;
+        private bool _isLocked;
         private LevelMenuUI _levelMenu;
 
-        public LevelButton(LevelButtonView view, int number, bool isPassed, LevelMenuUI levelMenu)
+        public LevelButton(LevelButtonView view, int number, bool isPassed, bool isLocked, LevelMenuUI levelMenu)
         {
             _view = view;
             _number = number;
+            _isLocked = isLocked;
             _levelMenu = levelMenu;
 
             _view.SetNumber(_number);
             _view.Fill(isPassed);
+            _view.Lock(isLocked);
 
             _view.OnOpenLevel += () => OpenLevel();
         }
@@ -29,6 +32,7 @@ namespace LevelMenu
 
         public void OpenLevel()
         {
+            if (_isLocked) return;
             _levelMenu?.OpenLevel(_number);
         }
     }

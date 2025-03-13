@@ -84,9 +84,9 @@ namespace LevelMenu
                 .SetEase(Ease.OutBounce);
         }
 
-        public LevelButton CreateLevelButton(int number, bool isPassed, LevelMenuUI levelMenu)
+        public LevelButton CreateLevelButton(int number, bool isPassed, bool isLocked, LevelMenuUI levelMenu)
         {
-            return _levelButtonFactory.Create(number, isPassed, levelMenu);
+            return _levelButtonFactory.Create(number, isPassed, isLocked, levelMenu);
         }
 
         public void AttachButton(LevelButton button)
