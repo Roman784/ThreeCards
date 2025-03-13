@@ -17,7 +17,6 @@ namespace UI
             var completedSubj = new Subject<Unit>();
 
             _panel.gameObject.SetActive(true);
-            _panel.alpha = 0f;
             _panel.DOFade(1f, _showDuration).SetEase(Ease.OutExpo).OnComplete(() => 
             {
                 completedSubj.OnNext(Unit.Default);
@@ -32,7 +31,6 @@ namespace UI
             var completedSubj = new Subject<Unit>();
 
             _panel.gameObject.SetActive(true);
-            _panel.alpha = 1f;
             _panel.DOFade(0f, _hideDuration).SetEase(Ease.InExpo).OnComplete(() =>
             {
                 completedSubj.OnNext(Unit.Default);

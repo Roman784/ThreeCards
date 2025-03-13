@@ -11,26 +11,32 @@ namespace GameRoot
 {
     public class SceneLoader
     {
+        private Coroutine _loadingRoutine;
+
         private UIRootView UI => Object.FindObjectOfType<UIRootView>();
 
         public void LoadBoot()
         {
-            Coroutines.StartRoutine(LoadSceneRoutine(Scenes.BOOT));
+            StopLoadingRoutine();
+            _loadingRoutine = Coroutines.StartRoutine(LoadSceneRoutine(Scenes.BOOT));
         }
 
         public void LoadAndRunGameplay(GameplayEnterParams enterParams)
         {
-            Coroutines.StartRoutine(LoadAndRunSceneRoutine<GameplayEntryPoint, GameplayEnterParams>(Scenes.GAMEPLAY, enterParams));
+            StopLoadingRoutine();
+            _loadingRoutine = Coroutines.StartRoutine(LoadAndRunSceneRoutine<GameplayEntryPoint, GameplayEnterParams>(Scenes.GAMEPLAY, enterParams));
         }
 
         public void LoadAndRunLevelMenu(LevelMenuEnterParams enterParams)
         {
-            Coroutines.StartRoutine(LoadAndRunSceneRoutine<LevelMenuEntryPoint, LevelMenuEnterParams>(Scenes.LEVEL_MENU, enterParams));
+            StopLoadingRoutine();
+            _loadingRoutine = Coroutines.StartRoutine(LoadAndRunSceneRoutine<LevelMenuEntryPoint, LevelMenuEnterParams>(Scenes.LEVEL_MENU, enterParams));
         }
 
         public void LoadAndRunBonusWhirlpool(BonusWhirlpoolEnterParams enterParams)
         {
-            Coroutines.StartRoutine(LoadAndRunSceneRoutine<BonusWhirlpoolEntryPoint, BonusWhirlpoolEnterParams>(Scenes.BONUS_WHIRLPOOL, enterParams));
+            StopLoadingRoutine();
+            _loadingRoutine = Coroutines.StartRoutine(LoadAndRunSceneRoutine<BonusWhirlpoolEntryPoint, BonusWhirlpoolEnterParams>(Scenes.BONUS_WHIRLPOOL, enterParams));
         }
 
         private IEnumerator LoadAndRunSceneRoutine<TEntryPoint, TEnterParams>(string sceneName, TEnterParams enterParams) 
@@ -51,6 +57,12 @@ namespace GameRoot
         {
             yield return SceneManager.LoadSceneAsync(sceneName);
             yield return null;
+        }
+
+        private void StopLoadingRoutine()
+        {
+            if (_loadingRoutine != null)
+                Coroutines.StopRoutine(_loadingRoutine);
         }
     }
 }
