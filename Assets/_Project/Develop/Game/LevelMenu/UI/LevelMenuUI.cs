@@ -19,6 +19,7 @@ namespace LevelMenu
         [SerializeField] private int _levelsInBlock;
 
         private ISettingsProvider _settingsProvider;
+        private IGameStateProvider _gameStateProvider;
         private LevelsBlockFactory _levelsBlockFactory;
         private ChipsCounter _chipsCounter;
 
@@ -26,12 +27,14 @@ namespace LevelMenu
         private SettingsPopUp.Factory _settingsPopUpFactory;
 
         [Inject]
-        private void Construct(ISettingsProvider settingsProvider, 
+        private void Construct(ISettingsProvider settingsProvider,
+                               IGameStateProvider gameStateProvider,
                                LevelsBlockFactory levelsBlockFactory,
                                ChipsCounter chipsCounter,
                                SettingsPopUp.Factory settingsPopUpFactory)
         {
             _settingsProvider = settingsProvider;
+            _gameStateProvider = gameStateProvider;
             _levelsBlockFactory = levelsBlockFactory;
             _chipsCounter = chipsCounter;
             _settingsPopUpFactory = settingsPopUpFactory;
@@ -65,6 +68,8 @@ namespace LevelMenu
         {
             int levelsCount = _settingsProvider.GameSettings.CardLayoutsSettings.LayoutsCount;
             int blocksCount = Mathf.CeilToInt(levelsCount / (float)_levelsInBlock);
+            //int lastPassedLevelNumber = _gameStateProvider.GameState.LastPassedLevelNumber.Value;
+            int lastPassedLevelNumber = 7;
 
             for (int i = 0; i < blocksCount; i++)
             {
@@ -74,16 +79,19 @@ namespace LevelMenu
                     : startLevelNumber + _levelsInBlock - 1;
 
                 Vector2Int levelNumberRange = new Vector2Int(startLevelNumber, endLevelNumber);
+                int completedLevelsInBlock = Mathf.Max(0, Mathf.Min(lastPassedLevelNumber, endLevelNumber) - startLevelNumber + 1);
+                int currentBlockLevelCount = endLevelNumber - startLevelNumber + 1;
+                float progress = Mathf.Clamp01((float)completedLevelsInBlock / currentBlockLevelCount);
 
-                CreateLevelsBlock(levelNumberRange);
+                CreateLevelsBlock(levelNumberRange, progress);
             }
         }
 
-        private void CreateLevelsBlock(Vector2Int levelNumberRange)
+        private void CreateLevelsBlock(Vector2Int levelNumberRange, float progress)
         {
-            var levelsBlock = _levelsBlockFactory.Create(levelNumberRange);
+            var levelsBlock = _levelsBlockFactory.Create(levelNumberRange, progress);
             levelsBlock.Attach(_levelBlcoksContainer);
-            levelsBlock.CreateLevelButtons(levelNumberRange, this);
+            levelsBlock.CreateLevelButtons(levelNumberRange, progress, this);
         }
     }
 }

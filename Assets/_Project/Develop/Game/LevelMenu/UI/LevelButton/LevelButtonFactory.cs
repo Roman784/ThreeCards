@@ -7,13 +7,13 @@ namespace LevelMenu
         public new LevelButton Create()
         {
             var view = base.Create();
-            return new LevelButton(view, 0, null);
+            return new LevelButton(view, 0, false, null);
         }
 
-        public LevelButton Create(int number, LevelMenuUI levelMenu)
+        public LevelButton Create(int number, bool isPassed, LevelMenuUI levelMenu)
         {
             var view = base.Create();
-            return new LevelButton(view, number, levelMenu);
+            return new LevelButton(view, number, isPassed, levelMenu);
         }
     }
 }

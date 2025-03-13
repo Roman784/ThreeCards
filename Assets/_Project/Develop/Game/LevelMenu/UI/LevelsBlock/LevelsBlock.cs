@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace LevelMenu
@@ -6,13 +7,18 @@ namespace LevelMenu
     public class LevelsBlock
     {
         private LevelsBlockView _view;
+        private float _progress;
 
         private bool _isOpen;
 
-        public LevelsBlock(LevelsBlockView view)
+        public LevelsBlock(LevelsBlockView view, Vector2Int levelNumberRange, float progress)
         {
             _view = view;
+            _progress = progress;
             _isOpen = false;
+
+            _view.SetLevelNumberRange(levelNumberRange);
+            _view.SetProgress(_progress);
 
             _view.OnOpenClose += () => OpenClose();
         }
@@ -22,14 +28,14 @@ namespace LevelMenu
             _view?.Attach(parent);
         }
 
-        public void SetLevelNumberRange(Vector2Int levelNumberRange)
+        public void CreateLevelButtons(Vector2Int levelnumberRange, float progress, LevelMenuUI levelMenu)
         {
-            _view?.SetLevelNumberRange(levelNumberRange);
-        }
-
-        public void CreateLevelButtons(Vector2Int levelNumberRange, LevelMenuUI levelMenu)
-        {
-            _view?.CreateLevelButtons(levelNumberRange, levelMenu);
+            for (int number = levelnumberRange.x; number <= levelnumberRange.y; number++)
+            {
+                var isPassed = Mathf.Clamp01(1f - (float)(levelnumberRange.y - number + 1) / (levelnumberRange.y - levelnumberRange.x + 1)) < progress;
+                Debug.Log($"{number} | {(float)(levelnumberRange.y - number + 1) / (levelnumberRange.y - levelnumberRange.x + 1)} | {progress}");
+                CreateLevelButton(number, isPassed, levelMenu);
+            }
         }
 
         private void OpenClose()
@@ -40,6 +46,12 @@ namespace LevelMenu
                 _view.Open();
 
             _isOpen = !_isOpen;
+        }
+
+        private void CreateLevelButton(int number, bool isPassed, LevelMenuUI levelMenu)
+        {
+            var button = _view?.CreateLevelButton(number, isPassed, levelMenu);
+            _view?.AttachButton(button);
         }
     }
 }

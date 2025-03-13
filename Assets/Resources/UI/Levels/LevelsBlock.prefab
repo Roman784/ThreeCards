@@ -453,6 +453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelsContainer: {fileID: 7997613344508093854}
   _levelNumberRangeView: {fileID: 1460696448970959509}
+  _progressBarView: {fileID: 8905851070577607506}
+  _progressBarFillingDuration: 1
   _openIconView: {fileID: 6482701353819186608}
   _openIconRotationDuration: 0.4
   _mask: {fileID: 830535691594191992}
@@ -679,7 +681,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.5
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace LevelMenu
@@ -10,6 +11,11 @@ namespace LevelMenu
     {
         [SerializeField] private Transform _levelsContainer;
         [SerializeField] private TMP_Text _levelNumberRangeView;
+
+        [Space]
+
+        [SerializeField] private Image _progressBarView;
+        [SerializeField] private float _progressBarFillingDuration;
 
         [Space]
 
@@ -49,12 +55,10 @@ namespace LevelMenu
             _levelNumberRangeView.text = $"{levelNumberRange.x} - {levelNumberRange.y}";
         }
 
-        public void CreateLevelButtons(Vector2Int levelnumberRange, LevelMenuUI levelMenu)
+        public void SetProgress(float progress)
         {
-            for (int number = levelnumberRange.x; number <= levelnumberRange.y; number++)
-            {
-                CreateLevelButton(number, levelMenu);
-            }
+            _progressBarView.DOFillAmount(progress, _progressBarFillingDuration)
+                .SetEase(Ease.InOutQuad);
         }
 
         public void OpenClose()
@@ -80,9 +84,13 @@ namespace LevelMenu
                 .SetEase(Ease.OutBounce);
         }
 
-        private void CreateLevelButton(int number, LevelMenuUI levelMenu)
+        public LevelButton CreateLevelButton(int number, bool isPassed, LevelMenuUI levelMenu)
         {
-            var button = _levelButtonFactory.Create(number, levelMenu);
+            return _levelButtonFactory.Create(number, isPassed, levelMenu);
+        }
+
+        public void AttachButton(LevelButton button)
+        {
             button.Attach(_levelsContainer);
         }
     }

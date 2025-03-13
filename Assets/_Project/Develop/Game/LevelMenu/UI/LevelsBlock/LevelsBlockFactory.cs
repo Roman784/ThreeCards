@@ -8,15 +8,13 @@ namespace LevelMenu
         public new LevelsBlock Create()
         {
             var view = base.Create();
-            return new LevelsBlock(view);
+            return new LevelsBlock(view, Vector2Int.zero, 0f);
         }
 
-        public LevelsBlock Create(Vector2Int levelNumberRange)
+        public LevelsBlock Create(Vector2Int levelNumberRange, float progress)
         {
-            var block = Create();
-            block.SetLevelNumberRange(levelNumberRange);
-
-            return block;
+            var view = base.Create();
+            return new LevelsBlock(view, levelNumberRange, progress);
         }
     }
 }
