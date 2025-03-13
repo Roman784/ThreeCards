@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72b82cd8c8aa3aa48b9dad2a7ec25637, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _chipsCounterView: {fileID: 6728008465169906076}
   _levelBlcoksContainer: {fileID: 8124796999519863219}
   _levelsInBlock: 5
 --- !u!1 &1394008973788164398
@@ -835,3 +836,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 960083648763348602, guid: fc8cd0291f7452f45a60b174c4de5d6a, type: 3}
   m_PrefabInstance: {fileID: 4415233413792058824}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6728008465169906076 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6924494884401787988, guid: fc8cd0291f7452f45a60b174c4de5d6a, type: 3}
+  m_PrefabInstance: {fileID: 4415233413792058824}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfefe3242198b344b9a77f7cd7b691a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

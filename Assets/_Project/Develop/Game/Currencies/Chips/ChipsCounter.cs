@@ -34,12 +34,12 @@ namespace Currencies
             _view.OnGetAdvertisingChips += () => OpenAdvertisingChipsPopUp();
         }
 
-        public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
+        public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved = null)
         {
             _chipsCount = _gameStateProvider.GameState.Chips.Value;
             _view?.SetCurrentCount(_chipsCount);
 
-            onCardsRemoved.Subscribe(removedCards =>
+            onCardsRemoved?.Subscribe(removedCards =>
             {
                 foreach (var card in removedCards)
                 {

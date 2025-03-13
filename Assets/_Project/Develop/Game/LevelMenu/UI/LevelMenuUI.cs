@@ -1,3 +1,4 @@
+using Currencies;
 using GameplayRoot;
 using GameRoot;
 using GameState;
@@ -9,20 +10,35 @@ namespace LevelMenu
 {
     public class LevelMenuUI : MonoBehaviour
     {
+        [SerializeField] private ChipsCounterView _chipsCounterView;
+
+        [Space]
+
         [SerializeField] private Transform _levelBlcoksContainer;
         [SerializeField] private int _levelsInBlock;
 
         private ISettingsProvider _settingsProvider;
-        private IGameStateProvider _gameStateProvider;
         private LevelsBlockFactory _levelsBlockFactory;
+        private ChipsCounter _chipsCounter;
 
         [Inject]
-        private void Construct(ISettingsProvider settingsProvider, IGameStateProvider gameStateProvider, 
-                               LevelsBlockFactory levelsBlockFactory)
+        private void Construct(ISettingsProvider settingsProvider, 
+                               LevelsBlockFactory levelsBlockFactory,
+                               ChipsCounter chipsCounter)
         {
             _settingsProvider = settingsProvider;
-            _gameStateProvider = gameStateProvider;
             _levelsBlockFactory = levelsBlockFactory;
+            _chipsCounter = chipsCounter;
+        }
+
+        public void BindViews()
+        {
+            _chipsCounter.BindView(_chipsCounterView);
+        }
+
+        public void InitChips()
+        {
+            _chipsCounter.InitChips();
         }
 
         public void OpenLevel(int number)

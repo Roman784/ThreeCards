@@ -38,6 +38,8 @@ namespace LevelMenuRoot
             {
                 _uiRoot.AttachSceneUI(_levelMenuUI.gameObject);
 
+                _levelMenuUI.BindViews();
+                _levelMenuUI.InitChips();
                 _levelMenuUI.CreateLevelsBlocks();
 
                 isLoaded = true;
