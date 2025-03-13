@@ -453,6 +453,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelsContainer: {fileID: 7997613344508093854}
   _levelNumberRangeView: {fileID: 1460696448970959509}
+  _openIconView: {fileID: 6482701353819186608}
+  _openIconRotationDuration: 0.4
   _mask: {fileID: 830535691594191992}
   _openingDuration: 0.4
   _closingDuration: 0.3
@@ -469,7 +471,7 @@ GameObject:
   - component: {fileID: 6470091983475964079}
   - component: {fileID: 9143258956869515344}
   m_Layer: 5
-  m_Name: OpenButton
+  m_Name: OpenIconView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -489,11 +491,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7904425145449083953}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -42, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 290, y: 0}
   m_SizeDelta: {x: 36, y: 36}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6470091983475964079
 CanvasRenderer:
   m_ObjectHideFlags: 0

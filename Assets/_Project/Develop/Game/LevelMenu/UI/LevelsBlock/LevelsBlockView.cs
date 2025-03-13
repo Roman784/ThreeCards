@@ -13,6 +13,11 @@ namespace LevelMenu
 
         [Space]
 
+        [SerializeField] private Transform _openIconView;
+        [SerializeField] private float _openIconRotationDuration;
+
+        [Space]
+
         [SerializeField] private RectTransform _mask;
         [SerializeField] private float _openingDuration;
         [SerializeField] private float _closingDuration;
@@ -60,13 +65,19 @@ namespace LevelMenu
         public void Open()
         {
             _mask.DOSizeDelta(new Vector2(_mask.sizeDelta.x, _openingHeinght), _openingDuration)
-            .SetEase(Ease.OutBack);
+                .SetEase(Ease.OutBack);
+
+            _openIconView.DORotate(new Vector3(0, 0, -90), _openIconRotationDuration)
+                .SetEase(Ease.OutBounce);
         }
 
         public void Close()
         {
             _mask.DOSizeDelta(new Vector2(_mask.sizeDelta.x, _closingHeight), _closingDuration)
-            .SetEase(Ease.OutQuad);
+                .SetEase(Ease.OutQuad);
+
+            _openIconView.DORotate(new Vector3(0, 0, 0), _openIconRotationDuration)
+                .SetEase(Ease.OutBounce);
         }
 
         private void CreateLevelButton(int number, LevelMenuUI levelMenu)
