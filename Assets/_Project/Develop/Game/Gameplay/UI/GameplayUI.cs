@@ -2,6 +2,8 @@ using Currencies;
 using Gameplay;
 using GameplayRoot;
 using GameplayServices;
+using GameRoot;
+using LevelMenuRoot;
 using R3;
 using Settings;
 using System.Collections.Generic;
@@ -15,6 +17,8 @@ namespace UI
         [SerializeField] private LevelProgressView _levelProgressView;
         [SerializeField] private ChipsCounterView _chipsCounterView;
         [SerializeField] private GameplayToolsView _gameplayToolsView;
+
+        private GameplayEnterParams _gameplayEnterParams;
 
         private LevelProgress _levelProgress;
         private ChipsCounter _chipsCounter;
@@ -72,9 +76,21 @@ namespace UI
             _settingsPopUp.Open();
         }
 
+        public void OpenLevelMenu()
+        {
+            var currentLevelNumber = _gameplayEnterParams.LevelNumber;
+            var levelMenuEnterParams = new LevelMenuEnterParams(currentLevelNumber);
+            new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
+        }
+
         public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
         {
             _chipsCounter.InitChips(onCardsRemoved);
+        }
+
+        public void SetGameplayEnterParams(GameplayEnterParams gameplayEnterParams)
+        {
+            _gameplayEnterParams = gameplayEnterParams;
         }
 
         public void SetLevelNumber(int levelNumber)

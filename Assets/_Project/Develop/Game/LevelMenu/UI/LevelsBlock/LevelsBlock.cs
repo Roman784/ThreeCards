@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace LevelMenu
@@ -26,9 +27,9 @@ namespace LevelMenu
             _view?.SetLevelNumberRange(levelNumberRange);
         }
 
-        public void CreateLevelButtons(Vector2Int levelNumberRange)
+        public void CreateLevelButtons(Vector2Int levelNumberRange, LevelMenuUI levelMenu)
         {
-            _view?.CreateLevelButtons(levelNumberRange);
+            _view?.CreateLevelButtons(levelNumberRange, levelMenu);
         }
 
         private void OpenClose()

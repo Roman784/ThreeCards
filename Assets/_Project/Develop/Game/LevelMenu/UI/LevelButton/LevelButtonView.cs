@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 
@@ -7,6 +8,8 @@ namespace LevelMenu
     {
         [SerializeField] private TMP_Text _numberView;
 
+        public event Action OnOpenLevel;
+
         public void Attach(Transform parent)
         {
             transform.SetParent(parent, false);
@@ -15,6 +18,11 @@ namespace LevelMenu
         public void SetNumber(int number)
         {
             _numberView.text = number.ToString();
+        }
+
+        public void OpenLevel()
+        {
+            OnOpenLevel?.Invoke();
         }
     }
 }

@@ -1,3 +1,5 @@
+using GameplayRoot;
+using GameRoot;
 using GameState;
 using Settings;
 using UnityEngine;
@@ -23,6 +25,12 @@ namespace LevelMenu
             _levelsBlockFactory = levelsBlockFactory;
         }
 
+        public void OpenLevel(int number)
+        {
+            var gameplayEnterParams = new GameplayEnterParams(number);
+            new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
+        }
+
         public void CreateLevelsBlocks()
         {
             int levelsCount = _settingsProvider.GameSettings.CardLayoutsSettings.LayoutsCount;
@@ -45,7 +53,7 @@ namespace LevelMenu
         {
             var levelsBlock = _levelsBlockFactory.Create(levelNumberRange);
             levelsBlock.Attach(_levelBlcoksContainer);
-            levelsBlock.CreateLevelButtons(levelNumberRange);
+            levelsBlock.CreateLevelButtons(levelNumberRange, this);
         }
     }
 }

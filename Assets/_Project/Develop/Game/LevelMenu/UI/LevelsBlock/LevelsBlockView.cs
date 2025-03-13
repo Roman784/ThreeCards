@@ -44,11 +44,11 @@ namespace LevelMenu
             _levelNumberRangeView.text = $"{levelNumberRange.x} - {levelNumberRange.y}";
         }
 
-        public void CreateLevelButtons(Vector2Int levelnumberRange)
+        public void CreateLevelButtons(Vector2Int levelnumberRange, LevelMenuUI levelMenu)
         {
             for (int number = levelnumberRange.x; number <= levelnumberRange.y; number++)
             {
-                CreateLevelButton(number);
+                CreateLevelButton(number, levelMenu);
             }
         }
 
@@ -69,9 +69,9 @@ namespace LevelMenu
             .SetEase(Ease.OutQuad);
         }
 
-        private void CreateLevelButton(int number)
+        private void CreateLevelButton(int number, LevelMenuUI levelMenu)
         {
-            var button = _levelButtonFactory.Create(number);
+            var button = _levelButtonFactory.Create(number, levelMenu);
             button.Attach(_levelsContainer);
         }
     }

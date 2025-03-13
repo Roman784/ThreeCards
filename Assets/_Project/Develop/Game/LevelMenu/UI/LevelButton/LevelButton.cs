@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace LevelMenu
@@ -7,10 +8,17 @@ namespace LevelMenu
         private LevelButtonView _view;
 
         private int _number;
+        private LevelMenuUI _levelMenu;
 
-        public LevelButton(LevelButtonView view)
+        public LevelButton(LevelButtonView view, int number, LevelMenuUI levelMenu)
         {
             _view = view;
+            _number = number;
+            _levelMenu = levelMenu;
+
+            _view.SetNumber(_number);
+
+            _view.OnOpenLevel += () => OpenLevel();
         }
 
         public void Attach(Transform parent)
@@ -18,10 +26,9 @@ namespace LevelMenu
             _view?.Attach(parent);
         }
 
-        public void SetNumber(int number)
+        public void OpenLevel()
         {
-            _number = number;
-            _view?.SetNumber(_number);
+            _levelMenu?.OpenLevel(_number);
         }
     }
 }

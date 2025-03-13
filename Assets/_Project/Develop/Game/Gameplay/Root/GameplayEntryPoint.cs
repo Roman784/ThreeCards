@@ -92,6 +92,8 @@ namespace GameplayRoot
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
 
+                _gameplayUI.SetGameplayEnterParams(enterParams);
+
                 _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
                 _gameplayUI.InitProgressBar(totalCardCount, onCardsRemoved);
                 _gameplayUI.InitChips(onCardsRemoved);
