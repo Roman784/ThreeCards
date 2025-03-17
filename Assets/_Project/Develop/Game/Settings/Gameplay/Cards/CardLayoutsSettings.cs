@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Settings
@@ -31,9 +32,20 @@ namespace Settings
             throw new ArgumentNullException($"The card layout with level number {levelNumber} are not exist.");
         }
 
+        public bool IsLevelExist(int levelNumber)
+        {
+            foreach (var layout in CardLayoutSettings)
+            {
+                if (layout.LevelNumber == levelNumber)
+                    return true;
+            }
+
+            return false;
+        }
+
         public int ClampLevelNumber(int levelNumber)
         {
-            return Math.Clamp(levelNumber, 1, CardLayoutSettings.Count);
+            return Math.Clamp(levelNumber, 1, GetMaxLevelNumber());
         }
 
         public float CalculateColumnSpacing(int columnCount)
@@ -41,6 +53,11 @@ namespace Settings
             float delta = (MaxColumnSpacing - MinColumnSpacing) / (MaxColumnCount - MinColumnCount);
             float spacing = MinColumnSpacing + delta * (MaxColumnCount - columnCount);
             return Mathf.Clamp(spacing, MinColumnSpacing, MaxColumnSpacing);
+        }
+
+        private int GetMaxLevelNumber()
+        {
+            return CardLayoutSettings.Max(l => l.LevelNumber);
         }
 
         private void OnValidate()

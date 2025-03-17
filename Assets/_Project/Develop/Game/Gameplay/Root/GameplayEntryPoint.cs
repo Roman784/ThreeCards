@@ -49,76 +49,82 @@ namespace GameplayRoot
 
         private IEnumerator Run(GameplayEnterParams enterParams)
         {
+            if (!IsLevelExist(enterParams.LevelNumber))
+                LoadLevelMenu(enterParams);
+
             var isLoaded = false;
 
-                _gameStateProvider.LoadGameState().Subscribe(_ =>
-                {
-                    try
-                    {
-                        // Settings data.
-                        var gameSettings = _settingsProvider.GameSettings;
-                        var layouts = gameSettings.CardLayoutsSettings;
-                        var layout = layouts.GetLayout(enterParams.LevelNumber);
+            _gameStateProvider.LoadGameState().Subscribe(_ =>
+            {
+                // Settings data.
+                var gameSettings = _settingsProvider.GameSettings;
+                var layouts = gameSettings.CardLayoutsSettings;
+                var layout = layouts.GetLayout(enterParams.LevelNumber);
 
-                        // Fiel setup.
-                        var slots = _slotBar.CreateSlots();
+                // Fiel setup.
+                var slots = _slotBar.CreateSlots();
 
-                        var cardPlacingService = new CardPlacingService(slots);
-                        var onCardPlaced = cardPlacingService.OnCardPlaced;
-                        var onCardReadyToPlaced = cardPlacingService.OnCardReadyToPlaced;
+                var cardPlacingService = new CardPlacingService(slots);
+                var onCardPlaced = cardPlacingService.OnCardPlaced;
+                var onCardReadyToPlaced = cardPlacingService.OnCardReadyToPlaced;
 
-                        var cardMatchingService = new CardMatchingService(slots, onCardPlaced);
-                        var onCardsRemoved = cardMatchingService.OnCardsRemoved;
+                var cardMatchingService = new CardMatchingService(slots, onCardPlaced);
+                var onCardsRemoved = cardMatchingService.OnCardsRemoved;
 
-                        onCardsRemoved.Subscribe(_ => cardPlacingService.ShiftCards());
+                onCardsRemoved.Subscribe(_ => cardPlacingService.ShiftCards());
 
-                        var cardLayoutService = new CardLayoutService(layouts, _cardFactory, cardPlacingService);
-                        var cardMarkingService = new CardMarkingService();
+                var cardLayoutService = new CardLayoutService(layouts, _cardFactory, cardPlacingService);
+                var cardMarkingService = new CardMarkingService();
 
-                        var cardsMap = cardLayoutService.SetUp(layout);
+                var cardsMap = cardLayoutService.SetUp(layout);
 
-                        var fieldService = new FieldService(cardsMap, _slotBar);
+                var fieldService = new FieldService(cardsMap, _slotBar);
 
-                        cardMarkingService.Mark(fieldService, layout.CardSpreadRange);
+                cardMarkingService.Mark(fieldService, layout.CardSpreadRange);
 
-                        // Animations.
-                        var cardFlippingService = new CardFlippingService(fieldService, onCardReadyToPlaced, onCardsRemoved);
-                        var fieldAnimationService = new FieldAnimationService(fieldService, cardFlippingService);
-                        var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
+                // Animations.
+                var cardFlippingService = new CardFlippingService(fieldService, onCardReadyToPlaced, onCardsRemoved);
+                var fieldAnimationService = new FieldAnimationService(fieldService, cardFlippingService);
+                var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
 
-                        // UI.
-                        var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
-                        var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
-                        var levelRestarterService = new LevelRestarterService(enterParams, fieldService, _shakyCamera);
-                        var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
+                // UI.
+                var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
+                var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
+                var levelRestarterService = new LevelRestarterService(enterParams, fieldService, _shakyCamera);
+                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
-                        _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
-                        _gameplayUI.BindViews();
+                _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
+                _gameplayUI.BindViews();
 
-                        _gameplayUI.SetGameplayEnterParams(enterParams);
+                _gameplayUI.SetGameplayEnterParams(enterParams);
 
-                        _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
-                        _gameplayUI.InitProgressBar(totalCardCount, onCardsRemoved);
-                        _gameplayUI.InitChips(onCardsRemoved);
+                _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
+                _gameplayUI.InitProgressBar(totalCardCount, onCardsRemoved);
+                _gameplayUI.InitChips(onCardsRemoved);
 
-                        _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
-                        layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
+                _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
+                layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
 
-                        // Winning and losing.
-                        var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
-                                                                              _gameStateProvider, _settingsProvider,
-                                                                              enterParams, _gameplayUI, fieldService);
+                // Winning and losing.
+                var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
+                                                                        _gameStateProvider, _settingsProvider,
+                                                                        enterParams, _gameplayUI, fieldService);
 
-                        isLoaded = true;
-                    }
-                    catch
-                    {
-                        var levelMenuEnterParams = new LevelMenuEnterParams(enterParams.LevelNumber);
-                        new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
-                    }
-                });
+                isLoaded = true;
+            });
 
             yield return new WaitUntil(() => isLoaded);
+        }
+
+        private bool IsLevelExist(int levelNumber)
+        {
+            return _settingsProvider.GameSettings.CardLayoutsSettings.IsLevelExist(levelNumber);
+        }
+
+        private void LoadLevelMenu(GameplayEnterParams enterParams)
+        {
+            var levelMenuEnterParams = new LevelMenuEnterParams(enterParams.LevelNumber);
+            new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
         }
     }
 }
