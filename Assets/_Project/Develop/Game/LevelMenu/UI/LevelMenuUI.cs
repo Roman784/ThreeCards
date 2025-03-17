@@ -64,12 +64,17 @@ namespace LevelMenu
             new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
         }
 
+        public void OpenLastAvailableLevel()
+        {
+            var number = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
+            OpenLevel(number);
+        }
+
         public void CreateLevelsBlocks()
         {
             int levelsCount = _settingsProvider.GameSettings.CardLayoutsSettings.LayoutsCount;
             int blocksCount = Mathf.CeilToInt(levelsCount / (float)_levelsInBlock);
-            //int lastPassedLevelNumber = _gameStateProvider.GameState.LastPassedLevelNumber.Value;
-            int lastPassedLevelNumber = 7;
+            int lastPassedLevelNumber = _gameStateProvider.GameState.LastPassedLevelNumber.Value;
 
             for (int i = 0; i < blocksCount; i++)
             {
