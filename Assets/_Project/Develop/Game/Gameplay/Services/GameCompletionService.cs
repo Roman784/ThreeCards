@@ -37,11 +37,14 @@ namespace GameplayServices
         {
             if (!_fieldService.SlotBar.HasAnyCard() && !_fieldService.HasAnyCard())
             {
-                _gameStateProvider.GameState.LastPassedLevelNumber.Value = 
-                    _currentGameplayEnterParams.LevelNumber;
+                var currentLevelNumber = _currentGameplayEnterParams.LevelNumber;
+                var layoutsSettings = _settingsProvider.GameSettings.CardLayoutsSettings;
+                var lastPassedLevelNumber = _gameStateProvider.GameState.LastPassedLevelNumber;
 
-                var nextLevelNumber = _settingsProvider.GameSettings.CardLayoutsSettings
-                    .ClampLevelNumber(_currentGameplayEnterParams.LevelNumber + 1);
+                if (currentLevelNumber > lastPassedLevelNumber.Value)
+                    lastPassedLevelNumber.Value = currentLevelNumber;
+
+                var nextLevelNumber = layoutsSettings.ClampLevelNumber(currentLevelNumber + 1);
                 var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber);
 
                 _gameplayUI.CreateLevelCompletionPopUp(nextLevelEnterParams);
