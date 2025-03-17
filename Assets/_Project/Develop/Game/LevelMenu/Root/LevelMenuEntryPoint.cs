@@ -40,6 +40,7 @@ namespace LevelMenuRoot
 
                 _levelMenuUI.BindViews();
                 _levelMenuUI.InitChips();
+                _levelMenuUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
                 _levelMenuUI.CreateLevelsBlocks();
 
                 isLoaded = true;

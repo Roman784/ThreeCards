@@ -18,6 +18,8 @@ namespace LevelMenu
         [SerializeField] private Transform _levelBlcoksContainer;
         [SerializeField] private int _levelsInBlock;
 
+        private int _currentLevelNumber;
+
         private ISettingsProvider _settingsProvider;
         private IGameStateProvider _gameStateProvider;
         private LevelsBlockFactory _levelsBlockFactory;
@@ -45,10 +47,8 @@ namespace LevelMenu
             _chipsCounter.BindView(_chipsCounterView);
         }
 
-        public void InitChips()
-        {
-            _chipsCounter.InitChips();
-        }
+        public void InitChips() => _chipsCounter.InitChips();
+        public void SetCurrentLevelNumber(int levelNumber) => _currentLevelNumber = levelNumber;
 
         public void OpenSettings()
         {
@@ -58,16 +58,21 @@ namespace LevelMenu
             _settingsPopUp.Open();
         }
 
-        public void OpenLevel(int number)
-        {
-            var gameplayEnterParams = new GameplayEnterParams(number);
-            new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
-        }
-
         public void OpenLastAvailableLevel()
         {
             var number = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
             OpenLevel(number);
+        }
+
+        public void BackToCurrentLevel()
+        {
+            OpenLevel(_currentLevelNumber);
+        }
+
+        public void OpenLevel(int number)
+        {
+            var gameplayEnterParams = new GameplayEnterParams(number);
+            new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
         }
 
         public void CreateLevelsBlocks()
