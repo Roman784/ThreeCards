@@ -3,6 +3,7 @@ using GameplayRoot;
 using GameRoot;
 using GameState;
 using Settings;
+using TMPro;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -17,6 +18,10 @@ namespace LevelMenu
 
         [SerializeField] private Transform _levelBlcoksContainer;
         [SerializeField] private int _levelsInBlock;
+
+        [Space]
+
+        [SerializeField] private Transform _commingSoonView;
 
         private int _currentLevelNumber;
 
@@ -95,6 +100,8 @@ namespace LevelMenu
 
                 CreateLevelsBlock(levelNumberRange, progress, lastPassedLevelNumber);
             }
+
+            _commingSoonView.SetAsLastSibling();
         }
 
         private void CreateLevelsBlock(Vector2Int levelNumberRange, float progress, int lastPassedLevelNumber)
