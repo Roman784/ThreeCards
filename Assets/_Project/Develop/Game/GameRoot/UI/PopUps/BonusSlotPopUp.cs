@@ -14,28 +14,27 @@ namespace UI
 
         private ChipsCounter _chipsCounter;
         private SlotBar _slotBar;
-        private AdvertisingChipsPopUp _advertisingChipsPopUp;
-        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+        private PopUpProvider _popUpProvider;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider,
                                ChipsCounter chipsCounter,
                                SlotBar slotBar,
-                               AdvertisingChipsPopUp.Factory advertisingChipsPopUpFactroy)
+                               PopUpProvider popUpProvider)
         {
             _cost = settingsProvider.GameSettings.SlotsSettings.BonusSlotCost;
             _costView.text = _cost.ToString();
 
             _chipsCounter = chipsCounter;
             _slotBar = slotBar;
-            _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
+            _popUpProvider = popUpProvider;
         }
 
         public void Bye()
         {
             if (_cost > _chipsCounter.Count)
             {
-                OpenAdvertisingChipsPopUp();
+                _popUpProvider.OpenAdvertisingChipsPopUp();
                 return;
             }
 
@@ -43,14 +42,6 @@ namespace UI
             _slotBar.CreateBonusSlot();
 
             Close();
-        }
-
-        private void OpenAdvertisingChipsPopUp()
-        {
-            if (_advertisingChipsPopUp == null)
-                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
-
-            _advertisingChipsPopUp.Open();
         }
 
         public class Factory : PopUpFactory<BonusSlotPopUp>

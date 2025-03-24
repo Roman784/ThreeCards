@@ -4,21 +4,17 @@ namespace UI
 {
     public class SettingsPopUp : PopUp
     {
-        private GameRulesPopUp _gameRulesPopUp;
-        private GameRulesPopUp.Factory _gameRulesPopUpFactory;
+        private PopUpProvider _popUpProvider;
 
         [Inject]
-        private void Construct(GameRulesPopUp.Factory gameRulesPopUpFactory)
+        private void Construct(PopUpProvider popUpProvider)
         {
-            _gameRulesPopUpFactory = gameRulesPopUpFactory;
+            _popUpProvider = popUpProvider;
         }
 
         public void OpenGameRules()
         {
-            if (_gameRulesPopUp == null)
-                _gameRulesPopUp = _gameRulesPopUpFactory.Create();
-
-            _gameRulesPopUp.Open();
+            _popUpProvider.OpenGameRulesPopUp();
         }
 
         public class Factory : PopUpFactory<SettingsPopUp>

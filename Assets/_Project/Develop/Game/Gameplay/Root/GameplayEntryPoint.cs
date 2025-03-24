@@ -19,6 +19,7 @@ namespace GameplayRoot
         private IGameStateProvider _gameStateProvider;
         private UIRootView _uiRoot;
         private GameplayUI _gameplayUI;
+        private GameplayPopUpProvider _popUpProvider;
         private ISettingsProvider _settingsProvider;
         private SlotBar _slotBar;
         private CardFactory _cardFactory;
@@ -28,6 +29,7 @@ namespace GameplayRoot
         private void Construct(IGameStateProvider gameStateProvider,
                                UIRootView uiRoot,
                                GameplayUI gameplayUI,
+                               GameplayPopUpProvider popUpProvider,
                                ISettingsProvider settingsProvider,
                                SlotBar slotBar,
                                CardFactory cardFactory,
@@ -36,6 +38,7 @@ namespace GameplayRoot
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
             _gameplayUI = gameplayUI;
+            _popUpProvider = popUpProvider;
             _settingsProvider = settingsProvider;
             _slotBar = slotBar;
             _cardFactory = cardFactory;
@@ -108,7 +111,7 @@ namespace GameplayRoot
                 // Winning and losing.
                 var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
                                                                         _gameStateProvider, _settingsProvider,
-                                                                        enterParams, _gameplayUI, fieldService);
+                                                                        enterParams, _popUpProvider, fieldService);
 
                 isLoaded = true;
             });

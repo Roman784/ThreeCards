@@ -24,15 +24,14 @@ namespace UI
         private GameplayTools _gameplayTools;
         private ChipsCounter _chipsCounter;
         private SlotBar _slotBar;
-        private AdvertisingChipsPopUp _advertisingChipsPopUp;
-        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+        private PopUpProvider _popUpProvider;
 
         [Inject]
         private void Construct(GameplayUI gameplayUI,
                                ISettingsProvider settingsProvider,
                                ChipsCounter chipsCounter,
                                SlotBar slotBar,
-                               AdvertisingChipsPopUp.Factory advertisingChipsPopUpFactroy)
+                               PopUpProvider popUpProvider)
         {
             _bonusSlotCost = settingsProvider.GameSettings.SlotsSettings.BonusSlotCost;
             _magicStickCost = settingsProvider.GameSettings.ToolsSettings.MagicStickCost;
@@ -43,7 +42,7 @@ namespace UI
             _gameplayTools = gameplayUI.GameplayTools;
             _chipsCounter = chipsCounter;
             _slotBar = slotBar;
-            _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
+            _popUpProvider = popUpProvider;
         }
 
         public override void Open(bool fadeScreen = true)
@@ -82,16 +81,8 @@ namespace UI
         {
             if (_chipsCounter.Count >= cost) return true;
 
-            OpenAdvertisingChipsPopUp();
+            _popUpProvider.OpenAdvertisingChipsPopUp();
             return false;
-        }
-
-        private void OpenAdvertisingChipsPopUp()
-        {
-            if (_advertisingChipsPopUp == null)
-                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
-
-            _advertisingChipsPopUp.Open();
         }
 
         public class Factory : PopUpFactory<GameOverPopUp>

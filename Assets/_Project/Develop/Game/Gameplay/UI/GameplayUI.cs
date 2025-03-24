@@ -24,18 +24,7 @@ namespace UI
         private ChipsCounter _chipsCounter;
         private GameplayTools _gameplayTools;
         private SlotBar _slotBar;
-
-        private SettingsPopUp _settingsPopUp;
-        private SettingsPopUp.Factory _settingsPopUpFactory;
-
-        private BonusSlotPopUp _bonusSlotPopUp;
-        private BonusSlotPopUp.Factory _bonusSlotPopUpfactory;
-
-        private GameOverPopUp _gameOverPopUp;
-        private GameOverPopUp.Factory _gameOverPopUpFactory;
-
-        private LevelCompletionPopUp _levelCompletionPopUp;
-        private LevelCompletionPopUp.Factory _levelCompletionPopUpFactory;
+        private GameplayPopUpProvider _popUpProvider;
 
         public GameplayTools GameplayTools => _gameplayTools;
 
@@ -44,19 +33,13 @@ namespace UI
                                ChipsCounter chipsCounter,
                                GameplayTools gameplayTools,
                                SlotBar slotBar,
-                               SettingsPopUp.Factory settingsPopUpFactory,
-                               BonusSlotPopUp.Factory bonusSlotPopUpFactory,
-                               GameOverPopUp.Factory gameOverPopUpFactory,
-                               LevelCompletionPopUp.Factory levelCompletionPopUpFactory)
+                               GameplayPopUpProvider popUpProvider)
         {
             _levelProgress = levelProgress;
             _chipsCounter = chipsCounter;
             _gameplayTools = gameplayTools;
             _slotBar = slotBar;
-            _settingsPopUpFactory = settingsPopUpFactory;
-            _bonusSlotPopUpfactory = bonusSlotPopUpFactory;
-            _gameOverPopUpFactory = gameOverPopUpFactory;
-            _levelCompletionPopUpFactory = levelCompletionPopUpFactory;
+            _popUpProvider = popUpProvider;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -70,10 +53,7 @@ namespace UI
 
         public void OpenSettings()
         {
-            if (_settingsPopUp == null)
-                _settingsPopUp = _settingsPopUpFactory.Create();
-
-            _settingsPopUp.Open();
+            _popUpProvider.OpenSettingsPopUp();
         }
 
         public void OpenLevelMenu()
@@ -122,26 +102,7 @@ namespace UI
 
         public void CreateBonusSlot()
         {
-            if (_bonusSlotPopUp == null)
-                _bonusSlotPopUp = _bonusSlotPopUpfactory.Create();
-
-            _bonusSlotPopUp.Open();
-        }
-
-        public void CreateGameOverPopUp()
-        {
-            if (_gameOverPopUp == null)
-                _gameOverPopUp = _gameOverPopUpFactory.Create();
-
-            _gameOverPopUp.Open();
-        }
-
-        public void CreateLevelCompletionPopUp(GameplayEnterParams enterParams)
-        {
-            if (_levelCompletionPopUp == null)
-                _levelCompletionPopUp = _levelCompletionPopUpFactory.Create(enterParams);
-
-            _levelCompletionPopUp.Open();
+            _popUpProvider.OpenBonuSlotPopUp();
         }
     }
 }

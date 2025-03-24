@@ -29,6 +29,8 @@ namespace GameplayInstallers
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<GameplayTools>().AsSingle();
 
+            Container.Bind<GameplayPopUpProvider>().AsTransient();
+
             BindPopUps();
         }
 

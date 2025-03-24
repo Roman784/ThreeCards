@@ -15,23 +15,22 @@ namespace Currencies
         private ChipsCounterView _view;
 
         private IGameStateProvider _gameStateProvider;
-        private AdvertisingChipsPopUp _advertisingChipsPopUp;
-        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+        private PopUpProvider _popUpProvider;
 
         public int Count => _chipsCount;
 
         [Inject]
-        private void Construct(IGameStateProvider gameStateProvider, AdvertisingChipsPopUp.Factory advertisingChipsPopUpFactroy)
+        private void Construct(IGameStateProvider gameStateProvider, PopUpProvider popUpProvider)
         {
             _gameStateProvider = gameStateProvider;
-            _advertisingChipsPopUpFactroy = advertisingChipsPopUpFactroy;
+            _popUpProvider = popUpProvider;
         }
 
         public void BindView(ChipsCounterView view)
         {
             _view = view;
 
-            _view.OnGetAdvertisingChips += () => OpenAdvertisingChipsPopUp();
+            _view.OnGetAdvertisingChips += () => _popUpProvider.OpenAdvertisingChipsPopUp();
         }
 
         public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved = null)
@@ -79,14 +78,6 @@ namespace Currencies
             {
                 _view?.ChangeCounter(_chipsCount);
             });
-        }
-
-        private void OpenAdvertisingChipsPopUp()
-        {
-            if (_advertisingChipsPopUp == null)
-                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
-
-            _advertisingChipsPopUp.Open();
         }
     }
 }

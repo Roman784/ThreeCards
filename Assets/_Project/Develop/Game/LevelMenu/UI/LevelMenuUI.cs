@@ -3,7 +3,6 @@ using GameplayRoot;
 using GameRoot;
 using GameState;
 using Settings;
-using TMPro;
 using UI;
 using UnityEngine;
 using Zenject;
@@ -29,22 +28,20 @@ namespace LevelMenu
         private IGameStateProvider _gameStateProvider;
         private LevelsBlockFactory _levelsBlockFactory;
         private ChipsCounter _chipsCounter;
-
-        private SettingsPopUp _settingsPopUp;
-        private SettingsPopUp.Factory _settingsPopUpFactory;
+        private PopUpProvider _popUpProvider;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider,
                                IGameStateProvider gameStateProvider,
                                LevelsBlockFactory levelsBlockFactory,
                                ChipsCounter chipsCounter,
-                               SettingsPopUp.Factory settingsPopUpFactory)
+                               PopUpProvider popUpProvider)
         {
             _settingsProvider = settingsProvider;
             _gameStateProvider = gameStateProvider;
             _levelsBlockFactory = levelsBlockFactory;
             _chipsCounter = chipsCounter;
-            _settingsPopUpFactory = settingsPopUpFactory;
+            _popUpProvider = popUpProvider;
         }
 
         public void BindViews()
@@ -57,10 +54,7 @@ namespace LevelMenu
 
         public void OpenSettings()
         {
-            if (_settingsPopUp == null)
-                _settingsPopUp = _settingsPopUpFactory.Create();
-
-            _settingsPopUp.Open();
+            _popUpProvider.OpenSettingsPopUp();
         }
 
         public void OpenLastAvailableLevel()

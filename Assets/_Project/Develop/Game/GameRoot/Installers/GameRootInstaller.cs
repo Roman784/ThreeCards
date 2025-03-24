@@ -39,6 +39,8 @@ namespace GameRootInstallers
             UIRootView uiRootPrefab = Resources.Load<UIRootView>("UI/UIRoot");
             Container.Bind<UIRootView>().FromComponentInNewPrefab(uiRootPrefab).AsSingle();
 
+            Container.Bind<PopUpProvider>().AsTransient();
+
             BindPopUps();
         }
 

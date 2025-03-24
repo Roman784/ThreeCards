@@ -17,18 +17,16 @@ namespace UI
         private LevelRestarterService _levelRestarterService;
         private ToolsSettings _toolsSettings;
         private ChipsCounter _chipsCounter;
-
-        private AdvertisingChipsPopUp _advertisingChipsPopUp;
-        private AdvertisingChipsPopUp.Factory _advertisingChipsPopUpFactroy;
+        private PopUpProvider _popUpProvider;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, 
                                ChipsCounter chipsCounter, 
-                               AdvertisingChipsPopUp.Factory advertistingChipsPopUpFactory)
+                               PopUpProvider popUpProvider)
         {
             _toolsSettings = settingsProvider.GameSettings.ToolsSettings;
             _chipsCounter = chipsCounter;
-            _advertisingChipsPopUpFactroy = advertistingChipsPopUpFactory;
+            _popUpProvider = popUpProvider;
         }
 
         public void BindView(GameplayToolsView view)
@@ -117,16 +115,8 @@ namespace UI
         {
             if (_chipsCounter.Count >= cost) return true;
 
-            OpenAdvertisingChipsPopUp();
+            _popUpProvider.OpenAdvertisingChipsPopUp();
             return false;
-        }
-
-        private void OpenAdvertisingChipsPopUp()
-        {
-            if (_advertisingChipsPopUp == null)
-                _advertisingChipsPopUp = _advertisingChipsPopUpFactroy.Create();
-
-            _advertisingChipsPopUp.Open();
         }
     }
 }
