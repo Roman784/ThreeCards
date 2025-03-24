@@ -9,7 +9,7 @@ using Zenject;
 
 namespace LevelMenu
 {
-    public class LevelMenuUI : MonoBehaviour
+    public class LevelMenuUI : SceneUI
     {
         [SerializeField] private ChipsCounterView _chipsCounterView;
 
@@ -23,25 +23,12 @@ namespace LevelMenu
         [SerializeField] private Transform _commingSoonView;
 
         private int _currentLevelNumber;
-
-        private ISettingsProvider _settingsProvider;
-        private IGameStateProvider _gameStateProvider;
         private LevelsBlockFactory _levelsBlockFactory;
-        private ChipsCounter _chipsCounter;
-        private PopUpProvider _popUpProvider;
 
         [Inject]
-        private void Construct(ISettingsProvider settingsProvider,
-                               IGameStateProvider gameStateProvider,
-                               LevelsBlockFactory levelsBlockFactory,
-                               ChipsCounter chipsCounter,
-                               PopUpProvider popUpProvider)
+        private void Construct(LevelsBlockFactory levelsBlockFactory)
         {
-            _settingsProvider = settingsProvider;
-            _gameStateProvider = gameStateProvider;
             _levelsBlockFactory = levelsBlockFactory;
-            _chipsCounter = chipsCounter;
-            _popUpProvider = popUpProvider;
         }
 
         public void BindViews()
@@ -51,11 +38,6 @@ namespace LevelMenu
 
         public void InitChips() => _chipsCounter.InitChips();
         public void SetCurrentLevelNumber(int levelNumber) => _currentLevelNumber = levelNumber;
-
-        public void OpenSettings()
-        {
-            _popUpProvider.OpenSettingsPopUp();
-        }
 
         public void OpenLastAvailableLevel()
         {

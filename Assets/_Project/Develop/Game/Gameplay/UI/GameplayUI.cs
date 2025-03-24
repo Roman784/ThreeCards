@@ -12,7 +12,7 @@ using Zenject;
 
 namespace UI
 {
-    public class GameplayUI : MonoBehaviour
+    public class GameplayUI : SceneUI
     {
         [SerializeField] private LevelProgressView _levelProgressView;
         [SerializeField] private ChipsCounterView _chipsCounterView;
@@ -21,25 +21,22 @@ namespace UI
         private GameplayEnterParams _gameplayEnterParams;
 
         private LevelProgress _levelProgress;
-        private ChipsCounter _chipsCounter;
         private GameplayTools _gameplayTools;
         private SlotBar _slotBar;
-        private GameplayPopUpProvider _popUpProvider;
+        private GameplayPopUpProvider _gameplayPopUpProvider;
 
         public GameplayTools GameplayTools => _gameplayTools;
 
         [Inject]
         private void Construct(LevelProgress levelProgress,
-                               ChipsCounter chipsCounter,
                                GameplayTools gameplayTools,
                                SlotBar slotBar,
-                               GameplayPopUpProvider popUpProvider)
+                               GameplayPopUpProvider gameplayPopUpProvider)
         {
             _levelProgress = levelProgress;
-            _chipsCounter = chipsCounter;
             _gameplayTools = gameplayTools;
             _slotBar = slotBar;
-            _popUpProvider = popUpProvider;
+            _gameplayPopUpProvider = gameplayPopUpProvider;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -49,11 +46,6 @@ namespace UI
             _levelProgress.BindView(_levelProgressView);
             _chipsCounter.BindView(_chipsCounterView);
             _gameplayTools.BindView(_gameplayToolsView);
-        }
-
-        public void OpenSettings()
-        {
-            _popUpProvider.OpenSettingsPopUp();
         }
 
         public void OpenLevelMenu()
@@ -102,7 +94,7 @@ namespace UI
 
         public void CreateBonusSlot()
         {
-            _popUpProvider.OpenBonuSlotPopUp();
+            _gameplayPopUpProvider.OpenBonuSlotPopUp();
         }
     }
 }
