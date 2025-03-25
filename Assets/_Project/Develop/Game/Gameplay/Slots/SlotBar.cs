@@ -8,7 +8,7 @@ namespace Gameplay
 {
     public class SlotBar : MonoBehaviour
     {
-        [SerializeField] private float _spacing;
+        [SerializeField] protected float _spacing;
 
         [SerializeField] private bool _hasBonusSlot = true;
         [SerializeField] private BonusSlotView _bonusSlotView;
@@ -17,7 +17,7 @@ namespace Gameplay
         private SlotsSettings _slotsSettings;
         private SlotFactory _slotFactory;
 
-        private List<Slot> _slots = new();
+        protected List<Slot> _slots = new();
         public IEnumerable<Slot> Slots => _slots;
         public BonusSlotView BonusSlotView => _bonusSlotView;
         public bool IsBonusSlotCreated => _bonusSlot?.IsDestroyed ?? true;
@@ -42,7 +42,7 @@ namespace Gameplay
             return false;
         }
 
-        public List<Slot> CreateSlots()
+        public virtual List<Slot> CreateSlots()
         {
             for (int i = 0; i < _slotsSettings.Count; i++)
             {
@@ -82,7 +82,7 @@ namespace Gameplay
             return false;
         }
 
-        private void CreateSlot()
+        protected void CreateSlot()
         {
             var newSlot = _slotFactory.Create();
             _slots.Add(newSlot);
@@ -90,7 +90,7 @@ namespace Gameplay
             ArrangeSlots();
         }
 
-        private void ArrangeSlots()
+        protected virtual void ArrangeSlots()
         {
             var slots = new List<Slot>(_slots);
 
@@ -103,7 +103,8 @@ namespace Gameplay
             for (int i = 0; i < slots.Count; i++)
             {
                 var slot = slots[i];
-                var position = new Vector3(startX + _spacing * i, transform.position.y, transform.position.z);
+                var position = new Vector3(startX + _spacing * i, 0, 0) 
+                    + transform.position;
 
                 slot.SetParent(transform);
                 slot.SetPosition(position);
