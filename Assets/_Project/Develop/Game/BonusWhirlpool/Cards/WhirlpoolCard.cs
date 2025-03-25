@@ -19,7 +19,9 @@ namespace BonusWhirlpool
 
         private float _angle;
 
-        public event Action<WhirlpoolCard> OnCardPlaced; 
+        public event Action<WhirlpoolCard> OnCardPlaced;
+
+        public Card Card => _card;
 
         public WhirlpoolCard(Card card, Vector2 radius, float flightSpeed, float trajectoryAngleOffset, float rotationSpeed)
         {

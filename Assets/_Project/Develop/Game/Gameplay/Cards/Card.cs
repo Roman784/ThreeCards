@@ -70,10 +70,10 @@ namespace Gameplay
             return _view.Close(instantly);
         }
 
-        public Observable<Unit> Open()
+        public Observable<Unit> Open(bool instantly = false)
         {
             IsClosed = false;
-            return _view.Open();
+            return _view.Open(instantly);
         }
 
         public void PutDown()

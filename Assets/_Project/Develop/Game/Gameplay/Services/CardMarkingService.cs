@@ -38,6 +38,17 @@ namespace GameplayServices
             }
         }
 
+        public void MarkRandom(List<Card> cards)
+        {
+            foreach (Card card in cards)
+            {
+                Suits suit = CardMarkingMapper.GetRandomSuits();
+                Ranks rank = CardMarkingMapper.GetRandomRank();
+
+                card.Mark(suit, rank);
+            }
+        }
+
         private void InitThreeCards(Card originCard, Vector2Int originCardCoords)
         {
             HashSet<Card> vacantCards = new();

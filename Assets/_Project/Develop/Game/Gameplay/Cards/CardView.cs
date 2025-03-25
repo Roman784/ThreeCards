@@ -108,16 +108,23 @@ namespace Gameplay
             if (instantly)
             {
                 SetCloseView();
-                return null;
+                return Observable.Return(Unit.Default);
             }
 
             _animator.SetTrigger("Closing");
             return CurrentAnimationDelayedCall();
         }
 
-        public Observable<Unit> Open()
+        public Observable<Unit> Open(bool instantly = false)
         {
             _raycaster.enabled = true;
+
+            if (instantly)
+            {
+                SetOpenView();
+                return Observable.Return(Unit.Default);
+            }
+
             _animator.SetTrigger("Opening");
             return CurrentAnimationDelayedCall();
         }

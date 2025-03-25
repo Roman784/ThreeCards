@@ -22,10 +22,12 @@ namespace BonusWhirlpoolService
             _settings = settings;
         }
 
-        public void Start()
+        public List<WhirlpoolCard> Start()
         {
             CreateCards();
             Coroutines.StartRoutine(MoveCards());
+
+            return _cards;
         }
 
         private void CreateCards()

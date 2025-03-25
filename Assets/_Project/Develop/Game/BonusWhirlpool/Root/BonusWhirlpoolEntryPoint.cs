@@ -11,6 +11,8 @@ using Zenject;
 using R3;
 using BonusWhirlpool;
 using BonusWhirlpoolService;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace BonusWhirlpoolRoot
 {
@@ -57,8 +59,16 @@ namespace BonusWhirlpoolRoot
                 
                 // Field setup.
                 var slots = _slotBar.CreateSlots();
+                var cardPlacingService = new CardPlacingService(slots);
 
-                new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings).Start();
+                var cardWhirlpoolService = new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings);
+                var cardMarkingService = new CardMarkingService();
+
+                var whirlpoolCards = cardWhirlpoolService.Start();
+                var cards = whirlpoolCards.Select(c => c.Card).ToList();
+
+                cardMarkingService.MarkRandom(cards);
+                cards.ForEach(c => c.Open(true));
 
                 isLoaded = true;
             });
