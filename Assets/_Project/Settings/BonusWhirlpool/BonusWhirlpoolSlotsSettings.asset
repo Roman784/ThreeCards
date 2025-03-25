@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d29bcc83b287ad240b93747666f8100f, type: 3}
   m_Name: BonusWhirlpoolSlotsSettings
   m_EditorClassIdentifier: 
-  <Count>k__BackingField: 16
+  <Count>k__BackingField: 12
   <CountInRow>k__BackingField: 4

@@ -39,5 +39,19 @@ namespace Utils
             int randomIndex = Random.Range(0, values.Count);
             return values[randomIndex];
         }
+
+        public static float GetRandomRange(float value, float step)
+        {
+            return value + Random.Range(-step, step);
+        }
+
+        public static Vector3 GetRandomRange(Vector3 value, Vector3 step)
+        {
+            var x = GetRandomRange(value.x, step.x);
+            var y = GetRandomRange(value.y, step.y);
+            var z = GetRandomRange(value.z, step.z);
+
+            return new Vector3(x, y, z);
+        }
     }
 }

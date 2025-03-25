@@ -10,6 +10,7 @@ using UnityEngine;
 using Zenject;
 using R3;
 using BonusWhirlpool;
+using BonusWhirlpoolService;
 
 namespace BonusWhirlpoolRoot
 {
@@ -51,7 +52,13 @@ namespace BonusWhirlpoolRoot
 
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {
+                // Settings.
+                var cardWhirlpoolSettings = _settingsProvider.GameSettings.CardWhirlpoolSettings;
+                
+                // Field setup.
                 var slots = _slotBar.CreateSlots();
+
+                new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings).Start();
 
                 isLoaded = true;
             });

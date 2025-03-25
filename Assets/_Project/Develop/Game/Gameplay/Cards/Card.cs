@@ -11,6 +11,9 @@ namespace Gameplay
 
         private CardPlacingService _cardPlacingService;
 
+        private Subject<Card> _cardPlacedSubj = new();
+        public Observable<Card> OnCardPlaced => _cardPlacedSubj;
+
         public Vector2Int Coordinates { get; private set; }
         public bool IsClosed { get; private set; }
         public bool IsMarked { get; private set; }
@@ -32,6 +35,7 @@ namespace Gameplay
 
         public void SetCoordinates(Vector2Int coordinates) => Coordinates = coordinates;
         public void SetPosition(Vector3 position) => _view.SetPosition(position);
+        public void Rotate(Vector3 eulers) => _view.Rotate(eulers);
 
         public void Mark(Suits suit, Ranks rank)
         {
@@ -51,6 +55,7 @@ namespace Gameplay
         public Observable<Unit> Place(Transform slot)
         {
             IsPlaced = true;
+            _cardPlacedSubj.OnNext(this);
             return _view.Place(slot);
         }
 

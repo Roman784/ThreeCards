@@ -9,5 +9,6 @@ namespace Settings
         [field: SerializeField] public SlotsSettings SlotsSettings { get; private set; }
         [field: SerializeField] public ToolsSettings ToolsSettings { get; private set; }
         [field: SerializeField] public BonusWhirlpoolSlotsSettings BonusWhirlpoolSlotsSettings { get; private set; }
+        [field: SerializeField] public CardWhirlpoolSettings CardWhirlpoolSettings { get; private set; }
     }
 }
