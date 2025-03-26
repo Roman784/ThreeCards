@@ -62,6 +62,12 @@ namespace BonusWhirlpoolRoot
                 // Field setup.
                 var slots = _slotBar.CreateSlots();
                 var cardPlacingService = new CardPlacingService(slots);
+                var onCardPlaced = cardPlacingService.OnCardPlaced;
+
+                var cardMatchingService = new CardMatchingService(slots, onCardPlaced);
+                var onCardsRemoved = cardMatchingService.OnCardsRemoved;
+
+                onCardsRemoved.Subscribe(_ => cardPlacingService.ShiftCards());
 
                 var cardWhirlpoolService = new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
@@ -76,7 +82,7 @@ namespace BonusWhirlpoolRoot
                 _uiRoot.AttachSceneUI(_bonusWhirlpoolUI.gameObject);
                 _bonusWhirlpoolUI.BindViews();
 
-                _bonusWhirlpoolUI.InitChips();
+                _bonusWhirlpoolUI.InitChips(onCardsRemoved);
                 _bonusWhirlpoolUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
 
                 isLoaded = true;
