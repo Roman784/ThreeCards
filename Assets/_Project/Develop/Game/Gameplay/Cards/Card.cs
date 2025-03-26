@@ -34,8 +34,17 @@ namespace Gameplay
         }
 
         public void SetCoordinates(Vector2Int coordinates) => Coordinates = coordinates;
-        public void SetPosition(Vector3 position) => _view.SetPosition(position);
-        public void Rotate(Vector3 eulers) => _view.Rotate(eulers);
+        public void SetPosition(Vector3 position)
+        {
+            if (!IsDestroyed)
+                _view.SetPosition(position);
+        }
+
+        public void Rotate(Vector3 eulers)
+        {
+            if (!IsDestroyed && !IsPlaced)
+                _view.Rotate(eulers);
+        }
 
         public void Mark(Suits suit, Ranks rank)
         {

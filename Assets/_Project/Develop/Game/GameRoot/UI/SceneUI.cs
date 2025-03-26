@@ -1,6 +1,9 @@
 using Currencies;
+using GameplayServices;
 using GameState;
+using R3;
 using Settings;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +11,8 @@ namespace UI
 {
     public class SceneUI : MonoBehaviour
     {
+        [SerializeField] private ChipsCounterView _chipsCounterView;
+
         protected ISettingsProvider _settingsProvider;
         protected IGameStateProvider _gameStateProvider;
         protected PopUpProvider _popUpProvider;
@@ -23,6 +28,16 @@ namespace UI
             _gameStateProvider = gameStateProvider;
             _chipsCounter = chipsCounter;
             _popUpProvider = popUpProvider;
+        }
+
+        public virtual void BindViews()
+        {
+            _chipsCounter.BindView(_chipsCounterView);
+        }
+
+        public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved = null)
+        {
+            _chipsCounter.InitChips(onCardsRemoved);
         }
 
         public void OpenSettings()

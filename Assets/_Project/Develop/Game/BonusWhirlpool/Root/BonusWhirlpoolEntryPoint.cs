@@ -20,7 +20,7 @@ namespace BonusWhirlpoolRoot
     {
         private IGameStateProvider _gameStateProvider;
         private UIRootView _uiRoot;
-        private GameplayUI _gameplayUI;
+        private BonusWhirlpoolUI _bonusWhirlpoolUI;
         private GameplayPopUpProvider _popUpProvider;
         private ISettingsProvider _settingsProvider;
         private BonusWhirlpoolSlotBar _slotBar;
@@ -30,6 +30,7 @@ namespace BonusWhirlpoolRoot
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
                                UIRootView uiRoot,
+                               BonusWhirlpoolUI bonusWhirlpoolUI,
                                ISettingsProvider settingsProvider,
                                BonusWhirlpoolSlotBar slotBar,
                                CardFactory cardFactory,
@@ -37,6 +38,7 @@ namespace BonusWhirlpoolRoot
         {
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
+            _bonusWhirlpoolUI = bonusWhirlpoolUI;
             _settingsProvider = settingsProvider;
             _slotBar = slotBar;
             _cardFactory = cardFactory;
@@ -69,6 +71,13 @@ namespace BonusWhirlpoolRoot
 
                 cardMarkingService.MarkRandom(cards);
                 cards.ForEach(c => c.Open(true));
+
+                //UI.
+                _uiRoot.AttachSceneUI(_bonusWhirlpoolUI.gameObject);
+                _bonusWhirlpoolUI.BindViews();
+
+                _bonusWhirlpoolUI.InitChips();
+                _bonusWhirlpoolUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
 
                 isLoaded = true;
             });

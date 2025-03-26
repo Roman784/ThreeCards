@@ -11,8 +11,6 @@ namespace LevelMenu
 {
     public class LevelMenuUI : SceneUI
     {
-        [SerializeField] private ChipsCounterView _chipsCounterView;
-
         [Space]
 
         [SerializeField] private Transform _levelBlcoksContainer;
@@ -31,12 +29,6 @@ namespace LevelMenu
             _levelsBlockFactory = levelsBlockFactory;
         }
 
-        public void BindViews()
-        {
-            _chipsCounter.BindView(_chipsCounterView);
-        }
-
-        public void InitChips() => _chipsCounter.InitChips();
         public void SetCurrentLevelNumber(int levelNumber) => _currentLevelNumber = levelNumber;
 
         public void OpenLastAvailableLevel()

@@ -23,8 +23,8 @@ namespace BonusWhirlpoolInstaller
 
         private void BindUI()
         {
-            GameplayUI gameplayUIPrefab = Resources.Load<GameplayUI>("UI/GameplayUI");
-            Container.Bind<GameplayUI>().FromComponentInNewPrefab(gameplayUIPrefab).AsSingle();
+            BonusWhirlpoolUI bonusWhirlpoolUIPrefab= Resources.Load<BonusWhirlpoolUI>("UI/BonusWhirlpoolUI");
+            Container.Bind<BonusWhirlpoolUI>().FromComponentInNewPrefab(bonusWhirlpoolUIPrefab).AsSingle();
 
             BindPopUps();
         }

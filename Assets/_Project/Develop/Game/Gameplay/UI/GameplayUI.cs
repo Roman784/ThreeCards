@@ -15,7 +15,6 @@ namespace UI
     public class GameplayUI : SceneUI
     {
         [SerializeField] private LevelProgressView _levelProgressView;
-        [SerializeField] private ChipsCounterView _chipsCounterView;
         [SerializeField] private GameplayToolsView _gameplayToolsView;
 
         private GameplayEnterParams _gameplayEnterParams;
@@ -41,10 +40,11 @@ namespace UI
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
 
-        public void BindViews()
+        public override void BindViews()
         {
+            base.BindViews();
+
             _levelProgress.BindView(_levelProgressView);
-            _chipsCounter.BindView(_chipsCounterView);
             _gameplayTools.BindView(_gameplayToolsView);
         }
 
@@ -53,11 +53,6 @@ namespace UI
             var currentLevelNumber = _gameplayEnterParams.LevelNumber;
             var levelMenuEnterParams = new LevelMenuEnterParams(currentLevelNumber);
             new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
-        }
-
-        public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
-        {
-            _chipsCounter.InitChips(onCardsRemoved);
         }
 
         public void SetGameplayEnterParams(GameplayEnterParams gameplayEnterParams)

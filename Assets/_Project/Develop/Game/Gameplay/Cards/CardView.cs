@@ -57,8 +57,17 @@ namespace Gameplay
         }
 
         public Vector3 GetPosition() => transform.position;
-        public void SetPosition(Vector3 position) => transform.position = position;
-        public void Rotate(Vector3 eulers) => transform.Rotate(eulers);
+        public void SetPosition(Vector3 position)
+        {
+            if (this != null)
+                transform.position = position;
+        }
+
+        public void Rotate(Vector3 eulers)
+        {
+            if (this != null)
+                transform.Rotate(eulers);
+        }
 
         public void Mark(Suits suit, Ranks rank)
         {
