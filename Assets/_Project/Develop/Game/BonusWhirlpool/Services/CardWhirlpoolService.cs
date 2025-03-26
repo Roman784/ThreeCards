@@ -13,13 +13,15 @@ namespace BonusWhirlpoolService
     {
         private CardFactory _cardFactory;
         private CardWhirlpoolSettings _settings;
+        private CardPlacingService _cardPlacingService;
 
         private List<WhirlpoolCard> _cards = new();
 
-        public CardWhirlpoolService(CardFactory cardFactory, CardWhirlpoolSettings settings)
+        public CardWhirlpoolService(CardFactory cardFactory, CardWhirlpoolSettings settings, CardPlacingService cardPlacingService)
         {
             _cardFactory = cardFactory;
             _settings = settings;
+            _cardPlacingService = cardPlacingService;
         }
 
         public List<WhirlpoolCard> Start()
@@ -36,17 +38,24 @@ namespace BonusWhirlpoolService
 
             for (int i = 0; i < _settings.Count; i++)
             {
-                var card = _cardFactory.Create();
-                var radius = Randomizer.GetRandomRange(_settings.Radius, _settings.RadiusOffset);
-                var flightSpeed = Randomizer.GetRandomRange(_settings.FlightSpeed, _settings.FlightSpeedOffset);
-                var trajectoryAngleOffset = Randomizer.GetRandomRange(0, _settings.TrajectoryAngleOffset);
-                var rotationSpeed = Randomizer.GetRandomRange(_settings.RotationSpeed, _settings.RotationSpeedOffset);
-
-                var whirlpoolCard = new WhirlpoolCard(card, radius, flightSpeed, trajectoryAngleOffset, rotationSpeed);
-                _cards.Add(whirlpoolCard);
-
-                whirlpoolCard.OnCardPlaced += (card) => RemoveCard(card);
+                CreateCard();
             }
+        }
+
+        private void CreateCard()
+        {
+            var card = _cardFactory.Create();
+            card.SetPlacingService(_cardPlacingService);
+
+            var radius = Randomizer.GetRandomRange(_settings.Radius, _settings.RadiusOffset);
+            var flightSpeed = Randomizer.GetRandomRange(_settings.FlightSpeed, _settings.FlightSpeedOffset);
+            var trajectoryAngleOffset = Randomizer.GetRandomRange(0, _settings.TrajectoryAngleOffset);
+            var rotationSpeed = Randomizer.GetRandomRange(_settings.RotationSpeed, _settings.RotationSpeedOffset);
+
+            var whirlpoolCard = new WhirlpoolCard(card, radius, flightSpeed, trajectoryAngleOffset, rotationSpeed);
+            _cards.Add(whirlpoolCard);
+
+            whirlpoolCard.OnCardPlaced += (card) => RemoveCard(card);
         }
 
         private IEnumerator MoveCards()
@@ -64,6 +73,7 @@ namespace BonusWhirlpoolService
 
         private void RemoveCard(WhirlpoolCard card)
         {
+            Debug.Log("removed");
             _cards.Remove(card);
         }
     }

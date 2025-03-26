@@ -61,7 +61,7 @@ namespace BonusWhirlpoolRoot
                 var slots = _slotBar.CreateSlots();
                 var cardPlacingService = new CardPlacingService(slots);
 
-                var cardWhirlpoolService = new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings);
+                var cardWhirlpoolService = new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
 
                 var whirlpoolCards = cardWhirlpoolService.Start();

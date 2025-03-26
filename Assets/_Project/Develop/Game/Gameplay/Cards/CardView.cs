@@ -81,7 +81,9 @@ namespace Gameplay
         public Observable<Unit> Place(Transform slot)
         {
             _raycaster.enabled = false;
+
             transform.SetParent(slot);
+            StraightenRotation();
             return Move(slot.position, Ease.OutQuad);
         }
 
@@ -150,6 +152,12 @@ namespace Gameplay
         {
             _animator.SetTrigger("Destroying");
             return CurrentAnimationDelayedCall();
+        }
+
+        private void StraightenRotation()
+        {
+            transform.DORotate(Vector3.zero, 0.25f)
+                .SetEase(Ease.OutQuad);
         }
 
         private Observable<Unit> CurrentAnimationDelayedCall()
