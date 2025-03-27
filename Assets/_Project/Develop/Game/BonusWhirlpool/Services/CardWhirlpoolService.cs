@@ -73,8 +73,8 @@ namespace BonusWhirlpoolService
 
         private void RemoveCard(WhirlpoolCard card)
         {
-            Debug.Log("removed");
             _cards.Remove(card);
+            CreateCard();
         }
     }
 }
