@@ -18,7 +18,7 @@ namespace BonusWhirlpool
         [Inject]
         private void Construct(ISettingsProvider settingsProvider)
         {
-            _settings = settingsProvider.GameSettings.BonusWhirlpoolSlotsSettings;
+            _settings = settingsProvider.GameSettings.BonusWhirlpoolSettings.SlotsSettings;
             _countInRow = _settings.CountInRow;
         }
 

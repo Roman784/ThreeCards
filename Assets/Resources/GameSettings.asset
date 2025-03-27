@@ -15,5 +15,4 @@ MonoBehaviour:
   <CardLayoutsSettings>k__BackingField: {fileID: 11400000, guid: cf0d128804b7abc46be6e13be83e97a0, type: 2}
   <SlotsSettings>k__BackingField: {fileID: 11400000, guid: 8b207a64670dced4ab28045447a61043, type: 2}
   <ToolsSettings>k__BackingField: {fileID: 11400000, guid: a804651e7771def4ea4d8e808b340359, type: 2}
-  <BonusWhirlpoolSlotsSettings>k__BackingField: {fileID: 11400000, guid: ad96707fb7f26b946a7c0f90f4e49a17, type: 2}
-  <CardWhirlpoolSettings>k__BackingField: {fileID: 11400000, guid: 632c608b3ebaaec49a42fb1e490afa97, type: 2}
+  <BonusWhirlpoolSettings>k__BackingField: {fileID: 11400000, guid: 10afd3e562219fa4188dc20f7d43dfc1, type: 2}

@@ -57,7 +57,7 @@ namespace BonusWhirlpoolRoot
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {
                 // Settings.
-                var cardWhirlpoolSettings = _settingsProvider.GameSettings.CardWhirlpoolSettings;
+                var cardWhirlpoolSettings = _settingsProvider.GameSettings.BonusWhirlpoolSettings.CardSettings;
                 
                 // Field setup.
                 var slots = _slotBar.CreateSlots();
@@ -84,6 +84,8 @@ namespace BonusWhirlpoolRoot
 
                 _bonusWhirlpoolUI.InitChips(onCardsRemoved);
                 _bonusWhirlpoolUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
+
+                _bonusWhirlpoolUI.StartTimer();
 
                 isLoaded = true;
             });

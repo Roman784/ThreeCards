@@ -1,5 +1,7 @@
 using Currencies;
+using GameplayRoot;
 using GameplayServices;
+using GameRoot;
 using GameState;
 using R3;
 using Settings;
@@ -43,6 +45,12 @@ namespace UI
         public void OpenSettings()
         {
             _popUpProvider.OpenSettingsPopUp();
+        }
+
+        protected void OpenLevel(int number)
+        {
+            var gameplayEnterParams = new GameplayEnterParams(number);
+            new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
         }
     }
 }
