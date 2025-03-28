@@ -13,5 +13,6 @@ namespace Settings
         [field: SerializeField] public float TrajectoryAngleOffset { get; private set; }
         [field: SerializeField] public float RotationSpeed { get; private set; }
         [field: SerializeField] public float RotationSpeedOffset { get; private set; }
+        [field: SerializeField] public Vector2 PositionOffset { get; private set; }
     }
 }

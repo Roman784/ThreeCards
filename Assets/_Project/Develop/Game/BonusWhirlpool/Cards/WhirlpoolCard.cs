@@ -16,6 +16,7 @@ namespace BonusWhirlpool
         private float _flightSpeed;
         private float _trajectoryAngleOffset;
         private float _rotationSpeed;
+        private Vector2 _positionOffset;
 
         private float _angle;
 
@@ -23,13 +24,15 @@ namespace BonusWhirlpool
 
         public Card Card => _card;
 
-        public WhirlpoolCard(Card card, Vector2 radius, float flightSpeed, float trajectoryAngleOffset, float rotationSpeed)
+        public WhirlpoolCard(Card card, Vector2 radius, float flightSpeed, float trajectoryAngleOffset, 
+                             float rotationSpeed, Vector2 positionOffset)
         {
             _card = card;
             _radius = radius;
             _flightSpeed = flightSpeed;
             _trajectoryAngleOffset = trajectoryAngleOffset;
             _rotationSpeed = rotationSpeed;
+            _positionOffset = positionOffset;
 
             _angle = UnityEngine.Random.Range(0, 360);
 
@@ -49,7 +52,7 @@ namespace BonusWhirlpool
             var rotatedX = x * Mathf.Cos(radOffset) - y * Mathf.Sin(radOffset);
             var rotatedY = x * Mathf.Sin(radOffset) + y * Mathf.Cos(radOffset);
 
-            var position = new Vector2(rotatedX, rotatedY);
+            var position = new Vector2(rotatedX, rotatedY) + _positionOffset;
             _card.SetPosition(position);
             _card.Rotate(-Vector3.forward * _rotationSpeed);
         }

@@ -52,7 +52,8 @@ namespace BonusWhirlpoolService
             var trajectoryAngleOffset = Randomizer.GetRandomRange(0, _settings.TrajectoryAngleOffset);
             var rotationSpeed = Randomizer.GetRandomRange(_settings.RotationSpeed, _settings.RotationSpeedOffset);
 
-            var whirlpoolCard = new WhirlpoolCard(card, radius, flightSpeed, trajectoryAngleOffset, rotationSpeed);
+            var whirlpoolCard = new WhirlpoolCard(card, radius, flightSpeed, trajectoryAngleOffset, 
+                                                  rotationSpeed, _settings.PositionOffset);
             _cards.Add(whirlpoolCard);
 
             whirlpoolCard.OnCardPlaced += (card) => RemoveCard(card);

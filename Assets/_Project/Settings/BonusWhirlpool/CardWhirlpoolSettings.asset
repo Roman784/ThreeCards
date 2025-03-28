@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71a6af7d8ab102c4f87346645433fe6c, type: 3}
   m_Name: CardWhirlpoolSettings
   m_EditorClassIdentifier: 
-  <Count>k__BackingField: 50
-  <Radius>k__BackingField: {x: 4.5, y: 7}
+  <Count>k__BackingField: 75
+  <Radius>k__BackingField: {x: 4.5, y: 7.5}
   <RadiusOffset>k__BackingField: {x: 1, y: 1}
   <FlightSpeed>k__BackingField: 0.75
   <FlightSpeedOffset>k__BackingField: 0.15
   <TrajectoryAngleOffset>k__BackingField: 20
   <RotationSpeed>k__BackingField: 0.75
   <RotationSpeedOffset>k__BackingField: 1
+  <PositionOffset>k__BackingField: {x: 0, y: -0.5}

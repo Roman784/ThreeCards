@@ -6,12 +6,25 @@ namespace ScriptAnimations
 {
     public class PulsationAnimator : MonoBehaviour
     {
+        [SerializeField] private Transform _target;
         [SerializeField] private float _period;
         [SerializeField] private AnimationCurve _scaleChanges;
+        [SerializeField] private bool _isAwake;
 
         private Coroutine _pulseRoutine;
-        private Transform _target;
         private Vector3 _originScale;
+
+        private void Awake()
+        {
+            if (_isAwake)
+                Pulse(_target, int.MaxValue);
+        }
+
+        private void OnDestroy()
+        {
+            if (_pulseRoutine != null)
+                Coroutines.StopRoutine(_pulseRoutine);
+        }
 
         public void Pulse(Transform target, int rate = 1)
         {
