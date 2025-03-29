@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Utils;
+using R3;
+using System.Linq;
 
 namespace BonusWhirlpoolService
 {
@@ -14,14 +16,19 @@ namespace BonusWhirlpoolService
         private CardFactory _cardFactory;
         private CardWhirlpoolSettings _settings;
         private CardPlacingService _cardPlacingService;
+        private CardMarkingService _cardMarkingService;
 
         private List<WhirlpoolCard> _cards = new();
 
-        public CardWhirlpoolService(CardFactory cardFactory, CardWhirlpoolSettings settings, CardPlacingService cardPlacingService)
+        public CardWhirlpoolService(CardFactory cardFactory, CardWhirlpoolSettings settings, 
+                                    CardPlacingService cardPlacingService, CardMarkingService cardMarkingService)
         {
             _cardFactory = cardFactory;
             _settings = settings;
             _cardPlacingService = cardPlacingService;
+            _cardMarkingService = cardMarkingService;
+
+            _cardPlacingService.OnCardReadyToPlaced.Subscribe(card => RemoveCard(card));
         }
 
         public List<WhirlpoolCard> Start()
@@ -45,7 +52,12 @@ namespace BonusWhirlpoolService
         private void CreateCard()
         {
             var card = _cardFactory.Create();
+
             card.SetPlacingService(_cardPlacingService);
+            _cardMarkingService.MarkRandom(card);
+
+            card.Open();
+            card.Disable(false);
 
             var radius = Randomizer.GetRandomRange(_settings.Radius, _settings.RadiusOffset);
             var flightSpeed = Randomizer.GetRandomRange(_settings.FlightSpeed, _settings.FlightSpeedOffset);
@@ -55,8 +67,6 @@ namespace BonusWhirlpoolService
             var whirlpoolCard = new WhirlpoolCard(card, radius, flightSpeed, trajectoryAngleOffset, 
                                                   rotationSpeed, _settings.PositionOffset);
             _cards.Add(whirlpoolCard);
-
-            whirlpoolCard.OnCardPlaced += (card) => RemoveCard(card);
         }
 
         private IEnumerator MoveCards()
@@ -72,9 +82,12 @@ namespace BonusWhirlpoolService
             }
         }
 
-        private void RemoveCard(WhirlpoolCard card)
+        private void RemoveCard(Card card)
         {
-            _cards.Remove(card);
+            var whirlpoolCard = _cards.FirstOrDefault(whirlpoolCard => whirlpoolCard.Card == card);
+            if (whirlpoolCard == null) return;
+
+            _cards.Remove(whirlpoolCard);
             CreateCard();
         }
     }

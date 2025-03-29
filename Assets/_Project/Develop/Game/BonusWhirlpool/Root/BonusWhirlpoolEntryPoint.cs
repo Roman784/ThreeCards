@@ -69,17 +69,10 @@ namespace BonusWhirlpoolRoot
 
                 onCardsRemoved.Subscribe(_ => cardPlacingService.ShiftCards());
 
-                var cardWhirlpoolService = new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings, cardPlacingService);
                 var cardMarkingService = new CardMarkingService();
+                var cardWhirlpoolService = new CardWhirlpoolService(_cardFactory, cardWhirlpoolSettings, cardPlacingService, cardMarkingService);
 
                 var whirlpoolCards = cardWhirlpoolService.Start();
-                var cards = whirlpoolCards.Select(c => c.Card).ToList();
-
-                cardMarkingService.MarkRandom(cards);
-                cards.ForEach(c => {
-                    c.Open(true);
-                    c.Disable(false);
-                });
 
                 //UI.
                 _uiRoot.AttachSceneUI(_bonusWhirlpoolUI.gameObject);

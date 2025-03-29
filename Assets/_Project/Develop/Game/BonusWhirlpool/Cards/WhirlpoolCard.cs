@@ -20,8 +20,6 @@ namespace BonusWhirlpool
 
         private float _angle;
 
-        public event Action<WhirlpoolCard> OnCardPlaced;
-
         public Card Card => _card;
 
         public WhirlpoolCard(Card card, Vector2 radius, float flightSpeed, float trajectoryAngleOffset, 
@@ -35,8 +33,6 @@ namespace BonusWhirlpool
             _positionOffset = positionOffset;
 
             _angle = UnityEngine.Random.Range(0, 360);
-
-            card.OnCardPlaced.Subscribe(_ => OnCardPlaced?.Invoke(this));
         }
 
         public void Move()
