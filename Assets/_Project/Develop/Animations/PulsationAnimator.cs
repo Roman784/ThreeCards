@@ -23,20 +23,20 @@ namespace ScriptAnimations
         private void OnDestroy()
         {
             if (_pulseRoutine != null)
-                Coroutines.StopRoutine(_pulseRoutine);
+                StopCoroutine(_pulseRoutine);
         }
 
         public void Pulse(Transform target, int rate = 1)
         {
             if (_pulseRoutine != null)
             {
-                Coroutines.StopRoutine(_pulseRoutine);
+                StopCoroutine(_pulseRoutine);
                 _target.localScale = _originScale;
             }
 
             _target = target;
             _originScale = target.localScale;
-            _pulseRoutine = Coroutines.StartRoutine(PulseRoutine(rate));
+            _pulseRoutine = StartCoroutine(PulseRoutine(rate));
         }
 
         private IEnumerator PulseRoutine(int rate)

@@ -90,9 +90,9 @@ namespace Gameplay
             _view.PutDown();
         }
 
-        public void Disable()
+        public void Disable(bool setActive = true)
         {
-            _view.Disable();
+            _view.Disable(setActive);
         }
 
         public Observable<Unit> Explode()
@@ -114,7 +114,7 @@ namespace Gameplay
             return onDestroyed;
         }
 
-        private void Pick()
+        public void Pick()
         {
             if (IsClosed || IsPlaced || IsDestroyed) return;
             _cardPlacingService.PlaceCard(this);

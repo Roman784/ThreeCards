@@ -76,7 +76,10 @@ namespace BonusWhirlpoolRoot
                 var cards = whirlpoolCards.Select(c => c.Card).ToList();
 
                 cardMarkingService.MarkRandom(cards);
-                cards.ForEach(c => c.Open(true));
+                cards.ForEach(c => {
+                    c.Open(true);
+                    c.Disable(false);
+                });
 
                 //UI.
                 _uiRoot.AttachSceneUI(_bonusWhirlpoolUI.gameObject);
@@ -84,6 +87,7 @@ namespace BonusWhirlpoolRoot
 
                 _bonusWhirlpoolUI.InitChips(onCardsRemoved);
                 _bonusWhirlpoolUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
+                _bonusWhirlpoolUI.SetCards(whirlpoolCards);
 
                 _bonusWhirlpoolUI.StartTimer();
 

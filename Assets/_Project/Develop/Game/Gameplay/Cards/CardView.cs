@@ -142,13 +142,22 @@ namespace Gameplay
 
         public void PutDown()
         {
-            gameObject.SetActive(true);
+            Enable();
             _animator.SetTrigger("Appearing");
         }
 
-        public void Disable()
+        public void Disable(bool setActive = true)
         {
-            gameObject.SetActive(false);
+            _raycaster.enabled = false;
+            if (setActive)
+                gameObject.SetActive(false);
+        }
+
+        public void Enable(bool setActive = true)
+        {
+            _raycaster.enabled = true;
+            if (setActive)
+                gameObject.SetActive(true);
         }
 
         public Observable<Unit> Explode()

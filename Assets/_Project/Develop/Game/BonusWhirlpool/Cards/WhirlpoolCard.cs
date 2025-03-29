@@ -37,8 +37,6 @@ namespace BonusWhirlpool
             _angle = UnityEngine.Random.Range(0, 360);
 
             card.OnCardPlaced.Subscribe(_ => OnCardPlaced?.Invoke(this));
-
-            _card.PutDown();
         }
 
         public void Move()
