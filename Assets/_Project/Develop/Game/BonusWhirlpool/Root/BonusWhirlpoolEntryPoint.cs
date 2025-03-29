@@ -21,7 +21,7 @@ namespace BonusWhirlpoolRoot
         private IGameStateProvider _gameStateProvider;
         private UIRootView _uiRoot;
         private BonusWhirlpoolUI _bonusWhirlpoolUI;
-        private GameplayPopUpProvider _popUpProvider;
+        private BonusWhirlpoolPopUpProvider _popUpProvider;
         private ISettingsProvider _settingsProvider;
         private BonusWhirlpoolSlotBar _slotBar;
         private CardFactory _cardFactory;
@@ -31,6 +31,7 @@ namespace BonusWhirlpoolRoot
         private void Construct(IGameStateProvider gameStateProvider,
                                UIRootView uiRoot,
                                BonusWhirlpoolUI bonusWhirlpoolUI,
+                               BonusWhirlpoolPopUpProvider popUpProvider,
                                ISettingsProvider settingsProvider,
                                BonusWhirlpoolSlotBar slotBar,
                                CardFactory cardFactory,
@@ -39,6 +40,7 @@ namespace BonusWhirlpoolRoot
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
             _bonusWhirlpoolUI = bonusWhirlpoolUI;
+            _popUpProvider = popUpProvider;
             _settingsProvider = settingsProvider;
             _slotBar = slotBar;
             _cardFactory = cardFactory;
@@ -74,7 +76,7 @@ namespace BonusWhirlpoolRoot
 
                 var whirlpoolCards = cardWhirlpoolService.Start();
 
-                //UI.
+                // UI.
                 _uiRoot.AttachSceneUI(_bonusWhirlpoolUI.gameObject);
                 _bonusWhirlpoolUI.BindViews();
 
@@ -82,7 +84,10 @@ namespace BonusWhirlpoolRoot
                 _bonusWhirlpoolUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
                 _bonusWhirlpoolUI.SetCards(whirlpoolCards);
 
-                _bonusWhirlpoolUI.StartTimer();
+                var onTimerOver = _bonusWhirlpoolUI.StartTimer();
+
+                // End bonus.
+                onTimerOver.Subscribe(_ => _popUpProvider.OpenTimeOverPopUp(enterParams.CurrentLevelNumber));
 
                 isLoaded = true;
             });

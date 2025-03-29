@@ -26,13 +26,15 @@ namespace BonusWhirlpoolInstaller
             BonusWhirlpoolUI bonusWhirlpoolUIPrefab= Resources.Load<BonusWhirlpoolUI>("UI/BonusWhirlpoolUI");
             Container.Bind<BonusWhirlpoolUI>().FromComponentInNewPrefab(bonusWhirlpoolUIPrefab).AsSingle();
 
+            Container.Bind<BonusWhirlpoolPopUpProvider>().AsTransient();
+
             BindPopUps();
         }
 
         private void BindPopUps()
         {
-            // var bonusSlotPopUpPrefab = Resources.Load<BonusSlotPopUp>("UI/PopUps/BonusSlotPopUp");
-            // Container.BindFactory<BonusSlotPopUp, BonusSlotPopUp.Factory>().FromComponentInNewPrefab(bonusSlotPopUpPrefab);
+            var timeOverPopUpPrefab = Resources.Load<BonusWhirlpoolTimeOverPopUp>("UI/PopUps/BonusWhirlpool/BonusWhirlpoolTimeOverPopUp");
+            Container.BindFactory<BonusWhirlpoolTimeOverPopUp, BonusWhirlpoolTimeOverPopUp.Factory>().FromComponentInNewPrefab(timeOverPopUpPrefab);
         }
 
         private void BindFactories()

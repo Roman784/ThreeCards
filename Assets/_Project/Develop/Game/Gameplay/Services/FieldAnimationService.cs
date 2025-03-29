@@ -35,6 +35,7 @@ namespace GameplayServices
                     if (!_fieldService.IsCardExist(card)) continue;
 
                     card.PutDown();
+                    card.Disable(false);
 
                     yield return new WaitForSeconds(0.035f);
                 }

@@ -9,6 +9,8 @@ namespace Utils
         private ReactiveProperty<float> _value;
         private TimerView _view;
 
+        private Coroutine _countingRoutin;
+
         public Timer(float value)
         {
             _value = new(value);
@@ -23,9 +25,15 @@ namespace Utils
         public Observable<Unit> Start()
         {
             var completedSubj = new Subject<Unit>();
-            Coroutines.StartRoutine(CountDown(completedSubj));
+            _countingRoutin = Coroutines.StartRoutine(CountDown(completedSubj));
 
             return completedSubj;
+        }
+
+        public void Stop()
+        {
+            if (_countingRoutin != null)
+                Coroutines.StopRoutine(_countingRoutin);
         }
 
         private IEnumerator CountDown(Subject<Unit> completedSubj)

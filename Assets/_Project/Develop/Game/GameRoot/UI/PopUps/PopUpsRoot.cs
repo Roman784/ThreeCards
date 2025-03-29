@@ -38,6 +38,8 @@ namespace UI
             }
 
             _popUps = new();
+
+            AppearScreen();
         }
 
         public void PushPopUp(PopUp popUp)

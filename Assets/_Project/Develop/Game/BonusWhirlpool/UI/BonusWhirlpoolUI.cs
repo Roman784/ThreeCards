@@ -35,6 +35,11 @@ namespace UI
             _timer = new Timer(Randomizer.GetRandomRange(timerValue, timerValueOffset));
         }
 
+        private void OnDestroy()
+        {
+            _timer.Stop();
+        }
+
         public override void BindViews()
         {
             base.BindViews();
