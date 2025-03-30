@@ -60,8 +60,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _view: {fileID: 7717682082207899756}
   _rotationDuration: 0.2
-  _goToView: {fileID: 7652369608122158672}
-  _timerContainerView: {fileID: 3745067488347332862}
+  _goToViewGroup: {fileID: 6874881697280596749}
+  _timerViewGroup: {fileID: 4775176958208008995}
   _timerView: {fileID: 4114253170838744393}
 --- !u!1 &1317486724623511163
 GameObject:
@@ -432,6 +432,7 @@ GameObject:
   m_Component:
   - component: {fileID: 336974029624350602}
   - component: {fileID: 5544282048436088597}
+  - component: {fileID: 4775176958208008995}
   m_Layer: 0
   m_Name: TimerContainerView
   m_TagString: Untagged
@@ -468,6 +469,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3745067488347332862}
   m_CullTransparentMesh: 1
+--- !u!225 &4775176958208008995
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3745067488347332862}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &6150327169131444362
 GameObject:
   m_ObjectHideFlags: 0
@@ -857,13 +870,14 @@ GameObject:
   - component: {fileID: 7215433710662584857}
   - component: {fileID: 7443626430247354171}
   - component: {fileID: 3007126872703077913}
+  - component: {fileID: 6874881697280596749}
   m_Layer: 0
   m_Name: GoToView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7215433710662584857
 RectTransform:
   m_ObjectHideFlags: 0
@@ -980,6 +994,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &6874881697280596749
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7652369608122158672}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &8425906857278175285
 GameObject:
   m_ObjectHideFlags: 0

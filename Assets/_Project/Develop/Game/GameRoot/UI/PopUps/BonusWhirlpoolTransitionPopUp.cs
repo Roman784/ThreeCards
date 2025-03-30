@@ -11,14 +11,22 @@ namespace UI
 {
     public class BonusWhirlpoolTransitionPopUp : PopUp
     {
-        [SerializeField] private GameObject _goToView;
-        [SerializeField] private GameObject _timerContainerView;
+        [SerializeField] private CanvasGroup _goToViewGroup;
+        [SerializeField] private CanvasGroup _timerViewGroup;
         [SerializeField] private TMP_Text _timerView;
 
         private GameplayEnterParams _gameplayEnterParams;
         private Timer _timer;
         private CompositeDisposable _disposable = new();
 
+
+        public override void Open(bool fadeScreen = true)
+        {
+            _timerViewGroup.alpha = 0f;
+            _goToViewGroup.alpha = 1f;
+
+            base.Open(fadeScreen);
+        }
         public override void Close(bool appearScreen = true)
         {
             _disposable.Dispose();
@@ -48,8 +56,16 @@ namespace UI
         {
             RenderTime(time);
 
-            _goToView.SetActive(time <= 0);
-            _timerContainerView.SetActive(time > 0);
+            if (time <= 0)
+            {
+                _timerViewGroup.DOFade(0f, 0.25f).SetEase(Ease.OutQuad);
+                _goToViewGroup.DOFade(1f, 0.25f).SetEase(Ease.InQuad);
+            }
+            else
+            {
+                _timerViewGroup.alpha = 1f;
+                _goToViewGroup.alpha = 0f;
+            }
         }
 
         public void RenderTime(float time)
