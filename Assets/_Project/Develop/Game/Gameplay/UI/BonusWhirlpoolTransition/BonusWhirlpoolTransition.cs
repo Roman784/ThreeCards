@@ -10,6 +10,8 @@ namespace UI
         private float _timerValue;
         private float _currentTimerValue;
 
+        private float FillingProgress => 1f - _currentTimerValue / _timerValue;
+
         public BonusWhirlpoolTransition(float timerValue, float currentTimerValue)
         {
             _timerValue = timerValue;
@@ -29,9 +31,7 @@ namespace UI
         private void ChangeCurrentValue(float value)
         {
             _currentTimerValue = value;
-
-            var fillingProgress = 1f - _currentTimerValue / _timerValue;
-            _view?.SetProgress(fillingProgress);
+            _view?.SetProgress(FillingProgress);
         }
     }
 }
