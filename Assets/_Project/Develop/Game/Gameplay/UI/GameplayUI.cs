@@ -7,6 +7,7 @@ using LevelMenuRoot;
 using R3;
 using Settings;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
 using Zenject;
 
@@ -16,11 +17,13 @@ namespace UI
     {
         [SerializeField] private LevelProgressView _levelProgressView;
         [SerializeField] private GameplayToolsView _gameplayToolsView;
+        [SerializeField] private BonusWhirlpoolTransitionView _bonusWhirlpoolTransitionView;
 
         private GameplayEnterParams _gameplayEnterParams;
 
         private LevelProgress _levelProgress;
         private GameplayTools _gameplayTools;
+        private BonusWhirlpoolTransition _bonusWhirlpoolTransition;
         private SlotBar _slotBar;
         private GameplayPopUpProvider _gameplayPopUpProvider;
 
@@ -37,6 +40,8 @@ namespace UI
             _slotBar = slotBar;
             _gameplayPopUpProvider = gameplayPopUpProvider;
 
+            _bonusWhirlpoolTransition = new(10, 5);
+
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
 
@@ -46,6 +51,7 @@ namespace UI
 
             _levelProgress.BindView(_levelProgressView);
             _gameplayTools.BindView(_gameplayToolsView);
+            _bonusWhirlpoolTransition.BindView(_bonusWhirlpoolTransitionView);
         }
 
         public void OpenLevelMenu()
