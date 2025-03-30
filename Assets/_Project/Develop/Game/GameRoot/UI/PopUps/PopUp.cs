@@ -32,8 +32,11 @@ namespace UI
 
             (_previousPopUp?.RotateToClose() ?? Observable.Return(Unit.Default)).Subscribe(_ =>
             {
-                _view.gameObject.SetActive(true);
-                RotateToOpen();
+                if (_view != null)
+                {
+                    _view.gameObject.SetActive(true);
+                    RotateToOpen();
+                }
             });
         }
 
@@ -57,7 +60,8 @@ namespace UI
 
         public void Destroy()
         {
-            Destroy(gameObject);
+            if (this != null)
+                Destroy(gameObject);
         }
 
         public Observable<Unit> RotateToOpen()

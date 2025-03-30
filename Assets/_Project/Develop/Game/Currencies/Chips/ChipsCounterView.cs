@@ -77,6 +77,8 @@ namespace Currencies
 
         private void ResizeView()
         {
+            if (this == null) return;
+
             Vector2 size = _countView.rectTransform.sizeDelta;
             size.x = _countView.preferredWidth;
             _countView.rectTransform.sizeDelta = size;

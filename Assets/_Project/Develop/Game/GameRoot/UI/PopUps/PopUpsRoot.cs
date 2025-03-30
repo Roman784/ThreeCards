@@ -34,7 +34,7 @@ namespace UI
         {
             foreach (var popUp in _popUps)
             {
-                popUp.Destroy();
+                popUp?.Destroy();
             }
 
             _popUps = new();
