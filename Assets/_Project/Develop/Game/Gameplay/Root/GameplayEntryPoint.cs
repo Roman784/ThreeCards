@@ -100,9 +100,8 @@ namespace GameplayRoot
                 _gameplayUI.BindViews();
 
                 _gameplayUI.SetGameplayEnterParams(enterParams);
-
-                _gameplayUI.SetLevelNumber(enterParams.LevelNumber);
                 _gameplayUI.InitProgressBar(totalCardCount, onCardsRemoved);
+                _gameplayUI.InitBonusMenu();
                 _gameplayUI.InitChips(onCardsRemoved);
 
                 _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);

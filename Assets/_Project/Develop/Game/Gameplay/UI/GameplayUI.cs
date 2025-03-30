@@ -40,9 +40,14 @@ namespace UI
             _slotBar = slotBar;
             _gameplayPopUpProvider = gameplayPopUpProvider;
 
-            _bonusWhirlpoolTransition = new(10, 5);
+            _bonusWhirlpoolTransition = new(10, 2);
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
+        }
+
+        private void OnDestroy()
+        {
+            _bonusWhirlpoolTransition.StopTimer();
         }
 
         public override void BindViews()
@@ -66,14 +71,16 @@ namespace UI
             _gameplayEnterParams = gameplayEnterParams;
         }
 
-        public void SetLevelNumber(int levelNumber)
-        {
-            _levelProgress.SetLevelNumber(levelNumber);
-        }
-
         public void InitProgressBar(int totalCardCount, Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved)
         {
             _levelProgress.InitProgressBar(totalCardCount, onCardsRemoved);
+            _levelProgress.SetLevelNumber(_gameplayEnterParams.LevelNumber);
+        }
+
+        public void InitBonusMenu()
+        {
+            _bonusWhirlpoolTransition.Init(_gameplayPopUpProvider, _gameplayEnterParams);
+            _bonusWhirlpoolTransition.StartTimer();
         }
 
         public void SetToolsServcies(FieldShufflingService fieldShufflingService, 

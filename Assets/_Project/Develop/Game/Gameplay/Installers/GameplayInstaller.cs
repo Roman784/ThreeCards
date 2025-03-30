@@ -39,11 +39,17 @@ namespace GameplayInstallers
             var bonusSlotPopUpPrefab = Resources.Load<BonusSlotPopUp>("UI/PopUps/BonusSlotPopUp");
             Container.BindFactory<BonusSlotPopUp, BonusSlotPopUp.Factory>().FromComponentInNewPrefab(bonusSlotPopUpPrefab);
 
-            var gameOverPopUp = Resources.Load<GameOverPopUp>("UI/PopUps/GameOverPopUp");
-            Container.BindFactory<GameOverPopUp, GameOverPopUp.Factory>().FromComponentInNewPrefab(gameOverPopUp);
+            var gameOverPopUpPrefab = Resources.Load<GameOverPopUp>("UI/PopUps/GameOverPopUp");
+            Container.BindFactory<GameOverPopUp, GameOverPopUp.Factory>().FromComponentInNewPrefab(gameOverPopUpPrefab);
 
-            var levelCompletionPopUp = Resources.Load<LevelCompletionPopUp>("UI/PopUps/LevelCompletionPopUp");
-            Container.BindFactory<LevelCompletionPopUp, LevelCompletionPopUp.Factory>().FromComponentInNewPrefab(levelCompletionPopUp);
+            var levelCompletionPopUpPrefab = Resources.Load<LevelCompletionPopUp>("UI/PopUps/LevelCompletionPopUp");
+            Container.BindFactory<LevelCompletionPopUp, LevelCompletionPopUp.Factory>()
+                .FromComponentInNewPrefab(levelCompletionPopUpPrefab);
+
+            var bonusWhirlpoolTransitionPopUpPrefab = Resources
+                .Load<BonusWhirlpoolTransitionPopUp>("UI/PopUps/BonusWhirlpoolTransitionPopUp");
+            Container.BindFactory<BonusWhirlpoolTransitionPopUp, BonusWhirlpoolTransitionPopUp.Factory>()
+                .FromComponentInNewPrefab(bonusWhirlpoolTransitionPopUpPrefab);
         }
 
         private void BindFactories()

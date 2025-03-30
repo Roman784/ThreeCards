@@ -108,7 +108,7 @@ namespace Gameplay
 
             onDestroyed.Subscribe(_ =>
             {
-                Object.Destroy(_view.gameObject);
+                Object.Destroy(_view?.gameObject);
             });
 
             return onDestroyed;

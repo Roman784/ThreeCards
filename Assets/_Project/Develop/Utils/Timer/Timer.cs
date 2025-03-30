@@ -11,6 +11,7 @@ namespace Utils
 
         private Coroutine _countingRoutin;
 
+        public float Value => _value.Value;
         public Observable<float> OnValueChanged => _value;
 
         public Timer(float value)
