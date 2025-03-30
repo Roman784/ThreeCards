@@ -14,6 +14,7 @@ using BonusWhirlpoolService;
 using System.Linq;
 using System.Collections.Generic;
 using GameplayRoot;
+using DG.Tweening;
 
 namespace BonusWhirlpoolRoot
 {
@@ -90,8 +91,13 @@ namespace BonusWhirlpoolRoot
                 // End bonus.
                 onTimerOver.Subscribe(_ =>
                 {
-                    var gameplayEnterParams = new GameplayEnterParams(enterParams.CurrentLevelNumber, 0f);
-                    _popUpProvider.OpenTimeOverPopUp(gameplayEnterParams);
+                    whirlpoolCards.ForEach(c => c.Card.Close());
+
+                    DOVirtual.DelayedCall(1f, () =>
+                    {
+                        var gameplayEnterParams = new GameplayEnterParams(enterParams.CurrentLevelNumber, 0f);
+                        _popUpProvider.OpenTimeOverPopUp(gameplayEnterParams);
+                    });
                 });
 
                 isLoaded = true;

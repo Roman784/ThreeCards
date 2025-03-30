@@ -22,7 +22,7 @@ namespace UI
         public override void Open(bool fadeScreen = true)
         {
             base.Open(fadeScreen);
-            DOVirtual.DelayedCall(1.5f, () => _canExit = true);
+            DOVirtual.DelayedCall(0.5f, () => _canExit = true);
         }
 
         public override void Close(bool appearScreen = true)

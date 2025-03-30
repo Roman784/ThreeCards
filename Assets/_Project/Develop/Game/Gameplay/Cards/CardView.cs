@@ -207,7 +207,7 @@ namespace Gameplay
 
         public void RotateToRandomAngle(float duration)
         {
-            var angle = Random.Range(-15f, 15f);
+            var angle = transform.eulerAngles.z + Random.Range(-15f, 15f);
             transform.DORotate(new Vector3(0f, 0f, angle), duration, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
         }
     }
