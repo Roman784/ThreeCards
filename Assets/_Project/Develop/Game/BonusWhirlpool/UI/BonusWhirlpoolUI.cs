@@ -60,7 +60,7 @@ namespace UI
 
         public void BackToCurrentLevel()
         {
-            OpenLevel(_currentLevelNumber);
+            OpenLevel(_currentLevelNumber, 0f);
         }
     
         public void PickCard()

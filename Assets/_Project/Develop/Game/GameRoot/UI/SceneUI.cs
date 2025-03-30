@@ -3,6 +3,7 @@ using GameplayRoot;
 using GameplayServices;
 using GameRoot;
 using GameState;
+using LevelMenuRoot;
 using R3;
 using Settings;
 using System.Collections.Generic;
@@ -47,9 +48,9 @@ namespace UI
             _popUpProvider.OpenSettingsPopUp();
         }
 
-        protected void OpenLevel(int number)
+        protected void OpenLevel(int number, float bonusWhirlpoolTimerValue)
         {
-            var gameplayEnterParams = new GameplayEnterParams(number);
+            var gameplayEnterParams = new GameplayEnterParams(number, bonusWhirlpoolTimerValue);
             new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
         }
     }

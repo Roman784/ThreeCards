@@ -56,14 +56,14 @@ namespace GameRoot
 #if UNITY_EDITOR
             if (activeSceneName == Scenes.GAMEPLAY)
             {
-                var defaultGameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber());
+                var defaultGameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
                 sceneLoader.LoadAndRunGameplay(defaultGameplayEnterParams);
                 return;
             }
 
             if (activeSceneName == Scenes.LEVEL_MENU)
             {
-                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(GetCurrentLevelNumber());
+                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(GetCurrentLevelNumber(), 0);
                 sceneLoader.LoadAndRunLevelMenu(defaultLevelMenuEnterParams);
                 return;
             }
@@ -81,7 +81,7 @@ namespace GameRoot
             }
 #endif
 
-            var gameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber());
+            var gameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
             sceneLoader.LoadAndRunGameplay(gameplayEnterParams);
         }
 

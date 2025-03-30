@@ -110,7 +110,8 @@ namespace GameplayRoot
                 // Winning and losing.
                 var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
                                                                         _gameStateProvider, _settingsProvider,
-                                                                        enterParams, _popUpProvider, fieldService);
+                                                                        enterParams, _popUpProvider, fieldService,
+                                                                        _gameplayUI.BonusWhirlpoolTransition);
 
                 isLoaded = true;
             });
@@ -125,7 +126,8 @@ namespace GameplayRoot
 
         private void LoadLevelMenu(GameplayEnterParams enterParams)
         {
-            var levelMenuEnterParams = new LevelMenuEnterParams(enterParams.LevelNumber);
+            var levelMenuEnterParams = new LevelMenuEnterParams(enterParams.LevelNumber, 
+                                                                _gameplayUI.BonusWhirlpoolTransition.CurrentTimerValue);
             new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
         }
     }

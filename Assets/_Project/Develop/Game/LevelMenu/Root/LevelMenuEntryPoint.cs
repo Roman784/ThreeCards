@@ -38,9 +38,9 @@ namespace LevelMenuRoot
             {
                 _uiRoot.AttachSceneUI(_levelMenuUI.gameObject);
 
+                _levelMenuUI.SetLevelMenuEnterParams(enterParams);
                 _levelMenuUI.BindViews();
                 _levelMenuUI.InitChips();
-                _levelMenuUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
                 _levelMenuUI.CreateLevelsBlocks();
 
                 isLoaded = true;

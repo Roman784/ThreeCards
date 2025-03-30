@@ -16,17 +16,20 @@ namespace GameplayServices
         private GameplayEnterParams _currentGameplayEnterParams;
         private FieldService _fieldService;
         private GameplayPopUpProvider _popUpProvider;
+        private BonusWhirlpoolTransition _bonusWhirlpoolTransition;
 
         public GameCompletionService(Observable<List<RemovedCard>> onCardsRemoved, Observable<Card> onCardPlaced,
                                      IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider,
                                      GameplayEnterParams currentGameplayEnterParams,
-                                     GameplayPopUpProvider popUpProvider, FieldService fieldService)
+                                     GameplayPopUpProvider popUpProvider, FieldService fieldService,
+                                     BonusWhirlpoolTransition bonusWhirlpoolTransition)
         {
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
             _currentGameplayEnterParams = currentGameplayEnterParams;
             _fieldService = fieldService;
             _popUpProvider = popUpProvider;
+            _bonusWhirlpoolTransition = bonusWhirlpoolTransition;
 
             onCardsRemoved.Subscribe(_ => CheckForWin());
             onCardPlaced.Subscribe(_ => CheckForLose());
@@ -44,7 +47,8 @@ namespace GameplayServices
                     lastPassedLevelNumber.Value = currentLevelNumber;
 
                 var nextLevelNumber = layoutsSettings.ClampLevelNumber(currentLevelNumber + 1);
-                var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber);
+                var bonusWhirlpoolTimerValue = _bonusWhirlpoolTransition.CurrentTimerValue;
+                var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber, bonusWhirlpoolTimerValue);
 
                 _popUpProvider.OpenLevelCompletionPopUp(nextLevelEnterParams);
             }

@@ -10,16 +10,17 @@ namespace UI
 {
     public class BonusWhirlpoolTimeOverPopUp : PopUp
     {
-        private int _currentLevelNumber;
+        private GameplayEnterParams _gameplayEnterParams;
 
-        public void SetCurrentLevelNumber(int currentLevelNumber)
+        public void SetGameplayEnterParams(GameplayEnterParams gameplayEnterParams)
         {
-            _currentLevelNumber = currentLevelNumber;
+            _gameplayEnterParams = gameplayEnterParams;
         }
 
         public void BackToLevel()
         {
-            var enterParams = new GameplayEnterParams(_currentLevelNumber);
+            var enterParams = new GameplayEnterParams(_gameplayEnterParams.LevelNumber, 
+                                                      _gameplayEnterParams.BonusWhirlpoolTimerValue);
             new SceneLoader().LoadAndRunGameplay(enterParams);
         }
 
@@ -31,10 +32,10 @@ namespace UI
 
         public class Factory : PopUpFactory<BonusWhirlpoolTimeOverPopUp>
         {
-            public BonusWhirlpoolTimeOverPopUp Create(int currentLevelNumber)
+            public BonusWhirlpoolTimeOverPopUp Create(GameplayEnterParams gameplayEnterParams)
             {
                 var popUp = base.Create();
-                popUp.SetCurrentLevelNumber(currentLevelNumber);
+                popUp.SetGameplayEnterParams(gameplayEnterParams);
 
                 return popUp;
             }

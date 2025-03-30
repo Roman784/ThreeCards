@@ -12,6 +12,7 @@ namespace UI
     public class BonusWhirlpoolTransitionPopUp : PopUp
     {
         [SerializeField] private GameObject _goToView;
+        [SerializeField] private GameObject _timerContainerView;
         [SerializeField] private TMP_Text _timerView;
 
         private GameplayEnterParams _gameplayEnterParams;
@@ -48,8 +49,7 @@ namespace UI
             RenderTime(time);
 
             _goToView.SetActive(time <= 0);
-            _timerView.gameObject.SetActive(time > 0);
-
+            _timerContainerView.SetActive(time > 0);
         }
 
         public void RenderTime(float time)

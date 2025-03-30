@@ -5,6 +5,10 @@ namespace Settings
     [CreateAssetMenu(fileName = "BonusWhirlpoolSettings", menuName = "Game Settings/Bonus Whirlpool/Bonus Whirlpool Settings")]
     public class BonusWhirlpoolSettings : ScriptableObject
     {
+        [field: SerializeField] public float Cooldown {  get; private set; }
+
+        [field: Space]
+
         [field: SerializeField] public float CardPickDelay { get; private set; }
 
         [field: Space]

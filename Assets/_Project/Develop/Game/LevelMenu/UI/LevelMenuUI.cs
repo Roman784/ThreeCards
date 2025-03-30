@@ -2,6 +2,7 @@ using Currencies;
 using GameplayRoot;
 using GameRoot;
 using GameState;
+using LevelMenuRoot;
 using Settings;
 using UI;
 using UnityEngine;
@@ -20,7 +21,7 @@ namespace LevelMenu
 
         [SerializeField] private Transform _commingSoonView;
 
-        private int _currentLevelNumber;
+        private LevelMenuEnterParams _enterParams;
         private LevelsBlockFactory _levelsBlockFactory;
 
         [Inject]
@@ -29,7 +30,10 @@ namespace LevelMenu
             _levelsBlockFactory = levelsBlockFactory;
         }
 
-        public void SetCurrentLevelNumber(int levelNumber) => _currentLevelNumber = levelNumber;
+        public void SetLevelMenuEnterParams(LevelMenuEnterParams enterParams)
+        {
+            _enterParams = enterParams;
+        }
 
         public void OpenLastAvailableLevel()
         {
@@ -39,12 +43,12 @@ namespace LevelMenu
 
         public void BackToCurrentLevel()
         {
-            OpenLevel(_currentLevelNumber);
+            OpenLevel(_enterParams.CurrentLevelNumber);
         }
 
         public void OpenLevel(int number)
         {
-            var gameplayEnterParams = new GameplayEnterParams(number);
+            var gameplayEnterParams = new GameplayEnterParams(number, _enterParams.BonusWhirlpoolTimerValue);
             new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
         }
 

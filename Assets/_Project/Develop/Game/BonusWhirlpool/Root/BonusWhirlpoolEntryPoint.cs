@@ -13,6 +13,7 @@ using BonusWhirlpool;
 using BonusWhirlpoolService;
 using System.Linq;
 using System.Collections.Generic;
+using GameplayRoot;
 
 namespace BonusWhirlpoolRoot
 {
@@ -87,7 +88,11 @@ namespace BonusWhirlpoolRoot
                 var onTimerOver = _bonusWhirlpoolUI.StartTimer();
 
                 // End bonus.
-                onTimerOver.Subscribe(_ => _popUpProvider.OpenTimeOverPopUp(enterParams.CurrentLevelNumber));
+                onTimerOver.Subscribe(_ =>
+                {
+                    var gameplayEnterParams = new GameplayEnterParams(enterParams.CurrentLevelNumber, 0f);
+                    _popUpProvider.OpenTimeOverPopUp(gameplayEnterParams);
+                });
 
                 isLoaded = true;
             });

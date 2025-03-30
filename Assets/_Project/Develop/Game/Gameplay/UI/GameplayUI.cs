@@ -28,26 +28,27 @@ namespace UI
         private GameplayPopUpProvider _gameplayPopUpProvider;
 
         public GameplayTools GameplayTools => _gameplayTools;
+        public BonusWhirlpoolTransition BonusWhirlpoolTransition => _bonusWhirlpoolTransition;
 
         [Inject]
         private void Construct(LevelProgress levelProgress,
                                GameplayTools gameplayTools,
+                               BonusWhirlpoolTransition bonusWhirlpoolTransition,
                                SlotBar slotBar,
                                GameplayPopUpProvider gameplayPopUpProvider)
         {
             _levelProgress = levelProgress;
             _gameplayTools = gameplayTools;
+            _bonusWhirlpoolTransition = bonusWhirlpoolTransition;
             _slotBar = slotBar;
             _gameplayPopUpProvider = gameplayPopUpProvider;
-
-            _bonusWhirlpoolTransition = new(10, 2);
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
 
         private void OnDestroy()
         {
-            _bonusWhirlpoolTransition.StopTimer();
+            _bonusWhirlpoolTransition?.StopTimer();
         }
 
         public override void BindViews()
@@ -61,8 +62,8 @@ namespace UI
 
         public void OpenLevelMenu()
         {
-            var currentLevelNumber = _gameplayEnterParams.LevelNumber;
-            var levelMenuEnterParams = new LevelMenuEnterParams(currentLevelNumber);
+            var levelMenuEnterParams = new LevelMenuEnterParams(_gameplayEnterParams.LevelNumber,
+                                                                _bonusWhirlpoolTransition.CurrentTimerValue);
             new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
         }
 
@@ -79,8 +80,9 @@ namespace UI
 
         public void InitBonusMenu()
         {
+            var bonusWhirlpoolTimerValue = _settingsProvider.GameSettings.BonusWhirlpoolSettings.Cooldown;
             _bonusWhirlpoolTransition.Init(_gameplayPopUpProvider, _gameplayEnterParams);
-            _bonusWhirlpoolTransition.StartTimer();
+            _bonusWhirlpoolTransition.StartTimer(bonusWhirlpoolTimerValue, _gameplayEnterParams.BonusWhirlpoolTimerValue);
         }
 
         public void SetToolsServcies(FieldShufflingService fieldShufflingService, 

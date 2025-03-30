@@ -1,3 +1,4 @@
+using GameplayRoot;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,9 +16,9 @@ namespace UI
             _timeOverPopUpFactory = timeOverPopUpFactroy;
         }
 
-        public void OpenTimeOverPopUp(int currentLevelNumber)
+        public void OpenTimeOverPopUp(GameplayEnterParams gameplayEnterParams)
         {
-            _timeOverPopUpFactory.Create(currentLevelNumber).Open();
+            _timeOverPopUpFactory.Create(gameplayEnterParams).Open();
         }
     }
 }

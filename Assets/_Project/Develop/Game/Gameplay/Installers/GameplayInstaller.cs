@@ -28,6 +28,7 @@ namespace GameplayInstallers
 
             Container.Bind<LevelProgress>().AsSingle();
             Container.Bind<GameplayTools>().AsSingle();
+            Container.Bind<BonusWhirlpoolTransition>().AsSingle();
 
             Container.Bind<GameplayPopUpProvider>().AsTransient();
 

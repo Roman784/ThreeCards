@@ -16,13 +16,8 @@ namespace UI
         private GameplayPopUpProvider _popUpProvider;
         private GameplayEnterParams _gameplayEnterParams;
 
-        private float FillingProgress => 1f - _currentTimerValue / _timerValue;
-
-        public BonusWhirlpoolTransition(float timerValue, float currentTimerValue)
-        {
-            _timerValue = timerValue;
-            _currentTimerValue = currentTimerValue;
-        }
+        public float CurrentTimerValue => _currentTimerValue;
+        private float FillingProgress => _currentTimerValue / _timerValue;
 
         public void Init(GameplayPopUpProvider popUpProvider, GameplayEnterParams gameplayEnterParams)
         {
@@ -30,8 +25,11 @@ namespace UI
             _gameplayEnterParams = gameplayEnterParams;
         }
 
-        public void StartTimer()
-        { 
+        public void StartTimer(float timerValue, float currentTimerValue)
+        {
+            _timerValue = timerValue;
+            _currentTimerValue = currentTimerValue;
+
             _timer = new Timer(_timerValue - _currentTimerValue);
             _timer.OnValueChanged.Subscribe(value => ChangeCurrentValue(value));
 
@@ -51,7 +49,7 @@ namespace UI
 
         private void ChangeCurrentValue(float value)
         {
-            _currentTimerValue = value;
+            _currentTimerValue = _timerValue - value;
             _view?.SetProgress(FillingProgress);
         }
 
