@@ -22,8 +22,7 @@ namespace ScriptAnimations
 
         private void OnDestroy()
         {
-            if (_pulseRoutine != null)
-                StopCoroutine(_pulseRoutine);
+            Stop();
         }
 
         public void Pulse(Transform target, int rate = 1)
@@ -37,6 +36,15 @@ namespace ScriptAnimations
             _target = target;
             _originScale = target.localScale;
             _pulseRoutine = StartCoroutine(PulseRoutine(rate));
+        }
+
+        public void Stop()
+        {
+            if (_pulseRoutine != null)
+                StopCoroutine(_pulseRoutine);
+
+            if (_target != null)
+                _target.localScale = _originScale;
         }
 
         private IEnumerator PulseRoutine(int rate)

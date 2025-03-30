@@ -6,6 +6,7 @@ using UnityEngine;
 using Utils;
 using R3;
 using DG.Tweening;
+using DG.Tweening.Core;
 
 namespace UI
 {
@@ -15,10 +16,16 @@ namespace UI
         [SerializeField] private CanvasGroup _timerViewGroup;
         [SerializeField] private TMP_Text _timerView;
 
+        [Space]
+
+        [SerializeField] private Transform _iconView;
+        [SerializeField] private float _iconRotationDuration;
+        [SerializeField] private Ease _iconRotationEase;
+
         private GameplayEnterParams _gameplayEnterParams;
         private Timer _timer;
         private CompositeDisposable _disposable = new();
-
+        private Tweener _rotationTween;
 
         public override void Open(bool fadeScreen = true)
         {
@@ -59,7 +66,7 @@ namespace UI
             if (time <= 0)
             {
                 _timerViewGroup.DOFade(0f, 0.25f).SetEase(Ease.OutQuad);
-                _goToViewGroup.DOFade(1f, 0.25f).SetEase(Ease.InQuad);
+                _goToViewGroup.DOFade(1f, 0.25f).SetEase(Ease.InQuad).OnComplete(() => RotateIcon());
             }
             else
             {
@@ -68,7 +75,7 @@ namespace UI
             }
         }
 
-        public void RenderTime(float time)
+        private void RenderTime(float time)
         {
             var minutes = (int)(time / 60f);
             var secs = (int)(time % 60f);
@@ -78,6 +85,17 @@ namespace UI
                 secs);
 
             _timerView.text = formattedTime;
+        }
+
+        private void RotateIcon()
+        {
+            _rotationTween?.Kill();
+            DOVirtual.DelayedCall(0.5f, () =>
+            {
+                _rotationTween = _iconView.DORotate(new Vector3(0f, 0f, -360f), _iconRotationDuration, RotateMode.FastBeyond360)
+                                    .SetEase(_iconRotationEase)
+                                    .OnComplete(() => RotateIcon());
+            });
         }
 
         public class Factory : PopUpFactory<BonusWhirlpoolTransitionPopUp>

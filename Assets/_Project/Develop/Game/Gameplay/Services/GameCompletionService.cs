@@ -46,7 +46,7 @@ namespace GameplayServices
                 if (currentLevelNumber > lastPassedLevelNumber.Value)
                     lastPassedLevelNumber.Value = currentLevelNumber;
 
-                var nextLevelNumber = layoutsSettings.ClampLevelNumber(currentLevelNumber + 1);
+                var nextLevelNumber = currentLevelNumber + 1;
                 var bonusWhirlpoolTimerValue = _bonusWhirlpoolTransition.CurrentTimerValue;
                 var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber, bonusWhirlpoolTimerValue);
 

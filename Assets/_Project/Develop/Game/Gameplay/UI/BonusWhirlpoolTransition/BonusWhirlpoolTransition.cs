@@ -51,6 +51,9 @@ namespace UI
         {
             _currentTimerValue = _timerValue - value;
             _view?.SetProgress(FillingProgress);
+
+            if (_currentTimerValue >= 1f)
+                _view?.StartPulse();
         }
 
         private void OpenPopUp()

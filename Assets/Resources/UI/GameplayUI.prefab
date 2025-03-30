@@ -1874,6 +1874,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2894835825247325898}
   - component: {fileID: 3278537155263635250}
+  - component: {fileID: 2951670463691367695}
   m_Layer: 5
   m_Name: BonusWhirlpool
   m_TagString: Untagged
@@ -1915,6 +1916,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _progressView: {fileID: 2814001803842896176}
+  _pulsation: {fileID: 2951670463691367695}
+--- !u!114 &2951670463691367695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5785438242099885500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a115fd575929a1e4cb49861ec3bef0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 2894835825247325898}
+  _period: 1
+  _scaleChanges:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0.64677787
+      outSlope: 0.64677787
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.16341949
+    - serializedVersion: 3
+      time: 0.49732748
+      value: 1.15
+      inSlope: -0.08577267
+      outSlope: -0.08577267
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12553653
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.520582
+      outSlope: -0.520582
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13710043
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _isAwake: 0
 --- !u!1 &5939953663525030881
 GameObject:
   m_ObjectHideFlags: 0
