@@ -67,11 +67,11 @@ namespace GameplayRoot
                 // Fiel setup.
                 var slots = _slotBar.CreateSlots();
 
-                var cardPlacingService = new CardPlacingService(slots);
+                var cardPlacingService = new CardPlacingService(_slotBar);
                 var onCardPlaced = cardPlacingService.OnCardPlaced;
                 var onCardReadyToPlaced = cardPlacingService.OnCardReadyToPlaced;
 
-                var cardMatchingService = new CardMatchingService(slots, onCardPlaced);
+                var cardMatchingService = new CardMatchingService(_slotBar, onCardPlaced);
                 var onCardsRemoved = cardMatchingService.OnCardsRemoved;
 
                 onCardsRemoved.Subscribe(_ => cardPlacingService.ShiftCards());

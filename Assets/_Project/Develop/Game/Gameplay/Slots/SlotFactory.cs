@@ -26,5 +26,10 @@ namespace GameplayServices
 
             return slot;
         }
+
+        public BombSlot Create(BombSlotView view)
+        {
+            return new BombSlot(view);
+        }
     }
 }

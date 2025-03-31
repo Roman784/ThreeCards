@@ -10,6 +10,7 @@ namespace Gameplay
         public bool HasCard { get; private set; }
         public Card Card { get; private set; }
         public bool IsDestroyed { get; private set; }
+        public Vector2 Position => View.transform.position;
 
         public Slot(SlotView view)
         {
@@ -17,7 +18,7 @@ namespace Gameplay
             IsDestroyed = false;
         }
 
-        public Observable<Unit> PlaceCard(Card card)
+        public virtual Observable<Unit> PlaceCard(Card card)
         {
             HasCard = true;
             Card = card;

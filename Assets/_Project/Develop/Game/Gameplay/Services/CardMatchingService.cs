@@ -2,28 +2,31 @@ using Gameplay;
 using System.Collections.Generic;
 using R3;
 using UnityEngine;
+using DG.Tweening;
 
 namespace GameplayServices
 {
     public class CardMatchingService
     {
-        private List<Slot> _slots = new();
+        private SlotBar _slotBar;
 
         private Subject<List<RemovedCard>> _cardRemovedSubj = new();
         public Observable<List<RemovedCard>> OnCardsRemoved => _cardRemovedSubj;
 
-        public CardMatchingService(List<Slot> slots, Observable<Card> onCardPlaced)
+        public CardMatchingService(SlotBar slotBar, Observable<Card> onCardPlaced)
         {
-            _slots = slots;
+            _slotBar = slotBar;
 
             onCardPlaced.Subscribe(_ => Match());
+            if (_slotBar.HasBombSlot)
+                onCardPlaced.Subscribe(_ => CheckBombSlot());
         }
 
         public void Match()
         {
             var slotsBySuitMap = new Dictionary<Suits, List<Slot>>();
 
-            foreach (var slot in _slots)
+            foreach (var slot in _slotBar.Slots)
             {
                 if (!slot.HasCard) continue;
 
@@ -45,7 +48,7 @@ namespace GameplayServices
                 onCompleted = card.Destroy();
             }
 
-            foreach (var slot in _slots)
+            foreach (var slot in _slotBar.Slots)
             {
                 if (slot.HasCard && slot.Card.IsDestroyed)
                     slot.Release();
@@ -79,6 +82,15 @@ namespace GameplayServices
                 map[key] = new();
 
             map[key].Add(slot);
+        }
+
+        private void CheckBombSlot()
+        {
+            if (!_slotBar.BombSlot.HasCard) return;
+
+            RemoveCards(new List<Card>() { _slotBar.BombSlot.Card });
+
+            _slotBar.BombSlot.Release();
         }
 
         public sealed class RemovedCard

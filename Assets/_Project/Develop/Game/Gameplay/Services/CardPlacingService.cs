@@ -9,7 +9,7 @@ namespace GameplayServices
 {
     public class CardPlacingService
     {
-        private List<Slot> _slots = new();
+        private SlotBar _slotBar;
         private bool _canPlaceCard;
 
         private Subject<Card> _cardPlacedSub = new();
@@ -17,9 +17,9 @@ namespace GameplayServices
         public Observable<Card> OnCardPlaced => _cardPlacedSub;
         public Observable<Card> OnCardReadyToPlaced => _cardReadyToPlacedSub;
 
-        public CardPlacingService(List<Slot> slots)
+        public CardPlacingService(SlotBar slotBar)
         {
-            _slots = slots;
+            _slotBar = slotBar;
             _canPlaceCard = true;
         }
 
@@ -27,18 +27,18 @@ namespace GameplayServices
         {
             if (!_canPlaceCard) return;
 
-            foreach (var slot in _slots)
+            foreach (var slot in _slotBar.Slots)
             {
-                if (!slot.HasCard)
-                {
-                    slot.PlaceCard(card).Subscribe(_ =>
-                    {
-                        _cardPlacedSub.OnNext(card);
-                    });
-                    _cardReadyToPlacedSub.OnNext(card);
-                    break;
-                }
+                if (TryPlaceCard(slot, card)) break;
             }
+        }
+
+        public void PlaceBombCard(Card card)
+        {
+            if (!_canPlaceCard || !card.IsBomb) return;
+
+            var slot = _slotBar.BombSlot;
+            TryPlaceCard(slot, card);
         }
 
         public void ShiftCards()
@@ -47,14 +47,14 @@ namespace GameplayServices
 
             DOVirtual.DelayedCall(0.5f, () =>
             {
-                foreach (var slot in _slots)
+                foreach (var slot in _slotBar.Slots)
                 {
                     if (!slot.HasCard) continue;
 
                     Card card = slot.Card;
                     slot.Release();
 
-                    foreach (var newSlot in _slots)
+                    foreach (var newSlot in _slotBar.Slots)
                     {
                         if (newSlot.HasCard) continue;
 
@@ -65,6 +65,19 @@ namespace GameplayServices
 
                 _canPlaceCard = true;
             });
+        }
+
+        private bool TryPlaceCard(Slot slot, Card card)
+        {
+            if (slot.HasCard) return false;
+
+            slot.PlaceCard(card).Subscribe(_ =>
+            {
+                _cardPlacedSub.OnNext(card);
+            });
+            _cardReadyToPlacedSub.OnNext(card);
+
+            return true;
         }
     }
 }

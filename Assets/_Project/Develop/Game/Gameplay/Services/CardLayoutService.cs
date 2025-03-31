@@ -67,8 +67,7 @@ namespace GameplayServices
                 bool isBomb = _bombsCoordinates.Contains(coordinates);
                 Vector2 cardPosition = GetCardPosition(coordinates);
 
-                Card card = _cardFactory.Create(cardPosition, coordinates, isBomb);
-                card.SetPlacingService(_placingService);
+                Card card = _cardFactory.Create(cardPosition, coordinates, isBomb, _placingService);
                 card.Disable();
 
                 _cardsMap[columnI, cardI] = card;

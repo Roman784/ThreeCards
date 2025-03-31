@@ -26,6 +26,8 @@ namespace BonusWhirlpoolInstaller
             BonusWhirlpoolUI bonusWhirlpoolUIPrefab= Resources.Load<BonusWhirlpoolUI>("UI/BonusWhirlpoolUI");
             Container.Bind<BonusWhirlpoolUI>().FromComponentInNewPrefab(bonusWhirlpoolUIPrefab).AsSingle();
 
+            Container.Bind<GameplayTools>().AsSingle();
+
             Container.Bind<BonusWhirlpoolPopUpProvider>().AsTransient();
 
             BindPopUps();
@@ -42,12 +44,13 @@ namespace BonusWhirlpoolInstaller
             var cardPrefab = Resources.Load<CardView>("Prefabs/Gameplay/Card");
             Container.BindFactory<CardView, CardFactory>().FromComponentInNewPrefab(cardPrefab);
 
-            var slotPrefab = Resources.Load<SlotView>("Prefabs/Gameplay/Slot");
+            var slotPrefab = Resources.Load<SlotView>("Prefabs/Gameplay/Slots/Slot");
             Container.BindFactory<SlotView, SlotFactory>().FromComponentInNewPrefab(slotPrefab);
         }
 
         private void BindSlotBar()
         {
+            Container.Bind<SlotBar>().FromInstance(_slotBar).AsSingle();
             Container.Bind<BonusWhirlpoolSlotBar>().FromInstance(_slotBar).AsSingle();
         }
 

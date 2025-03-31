@@ -408,6 +408,8 @@ MonoBehaviour:
   _spacing: 1.25
   _hasBonusSlot: 0
   _bonusSlotView: {fileID: 0}
+  _hasBombSlot: 0
+  _bombSlotView: {fileID: 0}
   _verticalSpacing: 1.75
 --- !u!1 &1458069432
 GameObject:

@@ -51,9 +51,8 @@ namespace BonusWhirlpoolService
 
         private void CreateCard()
         {
-            var card = _cardFactory.Create();
+            var card = _cardFactory.Create(false, _cardPlacingService);
 
-            card.SetPlacingService(_cardPlacingService);
             _cardMarkingService.MarkRandom(card);
 
             card.Open();

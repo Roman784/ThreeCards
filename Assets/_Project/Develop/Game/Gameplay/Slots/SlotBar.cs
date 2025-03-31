@@ -14,6 +14,10 @@ namespace Gameplay
         [SerializeField] private BonusSlotView _bonusSlotView;
         private Slot _bonusSlot;
 
+        [SerializeField] private bool _hasBombSlot = true;
+        [SerializeField] private BombSlotView _bombSlotView;
+        private BombSlot _bombSlot;
+
         private SlotsSettings _slotsSettings;
         private SlotFactory _slotFactory;
 
@@ -21,6 +25,8 @@ namespace Gameplay
         public IEnumerable<Slot> Slots => _slots;
         public BonusSlotView BonusSlotView => _bonusSlotView;
         public bool IsBonusSlotCreated => _bonusSlot?.IsDestroyed ?? true;
+        public bool HasBombSlot => _hasBombSlot;
+        public BombSlot BombSlot => _bombSlot;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, SlotFactory slotFactory)
@@ -30,6 +36,9 @@ namespace Gameplay
 
             if (_hasBonusSlot)
                 _bonusSlot = _slotFactory.Create(_bonusSlotView);
+
+            if (_hasBombSlot)
+                _bombSlot = _slotFactory.Create(_bombSlotView);
         }
 
         public bool ContainsCard(Card card)

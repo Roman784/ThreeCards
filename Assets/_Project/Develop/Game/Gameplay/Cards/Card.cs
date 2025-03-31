@@ -26,13 +26,21 @@ namespace Gameplay
         public bool IsDestroyed { get; private set; }
         public Vector3 Position => _view.GetPosition();
 
-        public Card(CardView view)
+        public Card(CardView view, bool isBomb, CardPlacingService placingService, SlotBar slotBar)
         {
             IsClosed = true;
             IsMarked = false;
+            IsBomb = isBomb;
+            _cardPlacingService = placingService;
 
             _view = view;
             _view.OnPicked.Subscribe(_ => Pick());
+
+            if (IsBomb)
+            {
+                var dragging = _view.EnableDragging();
+                dragging.Init(this, slotBar, placingService);
+            }
         }
 
         public void SetCoordinates(Vector2Int coordinates) => Coordinates = coordinates;
@@ -41,7 +49,6 @@ namespace Gameplay
             if (!IsDestroyed)
                 _view.SetPosition(position);
         }
-        public void SetIsBomb(bool value) => IsBomb = value;
 
         public void Rotate(Vector3 eulers)
         {
@@ -66,11 +73,6 @@ namespace Gameplay
 
             Mark(suit, rank);
             _view.MarkAsBomb();
-        }
-
-        public void SetPlacingService(CardPlacingService service)
-        {
-            _cardPlacingService = service;
         }
 
         public void SetGameplayTools(GameplayTools gameplayTools)
@@ -125,7 +127,7 @@ namespace Gameplay
 
             onDestroyed.Subscribe(_ =>
             {
-                if (_view != null)
+                //if (_view != null)
                     Object.Destroy(_view.gameObject);
             });
 

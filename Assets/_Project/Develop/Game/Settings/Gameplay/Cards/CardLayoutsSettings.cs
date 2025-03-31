@@ -34,13 +34,15 @@ namespace Settings
 
         public bool IsLevelExist(int levelNumber)
         {
-            foreach (var layout in CardLayoutSettings)
+            try
             {
-                if (layout.LevelNumber == levelNumber)
-                    return true;
+                GetLayout(levelNumber);
+                return true;
             }
-
-            return false;
+            catch
+            {
+                return false;
+            }
         }
 
         public int ClampLevelNumber(int levelNumber)

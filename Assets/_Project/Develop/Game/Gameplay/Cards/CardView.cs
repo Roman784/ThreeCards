@@ -38,17 +38,17 @@ namespace Gameplay
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _flipSpeed;
 
+        [Space]
+
+        [SerializeField] private CardDragging _dragging;
+
         private Sprite _faceSprite;
         private Sprite _backSprite;
 
-        private Dictionary<Suits, Sprite> cardFacesMap = new();
-        private Dictionary<Suits, Sprite> cardBacksMap = new();
-        private Dictionary<Suits, Sprite> suitsMap = new();
-
         private Animator _animator;
 
-        public Observable<Unit> OnPicked => _pickedSubj;
         private Subject<Unit> _pickedSubj = new();
+        public Observable<Unit> OnPicked => _pickedSubj;
 
         private void Awake()
         {
@@ -60,17 +60,27 @@ namespace Gameplay
             StopAllCoroutines();
         }
 
-        public Vector3 GetPosition() => transform.position;
+        public Vector3 GetPosition()
+        {
+            return transform.position;
+        }
+
         public void SetPosition(Vector3 position)
         {
-            if (this != null)
+            //if (this != null)
                 transform.position = position;
         }
 
         public void Rotate(Vector3 eulers)
         {
-            if (this != null)
+            //if (this != null)
                 transform.Rotate(eulers);
+        }
+
+        public CardDragging EnableDragging()
+        {
+            _dragging.gameObject.SetActive(true);
+            return _dragging;
         }
 
         public void Mark(Suits suit, Ranks rank)
@@ -101,6 +111,7 @@ namespace Gameplay
 
             transform.SetParent(slot);
             StraightenRotation();
+            transform.DOScale(Vector3.one, 0.25f);
             return Move(slot.position, Ease.OutQuad);
         }
 
@@ -182,6 +193,8 @@ namespace Gameplay
 
         public Observable<Unit> Destroy()
         {
+            if (this == null) return Observable.Return(Unit.Default);
+
             _animator.SetTrigger("Destroying");
             return CurrentAnimationDelayedCall();
         }
