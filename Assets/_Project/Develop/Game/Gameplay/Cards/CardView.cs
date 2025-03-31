@@ -12,6 +12,7 @@ namespace Gameplay
     {
         [SerializeField] private Image _spriteView;
         [SerializeField] private TMP_Text _rankView;
+        [SerializeField] private Image _suitView;
         [SerializeField] private GraphicRaycaster _raycaster;
 
         [Space]
@@ -20,6 +21,11 @@ namespace Gameplay
         [SerializeField] private Sprite _hearts;
         [SerializeField] private Sprite _clubs;
         [SerializeField] private Sprite _spades;
+
+        [Space]
+
+        [SerializeField] private Sprite _redCardFace;
+        [SerializeField] private Sprite _blackCardFace;
 
         [Space]
 
@@ -34,7 +40,9 @@ namespace Gameplay
         private Sprite _faceSprite;
         private Sprite _backSprite;
 
-        private Dictionary<Suits, Sprite> _spritesMap = new();
+        private Dictionary<Suits, Sprite> cardFacesMap = new();
+        private Dictionary<Suits, Sprite> cardBacksMap = new();
+        private Dictionary<Suits, Sprite> suitsMap = new();
 
         private Animator _animator;
 
@@ -44,11 +52,6 @@ namespace Gameplay
         private void Awake()
         {
             _animator = GetComponent<Animator>();
-
-            _spritesMap[Suits.Diamonds] = _diamonds;
-            _spritesMap[Suits.Heart] = _hearts;
-            _spritesMap[Suits.Club] = _clubs;
-            _spritesMap[Suits.Spade] = _spades;
         }
 
         private void OnDestroy()
@@ -71,15 +74,13 @@ namespace Gameplay
 
         public void Mark(Suits suit, Ranks rank)
         {
-            _faceSprite = _spritesMap[suit];
-
-            if (suit is Suits.Heart or Suits.Diamonds)
-                _backSprite = _redCardBack;
-            else
-                _backSprite = _blackCardBack;
+            _faceSprite = GetFaceSprite(suit);
+            _backSprite = GetBackSprite(suit);
 
             _spriteView.sprite = _faceSprite;
             _rankView.text = CardMarkingMapper.GetRankView(rank);
+            _suitView.sprite = GetSuitSprite(suit);
+            _suitView.SetNativeSize();
         }
 
         public void Pick()
@@ -196,12 +197,14 @@ namespace Gameplay
         public void SetOpenView()
         {
             _rankView.gameObject.SetActive(true);
+            _suitView.gameObject.SetActive(true);
             _spriteView.sprite = _faceSprite;
         }
 
         public void SetCloseView()
         {
             _rankView.gameObject.SetActive(false);
+            _suitView.gameObject.SetActive(false);
             _spriteView.sprite = _backSprite;
         }
 
@@ -209,6 +212,30 @@ namespace Gameplay
         {
             var angle = transform.eulerAngles.z + Random.Range(-15f, 15f);
             transform.DORotate(new Vector3(0f, 0f, angle), duration, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
+        }
+
+        private Sprite GetFaceSprite(Suits suit)
+        {
+            if (suit is Suits.Heart or Suits.Diamonds) return _redCardFace;
+            return _blackCardFace;
+        }
+
+        private Sprite GetBackSprite(Suits suit)
+        {
+            if (suit is Suits.Heart or Suits.Diamonds) return _redCardBack;
+            return _redCardBack;
+        }
+
+        private Sprite GetSuitSprite(Suits suit)
+        {
+            var suitsMap = new Dictionary<Suits, Sprite>();
+
+            suitsMap[Suits.Diamonds] = _diamonds;
+            suitsMap[Suits.Heart] = _hearts;
+            suitsMap[Suits.Club] = _clubs;
+            suitsMap[Suits.Spade] = _spades;
+
+            return suitsMap[suit];
         }
     }
 }
