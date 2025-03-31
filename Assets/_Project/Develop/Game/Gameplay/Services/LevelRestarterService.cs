@@ -3,20 +3,24 @@ using Gameplay;
 using GameplayRoot;
 using GameRoot;
 using R3;
+using UI;
 
 namespace GameplayServices
 {
     public class LevelRestarterService
     {
-        private GameplayEnterParams _gameplayEnterParams;
         private FieldService _fieldService;
         private ShakyCamera _shakyCamera;
+        private int _currentlevelNumber;
+        private BonusWhirlpoolTransition _bonusWhirlpoolTransition;
 
-        public LevelRestarterService(GameplayEnterParams gameplayEnterParams, FieldService fieldService, ShakyCamera shakyCamera)
+        public LevelRestarterService(FieldService fieldService, ShakyCamera shakyCamera,
+                                     int currentLevelNumber, BonusWhirlpoolTransition bonusWhirlpoolTransition)
         {
-            _gameplayEnterParams = gameplayEnterParams;
             _fieldService = fieldService;
             _shakyCamera = shakyCamera;
+            _currentlevelNumber = currentLevelNumber;
+            _bonusWhirlpoolTransition = bonusWhirlpoolTransition;
         }
 
         public Observable<Unit> Restart()
@@ -32,8 +36,9 @@ namespace GameplayServices
 
             (onCompleted ?? Observable.Return(Unit.Default)).Subscribe(_ =>
             {
-                var sceneLoader = new SceneLoader();
-                sceneLoader.LoadAndRunGameplay(_gameplayEnterParams);
+                var enterParams = new GameplayEnterParams(_currentlevelNumber,
+                                                          _bonusWhirlpoolTransition.CurrentTimerValue);
+                new SceneLoader().LoadAndRunGameplay(enterParams);
             });
 
             return onCompleted;

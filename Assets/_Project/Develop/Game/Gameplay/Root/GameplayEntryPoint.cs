@@ -93,7 +93,8 @@ namespace GameplayRoot
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
                 var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
-                var levelRestarterService = new LevelRestarterService(enterParams, fieldService, _shakyCamera);
+                var levelRestarterService = new LevelRestarterService(fieldService, _shakyCamera, 
+                                                                      enterParams.LevelNumber, _gameplayUI.BonusWhirlpoolTransition);
                 var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
