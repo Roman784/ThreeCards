@@ -1,4 +1,5 @@
 using Gameplay;
+using R3;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,12 @@ namespace GameplayServices
                     Card card = _fieldService.GetCard(colunmI, cardI);
                     if (!_fieldService.IsCardExist(card) || card.IsMarked) continue;
 
+                    if (card.IsBomb)
+                    {
+                        card.MarkAsbomb();
+                        continue;
+                    }
+
                     Vector2Int cardCoords = new Vector2Int(colunmI, cardI);
                     InitThreeCards(card, cardCoords);
                 }
@@ -50,11 +57,7 @@ namespace GameplayServices
         {
             HashSet<Card> vacantCards = new();
             SetVacantCards(vacantCards, originCard, originCardCoords);
-
-            if (vacantCards.Count < 3)
-            {
-                AddAbscentVacantCards(originCardCoords, vacantCards);
-            }
+            AddAbscentVacantCards(originCardCoords, vacantCards);
 
             var shuffledVacantCards = ShuffleCards(vacantCards.ToList());
             InitCards(shuffledVacantCards);
@@ -87,9 +90,10 @@ namespace GameplayServices
             {
                 for (int y = startY; y <= endY; y++)
                 {
-                    if (_fieldService.GetCard(x, y) == null || _fieldService.GetCard(x, y).IsMarked) continue;
+                    var card = _fieldService.GetCard(x, y);
+                    if (!_fieldService.IsCardExist(card) || card.IsMarked || card.IsBomb) continue;
 
-                    vacantCards.Add(_fieldService.GetCard(x, y));
+                    vacantCards.Add(card);
                 }
             }
         }
@@ -97,7 +101,10 @@ namespace GameplayServices
         // Executed for an additional set of cards if the cards count is less than 3.
         private void AddAbscentVacantCards(Vector2 originCardCoords, HashSet<Card> vacantCards)
         {
-            while (vacantCards.Count < 3)
+            var count = vacantCards.Count;
+            if (count >= 3) return;
+
+            for (int i = 0; i < 3 - count; i++)
             {
                 Card nearestCard = null;
                 float nearestCardDistance = float.MaxValue;
@@ -106,7 +113,7 @@ namespace GameplayServices
                     for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
                     {
                         Card card = _fieldService.GetCard(colunmI, cardI);
-                        if (!_fieldService.IsCardExist(card) || card.IsMarked || vacantCards.Contains(card)) continue;
+                        if (!_fieldService.IsCardExist(card) || card.IsMarked || card.IsBomb || vacantCards.Contains(card)) continue;
 
                         Vector2 cardCoords = new Vector2Int(colunmI, cardI);
                         float distance = Vector2.Distance(originCardCoords, cardCoords);
@@ -120,9 +127,7 @@ namespace GameplayServices
                 }
 
                 if (nearestCard != null)
-                {
                     vacantCards.Add(nearestCard);
-                }    
             }
         }
 

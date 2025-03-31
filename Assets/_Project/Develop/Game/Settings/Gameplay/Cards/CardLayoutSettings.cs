@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Settings
@@ -14,6 +15,7 @@ namespace Settings
 
         [field: SerializeField] public int LevelNumber {  get; private set; }
         [field: SerializeField] public Vector2Int CardSpreadRange { get; private set; }
+        [field: SerializeField] public int BombsCount { get; private set; }
         [field: SerializeField] public CardColumn[] CardColumns { get; private set; }
 
         public int ColumnCount => CardColumns.Length;
@@ -25,16 +27,7 @@ namespace Settings
 
         public int GetMaxColumnLength()
         {
-            int maxLength = 0;
-            foreach (CardColumn cardColumn in CardColumns)
-            {
-                if (cardColumn.CardCount > maxLength)
-                {
-                    maxLength = cardColumn.CardCount;
-                }
-            }
-
-            return maxLength;
+            return CardColumns.Max(c => c.CardCount);
         }
 
         private void OnValidate()

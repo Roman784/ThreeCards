@@ -392,6 +392,7 @@ MonoBehaviour:
   _hearts: {fileID: 24891139, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _clubs: {fileID: 192039072, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _spades: {fileID: -615739429, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
+  _bomb: {fileID: 1182741243, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _redCardFace: {fileID: 1403360663, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _blackCardFace: {fileID: 1751605367, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}
   _redCardBack: {fileID: -1995358413, guid: f0f0594d1aec3ee40a31da1ec7d4207a, type: 3}

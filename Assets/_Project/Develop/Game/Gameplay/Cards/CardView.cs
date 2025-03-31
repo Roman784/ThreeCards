@@ -21,6 +21,7 @@ namespace Gameplay
         [SerializeField] private Sprite _hearts;
         [SerializeField] private Sprite _clubs;
         [SerializeField] private Sprite _spades;
+        [SerializeField] private Sprite _bomb;
 
         [Space]
 
@@ -80,6 +81,12 @@ namespace Gameplay
             _spriteView.sprite = _faceSprite;
             _rankView.text = CardMarkingMapper.GetRankView(rank);
             _suitView.sprite = GetSuitSprite(suit);
+            _suitView.SetNativeSize();
+        }
+
+        public void MarkAsBomb()
+        {
+            _suitView.sprite = _bomb;
             _suitView.SetNativeSize();
         }
 
@@ -223,7 +230,7 @@ namespace Gameplay
         private Sprite GetBackSprite(Suits suit)
         {
             if (suit is Suits.Heart or Suits.Diamonds) return _redCardBack;
-            return _redCardBack;
+            return _blackCardBack;
         }
 
         private Sprite GetSuitSprite(Suits suit)

@@ -20,6 +20,7 @@ namespace Gameplay
         public bool IsPlaced { get; private set; }
         public Suits Suit { get; private set; }
         public Ranks Rank { get; private set; }
+        public bool IsBomb { get; private set; }
         public bool IsDestroyed { get; private set; }
         public Vector3 Position => _view.GetPosition();
 
@@ -29,7 +30,6 @@ namespace Gameplay
             IsMarked = false;
 
             _view = view;
-
             _view.OnPicked.Subscribe(_ => Pick());
         }
 
@@ -39,6 +39,7 @@ namespace Gameplay
             if (!IsDestroyed)
                 _view.SetPosition(position);
         }
+        public void SetIsBomb(bool value) => IsBomb = value;
 
         public void Rotate(Vector3 eulers)
         {
@@ -54,6 +55,15 @@ namespace Gameplay
 
             _view.Mark(suit, rank);
             _view.Close(true);
+        }
+
+        public void MarkAsbomb()
+        {
+            Suits suit = CardMarkingMapper.GetRandomSuits();
+            Ranks rank = CardMarkingMapper.GetRandomRank();
+
+            Mark(suit, rank);
+            _view.MarkAsBomb();
         }
 
         public void SetPlacingService(CardPlacingService service)

@@ -1,5 +1,8 @@
 ﻿using Gameplay;
 using Settings;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using Zenject;
 using static Settings.CardLayoutSettings;
@@ -16,6 +19,8 @@ namespace GameplayServices
         private CardLayoutSettings _layout;
         private int _maxColumnLength;
 
+        private List<Vector2Int> _bombsCoordinates = new();
+
         public CardLayoutService(CardLayoutsSettings layouts, CardFactory cardFactory, CardPlacingService placingService)
         {
             _layouts = layouts;
@@ -26,7 +31,29 @@ namespace GameplayServices
         public Card[,] SetUp(CardLayoutSettings layout)
         {
             _layout = layout;
-            _maxColumnLength = _layout.GetMaxColumnLength();
+
+            _bombsCoordinates.Capacity = _layout.BombsCount;
+            var columnCount = _layout.ColumnCount;
+            var maxColumnLengthWithoutBombs = _layout.GetMaxColumnLength();
+
+            for (int i = 0; i < _layout.BombsCount; i++)
+            {
+                var x = Random.Range(0, columnCount);
+                var y = Random.Range(0, _layout.CardColumns[x].CardCount);
+
+                _bombsCoordinates.Add(new Vector2Int(x, y));
+            }
+
+            var maxColumnLengthOffsets = new Dictionary<int, int>();
+            foreach (var bombCoordinates in _bombsCoordinates)
+            {
+                if (!maxColumnLengthOffsets.ContainsKey(bombCoordinates.x))
+                    maxColumnLengthOffsets[bombCoordinates.x] = 0;
+                maxColumnLengthOffsets[bombCoordinates.x] += 1;
+            }
+            var maxColumnLengthOffset = maxColumnLengthOffsets.Values.Max();
+
+            _maxColumnLength = maxColumnLengthWithoutBombs + maxColumnLengthOffset;
 
             _cardsMap = new Card[_layout.ColumnCount, _maxColumnLength];
 
@@ -52,12 +79,15 @@ namespace GameplayServices
 
         private void CreateColumn(CardColumn column, int columnI)
         {
-            for (int cardI = 0; cardI < column.CardCount; cardI++)
+            var offsetDueToBombs = _bombsCoordinates.Count(c => c.x == columnI);
+
+            for (int cardI = 0; cardI < column.CardCount + offsetDueToBombs; cardI++)
             {
                 Vector2Int coordinates = new Vector2Int(columnI, cardI);
+                bool isBomb = _bombsCoordinates.Contains(coordinates);
                 Vector2 cardPosition = GetCardPosition(coordinates);
 
-                Card card = _cardFactory.Create(cardPosition, coordinates);
+                Card card = _cardFactory.Create(cardPosition, coordinates, isBomb);
                 card.SetPlacingService(_placingService);
                 card.Disable();
 

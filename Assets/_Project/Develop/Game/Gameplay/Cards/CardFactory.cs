@@ -15,17 +15,25 @@ namespace GameplayServices
             return card;
         }
 
-        public Card Create(Vector2Int coordinates)
+        public Card Create(bool isBombs = false)
         {
             Card card = Create();
+            card.SetIsBomb(isBombs);
+
+            return card;
+        }
+
+        public Card Create(Vector2Int coordinates, bool isBombs = false)
+        {
+            Card card = Create(isBombs);
             card.SetCoordinates(coordinates);
 
             return card;
         }
 
-        public Card Create(Vector2 position, Vector2Int coordinates)
+        public Card Create(Vector2 position, Vector2Int coordinates, bool isBombs = false)
         {
-            Card card = Create(coordinates);
+            Card card = Create(coordinates, isBombs);
             card.SetPosition(position);
 
             return card;
