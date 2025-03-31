@@ -174,6 +174,12 @@ namespace Gameplay
             return CurrentAnimationDelayedCall();
         }
 
+        public Observable<Unit> Hiss()
+        {
+            _animator.SetTrigger("Hissing");
+            return CurrentAnimationDelayedCall();
+        }
+
         public Observable<Unit> Destroy()
         {
             _animator.SetTrigger("Destroying");
@@ -200,27 +206,6 @@ namespace Gameplay
             return animationCompletedSubj;
         }
 
-        // Invoked from animations.
-        public void SetOpenView()
-        {
-            _rankView.gameObject.SetActive(true);
-            _suitView.gameObject.SetActive(true);
-            _spriteView.sprite = _faceSprite;
-        }
-
-        public void SetCloseView()
-        {
-            _rankView.gameObject.SetActive(false);
-            _suitView.gameObject.SetActive(false);
-            _spriteView.sprite = _backSprite;
-        }
-
-        public void RotateToRandomAngle(float duration)
-        {
-            var angle = transform.eulerAngles.z + Random.Range(-15f, 15f);
-            transform.DORotate(new Vector3(0f, 0f, angle), duration, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
-        }
-
         private Sprite GetFaceSprite(Suits suit)
         {
             if (suit is Suits.Heart or Suits.Diamonds) return _redCardFace;
@@ -243,6 +228,27 @@ namespace Gameplay
             suitsMap[Suits.Spade] = _spades;
 
             return suitsMap[suit];
+        }
+
+        // Invoked from animations.
+        public void SetOpenView()
+        {
+            _rankView.gameObject.SetActive(true);
+            _suitView.gameObject.SetActive(true);
+            _spriteView.sprite = _faceSprite;
+        }
+
+        public void SetCloseView()
+        {
+            _rankView.gameObject.SetActive(false);
+            _suitView.gameObject.SetActive(false);
+            _spriteView.sprite = _backSprite;
+        }
+
+        public void RotateToRandomAngle(float duration)
+        {
+            var angle = transform.eulerAngles.z + Random.Range(-15f, 15f);
+            transform.DORotate(new Vector3(0f, 0f, angle), duration, RotateMode.FastBeyond360).SetEase(Ease.OutQuad);
         }
     }
 }

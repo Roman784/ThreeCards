@@ -1,6 +1,7 @@
 using DG.Tweening;
 using GameplayServices;
 using R3;
+using UI;
 using UnityEngine;
 
 namespace Gameplay
@@ -10,6 +11,7 @@ namespace Gameplay
         private CardView _view;
 
         private CardPlacingService _cardPlacingService;
+        private GameplayTools _gameplayTools;
 
         private Subject<Card> _cardPlacedSubj = new();
         public Observable<Card> OnCardPlaced => _cardPlacedSubj;
@@ -71,6 +73,11 @@ namespace Gameplay
             _cardPlacingService = service;
         }
 
+        public void SetGameplayTools(GameplayTools gameplayTools)
+        {
+            _gameplayTools = gameplayTools;
+        }
+
         public Observable<Unit> Place(Transform slot)
         {
             IsPlaced = true;
@@ -127,6 +134,13 @@ namespace Gameplay
 
         public void Pick()
         {
+            if (IsBomb)
+            {
+                _view.Disable(false);
+                _view.Hiss().Subscribe(_ => _gameplayTools.RestartLevel());
+                return;
+            }
+
             if (IsClosed || IsPlaced || IsDestroyed) return;
             _cardPlacingService.PlaceCard(this);
         }

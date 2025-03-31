@@ -1,5 +1,6 @@
 using Gameplay;
 using System;
+using UI;
 using UnityEngine;
 using Zenject;
 
@@ -7,10 +8,20 @@ namespace GameplayServices
 {
     public class CardFactory : PlaceholderFactory<CardView>
     {
+        private GameplayTools _gameplayTools;
+
+        [Inject]
+        private void Construct(GameplayTools gameplayTools)
+        {
+            _gameplayTools = gameplayTools;
+        }
+
         public new Card Create()
         {
             CardView view = base.Create();
             Card card = new Card(view);
+
+            card.SetGameplayTools(_gameplayTools);
 
             return card;
         }

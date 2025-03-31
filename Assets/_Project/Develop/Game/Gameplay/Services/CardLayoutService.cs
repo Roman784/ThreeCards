@@ -19,7 +19,7 @@ namespace GameplayServices
         private CardLayoutSettings _layout;
         private int _maxColumnLength;
 
-        private List<Vector2Int> _bombsCoordinates = new();
+        private HashSet<Vector2Int> _bombsCoordinates = new();
 
         public CardLayoutService(CardLayoutsSettings layouts, CardFactory cardFactory, CardPlacingService placingService)
         {
@@ -32,28 +32,8 @@ namespace GameplayServices
         {
             _layout = layout;
 
-            _bombsCoordinates.Capacity = _layout.BombsCount;
-            var columnCount = _layout.ColumnCount;
-            var maxColumnLengthWithoutBombs = _layout.GetMaxColumnLength();
-
-            for (int i = 0; i < _layout.BombsCount; i++)
-            {
-                var x = Random.Range(0, columnCount);
-                var y = Random.Range(0, _layout.CardColumns[x].CardCount);
-
-                _bombsCoordinates.Add(new Vector2Int(x, y));
-            }
-
-            var maxColumnLengthOffsets = new Dictionary<int, int>();
-            foreach (var bombCoordinates in _bombsCoordinates)
-            {
-                if (!maxColumnLengthOffsets.ContainsKey(bombCoordinates.x))
-                    maxColumnLengthOffsets[bombCoordinates.x] = 0;
-                maxColumnLengthOffsets[bombCoordinates.x] += 1;
-            }
-            var maxColumnLengthOffset = maxColumnLengthOffsets.Values.Max();
-
-            _maxColumnLength = maxColumnLengthWithoutBombs + maxColumnLengthOffset;
+            SetUpBombsCoordinates();
+            _maxColumnLength = GetMaxColumnlengthIncludedBombs();
 
             _cardsMap = new Card[_layout.ColumnCount, _maxColumnLength];
 
@@ -93,6 +73,38 @@ namespace GameplayServices
 
                 _cardsMap[columnI, cardI] = card;
             }
+        }
+
+        private void SetUpBombsCoordinates()
+        {
+            var columnCount = _layout.ColumnCount;
+
+            for (int i = 0; i < _layout.BombsCount; i++)
+            {
+                var x = Random.Range(0, columnCount);
+                var y = Random.Range(0, _layout.CardColumns[x].CardCount);
+
+                _bombsCoordinates.Add(new Vector2Int(x, y));
+            }
+        }
+
+        private int GetMaxColumnlengthIncludedBombs()
+        {
+            var maxColumnLengthWithoutBombs = _layout.GetMaxColumnLength();
+            var maxColumnLengthOffsets = new Dictionary<int, int>();
+
+            if (_bombsCoordinates.Count == 0)
+                return maxColumnLengthWithoutBombs;
+
+            foreach (var bombCoordinates in _bombsCoordinates)
+            {
+                if (!maxColumnLengthOffsets.ContainsKey(bombCoordinates.x))
+                    maxColumnLengthOffsets[bombCoordinates.x] = 0;
+                maxColumnLengthOffsets[bombCoordinates.x] += 1;
+            }
+            var maxColumnLengthOffset = maxColumnLengthOffsets.Values.Max();
+
+            return maxColumnLengthWithoutBombs + maxColumnLengthOffset;
         }
 
         private Vector2 StartColumnsPosition
