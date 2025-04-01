@@ -85,7 +85,13 @@ namespace UI
             _chipsCounter.Reduce(_toolsSettings.MagicStickCost);
 
             var onCompleted = _magicStickService.PickThree();
-            DisableUntilComplete(onCompleted);
+            DisableUntilComplete(onCompleted.AsUnitObservable());
+
+            onCompleted.Subscribe(result =>
+            {
+                if (!result)
+                    _chipsCounter.Add(_toolsSettings.MagicStickCost, instantly:false);
+            });
 
             _view.CreateMagicStickPurchaseEffect();
 

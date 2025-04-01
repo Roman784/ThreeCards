@@ -57,7 +57,7 @@ namespace Gameplay
             Vector2 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             _card.SetPosition(mousePosition + _touchOffset);
 
-            if (Vector2.Distance(_card.Position, _slotBar.BombSlot.Position) < 1f)
+            if (Vector2.Distance(mousePosition, _slotBar.BombSlot.Position) < 1.5f)
             {
                 _placingService.PlaceBombCard(_card);
                 this.enabled = false;
