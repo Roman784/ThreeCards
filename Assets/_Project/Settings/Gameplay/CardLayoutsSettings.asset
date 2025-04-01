@@ -13,10 +13,36 @@ MonoBehaviour:
   m_Name: CardLayoutsSettings
   m_EditorClassIdentifier: 
   <CardLayoutSettings>k__BackingField:
-  - {fileID: 11400000, guid: 5f4a806e9a5924f4791cb90a2beba891, type: 2}
-  - {fileID: 11400000, guid: ea890d7cea299474a952a1bee3688844, type: 2}
   - {fileID: 11400000, guid: 14066cb792ab1a14aa004e7475b95c73, type: 2}
   - {fileID: 11400000, guid: dacf8df9d7c537f4c9ae83e99c92c1b5, type: 2}
+  - {fileID: 11400000, guid: ea890d7cea299474a952a1bee3688844, type: 2}
+  - {fileID: 11400000, guid: 5f4a806e9a5924f4791cb90a2beba891, type: 2}
+  - {fileID: 11400000, guid: 189324d1c874a7c43aca30a42b58f939, type: 2}
+  - {fileID: 11400000, guid: 804d93b0b8a7ac7408118c3960bac6dd, type: 2}
+  - {fileID: 11400000, guid: 353f9e57485f18c4597a4b3b1eaba169, type: 2}
+  - {fileID: 11400000, guid: 93a52a694709e4245bdffa80d41f094a, type: 2}
+  - {fileID: 11400000, guid: 7fed0d660c562da4093ecdac324f5484, type: 2}
+  - {fileID: 11400000, guid: 44d18ba23c45cb04f8cce16635e3fe6d, type: 2}
+  - {fileID: 11400000, guid: 641bfb2466337024cbc261598fc727a1, type: 2}
+  - {fileID: 11400000, guid: 5c2406595bcd68b4f8f2c0edd6fe6240, type: 2}
+  - {fileID: 11400000, guid: afca3016a66a80c4c9aa2a7d0648a4c6, type: 2}
+  - {fileID: 11400000, guid: 2bd996fe66841da4b848e50bea53cfdf, type: 2}
+  - {fileID: 11400000, guid: 37c04eb7d185d404faf93af3415e5bf6, type: 2}
+  - {fileID: 11400000, guid: 1884faf6b4724fe478e5495c4849f32a, type: 2}
+  - {fileID: 11400000, guid: 424ad6308defef640b5afbe66b7ba942, type: 2}
+  - {fileID: 11400000, guid: a65f44a528a9b0b4d83aa951bfde90fe, type: 2}
+  - {fileID: 11400000, guid: b76e66b2ca006a94ea3713bf55985a53, type: 2}
+  - {fileID: 11400000, guid: 5b54f07586fb3344695f6c647fc53ce1, type: 2}
+  - {fileID: 11400000, guid: d5efdfc30aacd304a92adf016c1e8703, type: 2}
+  - {fileID: 11400000, guid: 0d8f3865b582c8d4f8a79b8572243dea, type: 2}
+  - {fileID: 11400000, guid: 999e4daa939cfc5428daaa4a82ff52e8, type: 2}
+  - {fileID: 11400000, guid: 35384fdb860bd9b41899012e524bc298, type: 2}
+  - {fileID: 11400000, guid: fb0ef5eadd7d3c847a7812197272b8c2, type: 2}
+  - {fileID: 11400000, guid: c3c309e4f81c0174f871d90b1da6813c, type: 2}
+  - {fileID: 11400000, guid: 918ed4efe7bf3f340ad7e224621552de, type: 2}
+  - {fileID: 11400000, guid: 5e22e75fde576f34ca0bce65297e696e, type: 2}
+  - {fileID: 11400000, guid: 16ec7cb033c387e458471d686f553eb4, type: 2}
+  - {fileID: 11400000, guid: e40b91a23c14571458537b45a2e04c2b, type: 2}
   <MinColumnCount>k__BackingField: 1
   <MaxColumnCount>k__BackingField: 6
   <MinColumnSpacing>k__BackingField: 1.4
