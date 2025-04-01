@@ -35,6 +35,7 @@ namespace GameplayServices
                 if (card == null) continue;
                 if (card.Suit != originCard.Suit) continue;
                 if (card.IsDestroyed) continue;
+                if (card.IsBomb) continue;
                 if (card == originCard) continue;
 
                 cards.Add(card);
@@ -58,7 +59,7 @@ namespace GameplayServices
             var cards = new List<Card>();
             foreach (var card in _fieldService.Cards)
             {
-                if (card == null || card.IsDestroyed) continue;
+                if (card == null || card.IsDestroyed || card.IsBomb) continue;
                 cards.Add(card);
             }
 
