@@ -96,9 +96,12 @@ namespace Gameplay
             return Move(slot.position);
         }
 
-        public Observable<Unit> Move(Vector3 position, Ease ease = Ease.OutQuad, float moveDuration = 0, float speedMultiplyer = 1)
+        public Observable<Unit> Move(Vector3 position, Ease ease = Ease.OutQuad, 
+                                     float moveDuration = 0, float speedMultiplyer = 1, bool playSound = true)
         {
-            _audioPlayer.PlayOneShot(_audioSettings.MovementSound);
+            if (playSound)
+                _audioPlayer.PlayOneShot(_audioSettings.MovementSound);
+
             return _view.Move(position, ease, moveDuration, speedMultiplyer);
         }
 
@@ -159,12 +162,18 @@ namespace Gameplay
             if (IsBomb)
             {
                 _view.Disable(false);
-                _view.Hiss().Subscribe(_ => _gameplayTools.RestartLevel());
+                Hiss().Subscribe(_ => _gameplayTools.RestartLevel());
                 return;
             }
 
             if (IsClosed || IsPlaced || IsDestroyed) return;
             _cardPlacingService.PlaceCard(this);
+        }
+
+        private Observable<Unit> Hiss()
+        {
+            _audioPlayer.PlayOneShot(_audioSettings.HissSound);
+            return _view.Hiss();
         }
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e27f19d7994e21c48992151562fc1a7c, type: 3}
   m_Name: SlotAudioSettings
   m_EditorClassIdentifier: 
-  <CardPlacementSound>k__BackingField: {fileID: 8300000, guid: 8ec77961f73e60e4ab3743f6dc0bc08a, type: 3}
+  <CardPlacementSound>k__BackingField: {fileID: 8300000, guid: 525d0f00eb34fd84c812daae42dc28e9, type: 3}

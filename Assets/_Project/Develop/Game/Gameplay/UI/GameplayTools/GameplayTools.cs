@@ -1,3 +1,4 @@
+using Audio;
 using Currencies;
 using GameplayServices;
 using R3;
@@ -18,15 +19,18 @@ namespace UI
         private ToolsSettings _toolsSettings;
         private ChipsCounter _chipsCounter;
         private PopUpProvider _popUpProvider;
+        private AudioPlayer _audioPlayer;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, 
                                ChipsCounter chipsCounter, 
-                               PopUpProvider popUpProvider)
+                               PopUpProvider popUpProvider,
+                               AudioPlayer audioPlayer)
         {
             _toolsSettings = settingsProvider.GameSettings.ToolsSettings;
             _chipsCounter = chipsCounter;
             _popUpProvider = popUpProvider;
+            _audioPlayer = audioPlayer;
         }
 
         public void BindView(GameplayToolsView view)

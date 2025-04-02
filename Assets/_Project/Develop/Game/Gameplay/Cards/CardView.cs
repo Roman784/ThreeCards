@@ -205,13 +205,17 @@ namespace Gameplay
 
         private Observable<Unit> CurrentAnimationDelayedCall()
         {
-            var animationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
             var animationCompletedSubj = new Subject<Unit>();
-
-            DOVirtual.DelayedCall(animationDuration, () =>
+            DOVirtual.DelayedCall(0.05f, () =>
             {
-                animationCompletedSubj.OnNext(Unit.Default);
-                animationCompletedSubj.OnCompleted();
+                var animationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
+                Debug.Log($"{animationDuration}");
+
+                DOVirtual.DelayedCall(animationDuration, () =>
+                {
+                    animationCompletedSubj.OnNext(Unit.Default);
+                    animationCompletedSubj.OnCompleted();
+                });
             });
 
             return animationCompletedSubj;

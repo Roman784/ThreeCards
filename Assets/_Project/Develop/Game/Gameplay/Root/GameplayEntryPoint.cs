@@ -27,6 +27,8 @@ namespace GameplayRoot
         private ShakyCamera _shakyCamera;
         private AudioPlayer _audioPlayer;
 
+        private Coroutine _cardLayOutSoundRoutine;
+
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
                                UIRootView uiRoot,
@@ -98,7 +100,7 @@ namespace GameplayRoot
 
                 // Audio.
                 var cardPutDownSound = audioSettings.CardAudioSettings.PutDownSound;
-                _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.15f, onLayOutAnimationCompleted);
+                _cardLayOutSoundRoutine = _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.1f, onLayOutAnimationCompleted);
 
                 onCardPlaced.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.SlotAudioSettings.CardPlacementSound));
 
@@ -106,7 +108,8 @@ namespace GameplayRoot
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
                 var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
                 var levelRestarterService = new LevelRestarterService(fieldService, _shakyCamera, 
-                                                                      enterParams.LevelNumber, _gameplayUI.BonusWhirlpoolTransition);
+                                                                      enterParams.LevelNumber, _gameplayUI.BonusWhirlpoolTransition,
+                                                                      _audioPlayer, audioSettings);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
@@ -129,6 +132,12 @@ namespace GameplayRoot
             });
 
             yield return new WaitUntil(() => isLoaded);
+        }
+
+        private void OnDestroy()
+        {
+            if (_cardLayOutSoundRoutine != null)
+                Coroutines.StopRoutine(_cardLayOutSoundRoutine);
         }
 
         private bool IsLevelExist(int levelNumber)

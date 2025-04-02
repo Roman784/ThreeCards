@@ -36,7 +36,7 @@ namespace Audio
             sourcer.PlayLoop(audioClip);
         }
 
-        public void PlayAnyTimes(AudioClip audioClip, int count, float delay, Observable<Unit> stopTrigger = null)
+        public Coroutine PlayAnyTimes(AudioClip audioClip, int count, float delay, Observable<Unit> stopTrigger = null)
         {
             _playingRoutine = Coroutines.StartRoutine(PlayAnyTimesRoutine(audioClip, count, delay));
             stopTrigger?.Subscribe(_ =>
@@ -44,6 +44,8 @@ namespace Audio
                 if (_playingRoutine != null)
                     Coroutines.StopRoutine(_playingRoutine);
             });
+
+            return _playingRoutine;
         }
 
         private IEnumerator PlayAnyTimesRoutine(AudioClip audioClip, int count, float delay)
