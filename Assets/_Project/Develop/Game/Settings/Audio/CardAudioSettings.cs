@@ -7,5 +7,6 @@ namespace Settings
     {
         [field: SerializeField] public AudioClip PutDownSound { get; private set; }
         [field: SerializeField] public AudioClip RotationSound { get; private set; }
+        [field: SerializeField] public AudioClip MovementSound { get; private set; }
     }
 }

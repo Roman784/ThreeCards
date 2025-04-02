@@ -98,7 +98,7 @@ namespace GameplayRoot
 
                 // Audio.
                 var cardPutDownSound = audioSettings.CardAudioSettings.PutDownSound;
-                _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.075f, onLayOutAnimationCompleted);
+                _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.1f, onLayOutAnimationCompleted);
 
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);

@@ -92,11 +92,13 @@ namespace Gameplay
         {
             IsPlaced = true;
             _cardPlacedSubj.OnNext(this);
-            return _view.Place(slot);
+            _view.Place(slot);
+            return Move(slot.position);
         }
 
         public Observable<Unit> Move(Vector3 position, Ease ease = Ease.OutQuad, float moveDuration = 0, float speedMultiplyer = 1)
         {
+            _audioPlayer.PlayOneShot(_audioSettings.MovementSound);
             return _view.Move(position, ease, moveDuration, speedMultiplyer);
         }
 
@@ -146,8 +148,7 @@ namespace Gameplay
 
             onDestroyed.Subscribe(_ =>
             {
-                //if (_view != null)
-                    Object.Destroy(_view.gameObject);
+                Object.Destroy(_view.gameObject);
             });
 
             return onDestroyed;

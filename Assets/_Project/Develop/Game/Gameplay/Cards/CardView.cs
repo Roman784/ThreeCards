@@ -104,14 +104,13 @@ namespace Gameplay
             _pickedSubj.OnNext(Unit.Default);
         }
 
-        public Observable<Unit> Place(Transform slot)
+        public void Place(Transform slot)
         {
             _raycaster.enabled = false;
 
             transform.SetParent(slot);
             StraightenRotation();
             transform.DOScale(Vector3.one, 0.25f);
-            return Move(slot.position, Ease.OutQuad);
         }
 
         public Observable<Unit> Move(Vector3 position, Ease ease, float moveDuration = 0, float speedMultiplyer = 1)
