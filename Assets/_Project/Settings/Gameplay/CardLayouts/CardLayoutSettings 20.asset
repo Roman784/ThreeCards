@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12e1dfd56d505f843b6650489ccee1ae, type: 3}
   m_Name: CardLayoutSettings 20
   m_EditorClassIdentifier: 
-  <LevelNumber>k__BackingField: 4
-  <CardSpreadRange>k__BackingField: {x: 1, y: 1}
-  <BombsCount>k__BackingField: 1
+  <LevelNumber>k__BackingField: 20
+  <CardSpreadRange>k__BackingField: {x: 20, y: 20}
+  <BombsCount>k__BackingField: 5
   <CardColumns>k__BackingField:
-  - CardCount: 6
+  - CardCount: 11
+  - CardCount: 9
+  - CardCount: 16
+  - CardCount: 13
+  - CardCount: 5
