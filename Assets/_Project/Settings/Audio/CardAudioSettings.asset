@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <PutDownSound>k__BackingField: {fileID: 8300000, guid: 1cca4d42d22990b4da68e01f47a64a62, type: 3}
   <RotationSound>k__BackingField: {fileID: 8300000, guid: 7cf5f7d97560b734e861744a2d4fdf9e, type: 3}
-  <MovementSound>k__BackingField: {fileID: 8300000, guid: 1d59e56f6351ffd42a86ad7ad5c315a5, type: 3}
+  <MovementSound>k__BackingField: {fileID: 8300000, guid: 2403bfa0324f42940bf4ebf94a8df8c0, type: 3}

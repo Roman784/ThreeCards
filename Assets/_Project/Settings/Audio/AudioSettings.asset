@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: AudioSettings
   m_EditorClassIdentifier: 
   <CardAudioSettings>k__BackingField: {fileID: 11400000, guid: 4d896acabffc82645b36ddde11541181, type: 2}
+  <SlotAudioSettings>k__BackingField: {fileID: 11400000, guid: f171a9426f554024ca5b9e0a096a35b6, type: 2}
