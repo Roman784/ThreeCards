@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 namespace Audio
@@ -10,11 +11,26 @@ namespace Audio
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
+
+            DontDestroyOnLoad(gameObject);
         }
 
         public void PlayOneShot(AudioClip clip)
         {
+            _audioSource.loop = false;
             _audioSource.PlayOneShot(clip);
+        }
+
+        public void PlayLoop(AudioClip clip)
+        {
+            _audioSource.loop = true;
+            _audioSource.clip = clip;
+            _audioSource.Play();
+        }
+
+        public void Stop()
+        {
+            _audioSource.Stop();
         }
     }
 }

@@ -1,5 +1,6 @@
 using Audio;
 using Gameplay;
+using Settings;
 using System;
 using UI;
 using UnityEngine;
@@ -12,19 +13,22 @@ namespace GameplayServices
         private GameplayTools _gameplayTools;
         private SlotBar _slotBar;
         private AudioPlayer _audioPlayer;
+        private CardAudioSettings _audioSettings;
 
         [Inject]
-        private void Construct(GameplayTools gameplayTools, SlotBar slotBar, AudioPlayer audioPlayer)
+        private void Construct(GameplayTools gameplayTools, SlotBar slotBar, 
+                               AudioPlayer audioPlayer, ISettingsProvider settingsProvider)
         {
             _gameplayTools = gameplayTools;
             _slotBar = slotBar;
             _audioPlayer = audioPlayer;
+            _audioSettings = settingsProvider.GameSettings.AudioSettings.CardAudioSettings;
         }
 
         public Card Create(bool isBombs, CardPlacingService placingService)
         {
             CardView view = base.Create();
-            Card card = new Card(view, isBombs, placingService, _slotBar, _audioPlayer);
+            Card card = new Card(view, isBombs, placingService, _slotBar, _audioPlayer, _audioSettings);
 
             card.SetGameplayTools(_gameplayTools);
 

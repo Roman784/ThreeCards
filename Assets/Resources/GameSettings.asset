@@ -16,3 +16,4 @@ MonoBehaviour:
   <SlotsSettings>k__BackingField: {fileID: 11400000, guid: 8b207a64670dced4ab28045447a61043, type: 2}
   <ToolsSettings>k__BackingField: {fileID: 11400000, guid: a804651e7771def4ea4d8e808b340359, type: 2}
   <BonusWhirlpoolSettings>k__BackingField: {fileID: 11400000, guid: 10afd3e562219fa4188dc20f7d43dfc1, type: 2}
+  <AudioSettings>k__BackingField: {fileID: 11400000, guid: d63fbc7363317d547b1f602359393770, type: 2}

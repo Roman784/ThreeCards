@@ -41,12 +41,11 @@ namespace GameplayServices
                 }
             }
 
-            yield return new WaitForSeconds(0.4f);
-
-            _cardFlippingService.OpenFirstCards();
-
             completedSubj.OnNext(Unit.Default);
             completedSubj.OnCompleted();
+
+            yield return new WaitForSeconds(0.4f);
+            _cardFlippingService.OpenFirstCards();
         }
     }
 }

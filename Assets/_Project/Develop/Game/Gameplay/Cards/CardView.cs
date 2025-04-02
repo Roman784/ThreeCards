@@ -41,7 +41,6 @@ namespace Gameplay
 
         [Space]
 
-        [SerializeField] private CardAudio _audio;
         [SerializeField] private CardDragging _dragging;
 
         private Sprite _faceSprite;
@@ -75,11 +74,6 @@ namespace Gameplay
         public void Rotate(Vector3 eulers)
         {
             transform.Rotate(eulers);
-        }
-
-        public CardAudio InitAudio(AudioPlayer audioPlayer)
-        {
-            return _audio;
         }
 
         public CardDragging EnableDragging()

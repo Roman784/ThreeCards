@@ -11,6 +11,7 @@ using CameraUtils;
 using System.Collections;
 using GameRoot;
 using LevelMenuRoot;
+using Audio;
 
 namespace GameplayRoot
 {
@@ -24,6 +25,7 @@ namespace GameplayRoot
         private SlotBar _slotBar;
         private CardFactory _cardFactory;
         private ShakyCamera _shakyCamera;
+        private AudioPlayer _audioPlayer;
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
@@ -33,7 +35,8 @@ namespace GameplayRoot
                                ISettingsProvider settingsProvider,
                                SlotBar slotBar,
                                CardFactory cardFactory,
-                               ShakyCamera shakyCamera)
+                               ShakyCamera shakyCamera,
+                               AudioPlayer audioPlayer)
         {
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
@@ -43,6 +46,7 @@ namespace GameplayRoot
             _slotBar = slotBar;
             _cardFactory = cardFactory;
             _shakyCamera = shakyCamera;
+            _audioPlayer = audioPlayer;
         }
 
         public override IEnumerator Run<T>(T enterParams)
@@ -63,6 +67,7 @@ namespace GameplayRoot
                 var gameSettings = _settingsProvider.GameSettings;
                 var layouts = gameSettings.CardLayoutsSettings;
                 var layout = layouts.GetLayout(enterParams.LevelNumber);
+                var audioSettings = gameSettings.AudioSettings;
 
                 // Fiel setup.
                 var slots = _slotBar.CreateSlots();
@@ -80,6 +85,7 @@ namespace GameplayRoot
                 var cardMarkingService = new CardMarkingService();
 
                 var cardsMap = cardLayoutService.SetUp(layout);
+                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
                 var fieldService = new FieldService(cardsMap, _slotBar);
 
@@ -88,14 +94,17 @@ namespace GameplayRoot
                 // Animations.
                 var cardFlippingService = new CardFlippingService(fieldService, onCardReadyToPlaced, onCardsRemoved);
                 var fieldAnimationService = new FieldAnimationService(fieldService, cardFlippingService);
-                var layOutAnimationCompleted = fieldAnimationService.LayOutCards();
+                var onLayOutAnimationCompleted = fieldAnimationService.LayOutCards();
+
+                // Audio.
+                var cardPutDownSound = audioSettings.CardAudioSettings.PutDownSound;
+                _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.075f, onLayOutAnimationCompleted);
 
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
                 var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
                 var levelRestarterService = new LevelRestarterService(fieldService, _shakyCamera, 
                                                                       enterParams.LevelNumber, _gameplayUI.BonusWhirlpoolTransition);
-                var totalCardCount = CollectionsCounter.CountOfNonNullItems(cardsMap);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
                 _gameplayUI.BindViews();
@@ -106,7 +115,7 @@ namespace GameplayRoot
                 _gameplayUI.InitChips(onCardsRemoved);
 
                 _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
-                layOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
+                onLayOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
 
                 // Winning and losing.
                 var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,

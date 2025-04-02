@@ -2,6 +2,7 @@ using Audio;
 using DG.Tweening;
 using GameplayServices;
 using R3;
+using Settings;
 using UI;
 using UnityEngine;
 
@@ -10,10 +11,11 @@ namespace Gameplay
     public class Card
     {
         private CardView _view;
-        private CardAudio _audio;
 
         private CardPlacingService _cardPlacingService;
         private GameplayTools _gameplayTools;
+        private AudioPlayer _audioPlayer;
+        private CardAudioSettings _audioSettings;
 
         private Subject<Card> _cardPlacedSubj = new();
         public Observable<Card> OnCardPlaced => _cardPlacedSubj;
@@ -29,17 +31,18 @@ namespace Gameplay
         public Vector3 Position => _view.GetPosition();
 
         public Card(CardView view, bool isBomb, 
-                    CardPlacingService placingService, SlotBar slotBar, AudioPlayer audioPlayer)
+                    CardPlacingService placingService, SlotBar slotBar, 
+                    AudioPlayer audioPlayer, CardAudioSettings audioSettings)
         {
             IsClosed = true;
             IsMarked = false;
             IsBomb = isBomb;
             _cardPlacingService = placingService;
+            _audioPlayer = audioPlayer;
+            _audioSettings = audioSettings;
 
             _view = view;
             _view.OnPicked.Subscribe(_ => Pick());
-
-            _audio = _view.InitAudio(audioPlayer);
 
             if (IsBomb)
             {
