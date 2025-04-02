@@ -1,3 +1,4 @@
+using Audio;
 using Gameplay;
 using System;
 using UI;
@@ -10,18 +11,20 @@ namespace GameplayServices
     {
         private GameplayTools _gameplayTools;
         private SlotBar _slotBar;
+        private AudioPlayer _audioPlayer;
 
         [Inject]
-        private void Construct(GameplayTools gameplayTools, SlotBar slotBar)
+        private void Construct(GameplayTools gameplayTools, SlotBar slotBar, AudioPlayer audioPlayer)
         {
             _gameplayTools = gameplayTools;
             _slotBar = slotBar;
+            _audioPlayer = audioPlayer;
         }
 
         public Card Create(bool isBombs, CardPlacingService placingService)
         {
             CardView view = base.Create();
-            Card card = new Card(view, isBombs, placingService, _slotBar);
+            Card card = new Card(view, isBombs, placingService, _slotBar, _audioPlayer);
 
             card.SetGameplayTools(_gameplayTools);
 

@@ -1,3 +1,4 @@
+using Audio;
 using DG.Tweening;
 using R3;
 using System.Collections.Generic;
@@ -40,6 +41,7 @@ namespace Gameplay
 
         [Space]
 
+        [SerializeField] private CardAudio _audio;
         [SerializeField] private CardDragging _dragging;
 
         private Sprite _faceSprite;
@@ -67,14 +69,17 @@ namespace Gameplay
 
         public void SetPosition(Vector3 position)
         {
-            //if (this != null)
-                transform.position = position;
+            transform.position = position;
         }
 
         public void Rotate(Vector3 eulers)
         {
-            //if (this != null)
-                transform.Rotate(eulers);
+            transform.Rotate(eulers);
+        }
+
+        public CardAudio InitAudio(AudioPlayer audioPlayer)
+        {
+            return _audio;
         }
 
         public CardDragging EnableDragging()

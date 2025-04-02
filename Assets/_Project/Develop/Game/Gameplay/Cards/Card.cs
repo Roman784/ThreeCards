@@ -1,3 +1,4 @@
+using Audio;
 using DG.Tweening;
 using GameplayServices;
 using R3;
@@ -9,6 +10,7 @@ namespace Gameplay
     public class Card
     {
         private CardView _view;
+        private CardAudio _audio;
 
         private CardPlacingService _cardPlacingService;
         private GameplayTools _gameplayTools;
@@ -26,7 +28,8 @@ namespace Gameplay
         public bool IsDestroyed { get; private set; }
         public Vector3 Position => _view.GetPosition();
 
-        public Card(CardView view, bool isBomb, CardPlacingService placingService, SlotBar slotBar)
+        public Card(CardView view, bool isBomb, 
+                    CardPlacingService placingService, SlotBar slotBar, AudioPlayer audioPlayer)
         {
             IsClosed = true;
             IsMarked = false;
@@ -35,6 +38,8 @@ namespace Gameplay
 
             _view = view;
             _view.OnPicked.Subscribe(_ => Pick());
+
+            _audio = _view.InitAudio(audioPlayer);
 
             if (IsBomb)
             {

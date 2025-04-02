@@ -1,3 +1,4 @@
+using Audio;
 using Currencies;
 using Gameplay;
 using GameplayServices;
@@ -11,12 +12,15 @@ namespace GameRootInstallers
 {
     public class GameRootInstaller : MonoInstaller
     {
+        [SerializeField] private AudioSourcer _audioSourcerPrefab;
+
         public override void InstallBindings()
         {
             BindSettingsProvider();
             BindGameStateProvider();
             BindCurrencies();
             BindUI();
+            BindAudioPlayer();
         }
 
         private void BindSettingsProvider()
@@ -54,6 +58,12 @@ namespace GameRootInstallers
 
             var advertisingChipsPopUpPrefab = Resources.Load<AdvertisingChipsPopUp>("UI/PopUps/AdvertisingChipsPopUp");
             Container.BindFactory<AdvertisingChipsPopUp, AdvertisingChipsPopUp.Factory>().FromComponentInNewPrefab(advertisingChipsPopUpPrefab);
+        }
+
+        private void BindAudioPlayer()
+        {
+            Container.Bind<AudioSourcer>().FromInstance(_audioSourcerPrefab).AsTransient();
+            Container.Bind<AudioPlayer>().AsTransient();
         }
     }
 }
