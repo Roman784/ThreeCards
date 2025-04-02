@@ -15,6 +15,7 @@ using System.Linq;
 using System.Collections.Generic;
 using GameplayRoot;
 using DG.Tweening;
+using Audio;
 
 namespace BonusWhirlpoolRoot
 {
@@ -27,7 +28,7 @@ namespace BonusWhirlpoolRoot
         private ISettingsProvider _settingsProvider;
         private BonusWhirlpoolSlotBar _slotBar;
         private CardFactory _cardFactory;
-        private ShakyCamera _shakyCamera;
+        private AudioPlayer _audioPlayer;
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
@@ -37,7 +38,7 @@ namespace BonusWhirlpoolRoot
                                ISettingsProvider settingsProvider,
                                BonusWhirlpoolSlotBar slotBar,
                                CardFactory cardFactory,
-                               ShakyCamera shakyCamera)
+                               AudioPlayer audioPlayer)
         {
             _gameStateProvider = gameStateProvider;
             _uiRoot = uiRoot;
@@ -46,7 +47,7 @@ namespace BonusWhirlpoolRoot
             _settingsProvider = settingsProvider;
             _slotBar = slotBar;
             _cardFactory = cardFactory;
-            _shakyCamera = shakyCamera;
+            _audioPlayer = audioPlayer;
         }
 
         public override IEnumerator Run<T>(T enterParams)
@@ -61,8 +62,10 @@ namespace BonusWhirlpoolRoot
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {
                 // Settings.
-                var cardWhirlpoolSettings = _settingsProvider.GameSettings.BonusWhirlpoolSettings.CardSettings;
-                
+                var gameSettings = _settingsProvider.GameSettings;
+                var cardWhirlpoolSettings = gameSettings.BonusWhirlpoolSettings.CardSettings;
+                var audioSettings = gameSettings.AudioSettings;
+
                 // Field setup.
                 var slots = _slotBar.CreateSlots();
                 var cardPlacingService = new CardPlacingService(_slotBar);
@@ -88,10 +91,15 @@ namespace BonusWhirlpoolRoot
 
                 var onTimerOver = _bonusWhirlpoolUI.StartTimer();
 
+                // Audio.
+                _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound);
+                onTimerOver.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound));
+
                 // End bonus.
                 onTimerOver.Subscribe(_ =>
                 {
-                    whirlpoolCards.ForEach(c => c.Card.Close());
+                    _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound);
+                    whirlpoolCards.ForEach(c => c.Card.Close(playSound: false));
 
                     DOVirtual.DelayedCall(1f, () =>
                     {

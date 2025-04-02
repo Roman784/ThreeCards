@@ -63,7 +63,7 @@ namespace GameRootInstallers
         private void BindAudioPlayer()
         {
             Container.Bind<AudioSourcer>().FromInstance(_audioSourcerPrefab).AsTransient();
-            Container.Bind<AudioPlayer>().AsTransient();
+            Container.Bind<AudioPlayer>().AsSingle();
         }
     }
 }

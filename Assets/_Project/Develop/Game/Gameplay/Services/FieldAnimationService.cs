@@ -34,7 +34,7 @@ namespace GameplayServices
                     Card card = _fieldService.GetCard(colunmI, cardI);
                     if (!_fieldService.IsCardExist(card)) continue;
 
-                    card.PutDown();
+                    card.PutDown(false);
                     card.Disable(false);
 
                     yield return new WaitForSeconds(0.035f);

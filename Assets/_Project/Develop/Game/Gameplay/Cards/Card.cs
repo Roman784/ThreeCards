@@ -100,20 +100,31 @@ namespace Gameplay
             return _view.Move(position, ease, moveDuration, speedMultiplyer);
         }
 
-        public Observable<Unit> Close(bool instantly = false)
+        public Observable<Unit> Close(bool instantly = false, bool playSound = true)
         {
             IsClosed = true;
+
+            if (playSound)
+                _audioPlayer.PlayOneShot(_audioSettings.RotationSound);
+            
             return _view.Close(instantly);
         }
 
-        public Observable<Unit> Open(bool instantly = false)
+        public Observable<Unit> Open(bool instantly = false, bool playSound = true)
         {
             IsClosed = false;
+
+            if (playSound)
+                _audioPlayer.PlayOneShot(_audioSettings.RotationSound);
+
             return _view.Open(instantly);
         }
 
-        public void PutDown()
+        public void PutDown(bool playSound = true)
         {
+            if (playSound)
+                _audioPlayer.PlayOneShot(_audioSettings.PutDownSound);
+
             _view.PutDown();
         }
 

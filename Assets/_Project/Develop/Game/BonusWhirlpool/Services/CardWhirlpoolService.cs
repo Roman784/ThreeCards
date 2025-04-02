@@ -55,7 +55,7 @@ namespace BonusWhirlpoolService
 
             _cardMarkingService.MarkRandom(card);
 
-            card.Open();
+            card.Open(playSound: false);
             card.Disable(false);
 
             var radius = Randomizer.GetRandomRange(_settings.Radius, _settings.RadiusOffset);
