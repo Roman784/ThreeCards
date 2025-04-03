@@ -1,5 +1,7 @@
 ﻿using R3;
+using Settings;
 using UnityEngine;
+using Zenject;
 
 namespace GameState
 {
@@ -7,8 +9,16 @@ namespace GameState
     {
         private const string GAME_STATE_KEY = nameof(GAME_STATE_KEY);
 
+        private InitialGameStateSettings _initialGameStateSettings;
+
         public GameStateProxy GameState { get; private set; }
         public GameSessionStateProvider GameSessionStateProvider { get; private set; }
+
+        [Inject]
+        private void Construct(ISettingsProvider settingsProvider)
+        {
+            _initialGameStateSettings = settingsProvider.GameSettings.InitialGameStateSettings;
+        }
 
         public Observable<GameStateProxy> LoadGameState()
         {
@@ -44,13 +54,12 @@ namespace GameState
             return Observable.Return(true);
         }
 
-        // Балванка.
         private GameStateProxy CreateGameStateFromSettings()
         {
             var gameState = new GameState
             {
-                Chips = 0,
-                LastPassedLevelNumber = 0,
+                Chips = _initialGameStateSettings.GameState.Chips,
+                LastPassedLevelNumber = _initialGameStateSettings.GameState.LastPassedLevelNumber,
             };
 
             return new GameStateProxy(gameState, this);

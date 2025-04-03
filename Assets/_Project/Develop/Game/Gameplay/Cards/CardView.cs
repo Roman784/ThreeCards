@@ -209,7 +209,6 @@ namespace Gameplay
             DOVirtual.DelayedCall(0.05f, () =>
             {
                 var animationDuration = _animator.GetCurrentAnimatorStateInfo(0).length;
-                Debug.Log($"{animationDuration}");
 
                 DOVirtual.DelayedCall(animationDuration, () =>
                 {
