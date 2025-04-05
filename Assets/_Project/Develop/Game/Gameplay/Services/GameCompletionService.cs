@@ -6,6 +6,7 @@ using R3;
 using Settings;
 using System.Collections.Generic;
 using UI;
+using UnityEngine;
 using static GameplayServices.CardMatchingService;
 
 namespace GameplayServices
@@ -61,7 +62,11 @@ namespace GameplayServices
         private void CheckForLose()
         {
             if (!_fieldService.SlotBar.HasEmptySlot())
+            {
+                var gameOverSound = _settingsProvider.GameSettings.AudioSettings.LevelAudioSettings.GameOverSound;
+                _audioPlayer.PlayOneShot(gameOverSound);
                 _popUpProvider.OpenGameOverPopUp();
+            }
         }
     }
 }

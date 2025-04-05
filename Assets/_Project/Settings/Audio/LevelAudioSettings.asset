@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <CardsMatchedSound>k__BackingField: {fileID: 8300000, guid: bf76ce6b8fbd91c41b72cb32d344c053, type: 3}
   <LevelCompletedSound>k__BackingField: {fileID: 8300000, guid: 83b56d5db200c6044bc71c95fe69d816, type: 3}
+  <GameOverSound>k__BackingField: {fileID: 8300000, guid: e87bf5fba84a23846858f21f27ccda4d, type: 3}

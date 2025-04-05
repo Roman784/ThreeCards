@@ -7,5 +7,6 @@ namespace Settings
     {
         [field: SerializeField] public AudioClip CardsMatchedSound { get; private set; }
         [field: SerializeField] public AudioClip LevelCompletedSound { get; private set; }
+        [field: SerializeField] public AudioClip GameOverSound { get; private set; }
     }
 }
