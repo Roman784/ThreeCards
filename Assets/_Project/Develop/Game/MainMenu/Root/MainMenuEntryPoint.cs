@@ -50,6 +50,7 @@ namespace MainMenuRoot
 
                 // UI.
                 _uiRoot.AttachSceneUI(_mainMenuUI.gameObject);
+                _mainMenuUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
 
                 // Audio.
                 _audioPlayer.PlayMusic(audioSettings.MusicSettings.MainTheme);

@@ -1,27 +1,29 @@
 using DG.Tweening;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace ScriptAnimations
 {
-    public class ZoomOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    public class FillOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        [SerializeField] private Transform _target;
-        [SerializeField] private float _zoomScale = 1.15f;
+        [SerializeField] private RectTransform _target;
+        [SerializeField] private Vector2 _fillValue = new Vector2(100, 100);
         [SerializeField] private float _duration = 0.2f;
         [SerializeField] private Ease _ease = Ease.OutBack;
 
-        private Vector3 _initialScale;
+        private Vector2 _initialFill;
         private Tween _currentTween;
 
         private void Awake()
         {
-            _initialScale = _target.localScale;
+            _initialFill = _target.sizeDelta;
         }
 
         private void OnDisable()
         {
-            _target.localScale = _initialScale;
+            _target.sizeDelta = _initialFill;
             _currentTween?.Kill();
         }
 
@@ -48,13 +50,13 @@ namespace ScriptAnimations
         public void ZoomIn()
         {
             _currentTween?.Kill();
-            _currentTween = _target.DOScale(_initialScale * _zoomScale, _duration).SetEase(_ease);
+            _currentTween = _target.DOSizeDelta(_fillValue, _duration).SetEase(_ease);
         }
 
         public void ZoomOut()
         {
             _currentTween?.Kill();
-            _currentTween = _target.DOScale(_initialScale, _duration).SetEase(_ease);
+            _currentTween = _target.DOSizeDelta(_initialFill, _duration).SetEase(_ease);
         }
     }
 }
