@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 785c204c9ef608a48a811d5a5361095a, type: 3}
   m_Name: GameSettings
   m_EditorClassIdentifier: 
+  <InitialGameStateSettings>k__BackingField: {fileID: 11400000, guid: b31adae52af7a084a9a584a356b35cd1, type: 2}
   <CardLayoutsSettings>k__BackingField: {fileID: 11400000, guid: cf0d128804b7abc46be6e13be83e97a0, type: 2}
   <SlotsSettings>k__BackingField: {fileID: 11400000, guid: 8b207a64670dced4ab28045447a61043, type: 2}
   <ToolsSettings>k__BackingField: {fileID: 11400000, guid: a804651e7771def4ea4d8e808b340359, type: 2}

@@ -25,6 +25,7 @@ namespace GameplayServices
 
         public Observable<bool> PickThree()
         {
+            _cardsPickedSubj = new();
             var originCard = GetOriginCard();
             var cards = new List<Card>();
             cards.Capacity = 3;
@@ -32,7 +33,13 @@ namespace GameplayServices
 
             if (originCard == null)
             {
-                return Observable.Return(false);
+                DOVirtual.DelayedCall(0.1f, () =>
+                {
+                    _cardsPickedSubj.OnNext(false);
+                    _cardsPickedSubj.OnCompleted();
+                });
+
+                return _cardsPickedSubj;
             }
 
             foreach (var card in _fieldService.Cards)
@@ -48,7 +55,15 @@ namespace GameplayServices
                 if (cards.Count == 3) break;
             }
 
-            _cardMatchingService.RemoveCards(cards).Subscribe(_ => ShiftCards());
+            _cardMatchingService.RemoveCards(cards).Subscribe(_ =>
+            {
+                var onCardShifted = ShiftCards();
+                (onCardShifted != null ? onCardShifted : Observable.Return(Unit.Default)).Subscribe(_ =>
+                {
+                    _cardsPickedSubj.OnNext(true);
+                    _cardsPickedSubj.OnCompleted();
+                });
+            });
 
             return _cardsPickedSubj;
         }
@@ -74,7 +89,7 @@ namespace GameplayServices
             return Randomizer.GetRandomValue(cards);
         }
 
-        private void ShiftCards()
+        private Observable<Unit> ShiftCards()
         {
             Observable<Unit> onCompleted = null;
 
@@ -93,11 +108,7 @@ namespace GameplayServices
                 }
             }
 
-            
-            onCompleted?.Subscribe(_ =>
-            {
-                _cardsPickedSubj.OnNext(true);
-            });
+            return onCompleted;
         }
 
         private Card GetNextCard(int columnI, int currentCardI)

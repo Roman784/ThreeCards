@@ -20,7 +20,7 @@ namespace UI
 
         private void GetChips()
         {
-            _chipsCounter.Add(100, true, false);
+            _chipsCounter.Add(100, true, false, true);
             Close();
         }
 

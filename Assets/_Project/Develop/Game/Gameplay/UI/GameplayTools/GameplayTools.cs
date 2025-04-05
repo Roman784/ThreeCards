@@ -94,7 +94,7 @@ namespace UI
             onCompleted.Subscribe(result =>
             {
                 if (!result)
-                    _chipsCounter.Add(_toolsSettings.MagicStickCost, instantly:false);
+                    _chipsCounter.Add(_toolsSettings.MagicStickCost, changeView:true, instantly:false);
             });
 
             _view.CreateMagicStickPurchaseEffect();
