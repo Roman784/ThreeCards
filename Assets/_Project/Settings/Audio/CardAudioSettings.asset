@@ -17,3 +17,4 @@ MonoBehaviour:
   <MovementSound>k__BackingField: {fileID: 8300000, guid: 2403bfa0324f42940bf4ebf94a8df8c0, type: 3}
   <HissSound>k__BackingField: {fileID: 8300000, guid: 67af8664349c61e49ac7dc6213c68816, type: 3}
   <ExplosionSound>k__BackingField: {fileID: 8300000, guid: 5fe488f32530e4d44b4e47537f4e28b3, type: 3}
+  <MatchedSound>k__BackingField: {fileID: 8300000, guid: bf76ce6b8fbd91c41b72cb32d344c053, type: 3}

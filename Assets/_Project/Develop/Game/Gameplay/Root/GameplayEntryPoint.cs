@@ -103,6 +103,7 @@ namespace GameplayRoot
                 _cardLayOutSoundRoutine = _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.1f, onLayOutAnimationCompleted);
 
                 onCardPlaced.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.SlotAudioSettings.CardPlacementSound));
+                onCardsRemoved.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.MatchedSound));
 
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
