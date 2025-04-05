@@ -94,6 +94,8 @@ namespace BonusWhirlpoolRoot
                 // Audio.
                 _audioPlayer.PlayMusic(audioSettings.MusicSettings.BonusLevel);
 
+                _audioPlayer.PlayUntil(audioSettings.LevelAudioSettings.TimerSound, onTimerOver);
+
                 _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound);
                 onTimerOver.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound));
                 onCardPlaced.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.SlotAudioSettings.CardPlacementSound));
