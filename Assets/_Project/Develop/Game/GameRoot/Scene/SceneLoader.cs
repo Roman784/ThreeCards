@@ -1,6 +1,7 @@
 using BonusWhirlpoolRoot;
 using GameplayRoot;
 using LevelMenuRoot;
+using MainMenuRoot;
 using System.Collections;
 using UI;
 using UnityEngine;
@@ -19,6 +20,12 @@ namespace GameRoot
         {
             StopLoadingRoutine();
             _loadingRoutine = Coroutines.StartRoutine(LoadSceneRoutine(Scenes.BOOT));
+        }
+
+        public void LoadAndRunMainMenu(MainMenuEnterParams enterParams)
+        {
+            StopLoadingRoutine();
+            _loadingRoutine = Coroutines.StartRoutine(LoadAndRunSceneRoutine<MainMenuEntryPoint, MainMenuEnterParams>(Scenes.MAIN_MENU, enterParams));
         }
 
         public void LoadAndRunGameplay(GameplayEnterParams enterParams)

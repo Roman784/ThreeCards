@@ -10,6 +10,7 @@ using GameState;
 using R3;
 using System;
 using Settings;
+using MainMenuRoot;
 
 namespace GameRoot
 {
@@ -42,18 +43,25 @@ namespace GameRoot
             new SceneLoader().LoadBoot();
         }
 
-        private static void RunGame(string activeSceneName = Scenes.GAMEPLAY)
+        private static void RunGame(string activeSceneName = Scenes.MAIN_MENU)
         {
             _dependenciesInjectedSubj
                 .SelectMany(_ => _gameStateProvider.LoadGameState())
                 .Subscribe(_ => LoadScene(activeSceneName));
         }
 
-        private static void LoadScene(string activeSceneName = Scenes.GAMEPLAY)
+        private static void LoadScene(string activeSceneName = Scenes.MAIN_MENU)
         {
             var sceneLoader = new SceneLoader();
 
 #if UNITY_EDITOR
+            if (activeSceneName == Scenes.MAIN_MENU)
+            {
+                var defaultMainMenuEnterParams = new MainMenuEnterParams(GetCurrentLevelNumber());
+                sceneLoader.LoadAndRunMainMenu(defaultMainMenuEnterParams);
+                return;
+            }
+
             if (activeSceneName == Scenes.GAMEPLAY)
             {
                 var defaultGameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
@@ -81,8 +89,8 @@ namespace GameRoot
             }
 #endif
 
-            var gameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
-            sceneLoader.LoadAndRunGameplay(gameplayEnterParams);
+            var mainMenuEnterParams = new MainMenuEnterParams(GetCurrentLevelNumber());
+            sceneLoader.LoadAndRunMainMenu(mainMenuEnterParams);
         }
 
         private static int GetCurrentLevelNumber()
