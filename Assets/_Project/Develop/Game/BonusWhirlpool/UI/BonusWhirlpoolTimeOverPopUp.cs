@@ -23,6 +23,8 @@ namespace UI
         {
             base.Open(fadeScreen);
             DOVirtual.DelayedCall(0.5f, () => _canExit = true);
+
+            PlayButtonClickSound();
         }
 
         public override void Close(bool appearScreen = true)
@@ -37,6 +39,7 @@ namespace UI
         {
             if (!_canExit) return;
 
+            PlayButtonClickSound();
             var enterParams = new GameplayEnterParams(_gameplayEnterParams.LevelNumber, 
                                                       _gameplayEnterParams.BonusWhirlpoolTimerValue);
             new SceneLoader().LoadAndRunGameplay(enterParams);

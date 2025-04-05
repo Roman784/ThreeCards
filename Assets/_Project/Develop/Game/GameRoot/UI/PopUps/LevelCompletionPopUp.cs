@@ -29,6 +29,7 @@ namespace UI
 
         public void GoToNextLevel()
         {
+            PlayButtonClickSound();
             if (_gameplayEnterParams != null)
                 new SceneLoader().LoadAndRunGameplay(_gameplayEnterParams);
 

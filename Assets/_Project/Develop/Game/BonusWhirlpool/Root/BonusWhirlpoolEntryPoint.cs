@@ -102,6 +102,9 @@ namespace BonusWhirlpoolRoot
                     _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound);
                     whirlpoolCards.ForEach(c => c.Card.Close(playSound: false));
 
+                    var gameOverClip = _settingsProvider.GameSettings.AudioSettings.LevelAudioSettings.GameOverSound;
+                    _audioPlayer.PlayOneShot(gameOverClip);
+
                     DOVirtual.DelayedCall(1f, () =>
                     {
                         var gameplayEnterParams = new GameplayEnterParams(enterParams.CurrentLevelNumber, 0f);

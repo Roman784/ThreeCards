@@ -60,6 +60,7 @@ namespace UI
 
         public void BackToCurrentLevel()
         {
+            PlayButtonClickSound();
             OpenLevel(_currentLevelNumber, 0f);
         }
     

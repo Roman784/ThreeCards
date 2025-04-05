@@ -1,6 +1,9 @@
+using Audio;
 using DG.Tweening;
 using R3;
+using Settings;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
@@ -9,8 +12,18 @@ namespace UI
         [SerializeField] private Transform _view;
         [SerializeField] private float _rotationDuration = 0.2f;
 
+        protected ISettingsProvider _settingsProvider;
+        protected AudioPlayer _audioPlayer;
+
         private PopUpsRoot _root;
         private PopUp _previousPopUp;
+
+        [Inject]
+        private void Construct(ISettingsProvider settingsProvider, AudioPlayer audioPlayer)
+        {
+            _settingsProvider = settingsProvider;
+            _audioPlayer = audioPlayer;
+        }
 
         private void Awake()
         {
@@ -78,6 +91,12 @@ namespace UI
             var to = new Vector3(0, -90, 0);
 
             return Rotate(from, to);
+        }
+
+        protected void PlayButtonClickSound()
+        {
+            var clip = _settingsProvider.GameSettings.AudioSettings.UIAudioSettings.ButtonClickSound;
+            _audioPlayer.PlayOneShot(clip);
         }
 
         private Observable<Unit> Rotate(Vector3 from, Vector3 to)

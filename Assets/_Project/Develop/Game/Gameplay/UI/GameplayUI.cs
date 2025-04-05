@@ -61,6 +61,8 @@ namespace UI
 
         public void OpenLevelMenu()
         {
+            PlayButtonClickSound();
+
             var levelMenuEnterParams = new LevelMenuEnterParams(_gameplayEnterParams.LevelNumber,
                                                                 _bonusWhirlpoolTransition.CurrentTimerValue);
             new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
@@ -80,7 +82,8 @@ namespace UI
         public void InitBonusMenu()
         {
             var bonusWhirlpoolTimerValue = _settingsProvider.GameSettings.BonusWhirlpoolSettings.Cooldown;
-            _bonusWhirlpoolTransition.Init(_gameplayPopUpProvider, _gameplayEnterParams);
+
+            _bonusWhirlpoolTransition.Init(_gameplayPopUpProvider, _gameplayEnterParams, _audioPlayer, AudioSettings);
             _bonusWhirlpoolTransition.StartTimer(bonusWhirlpoolTimerValue, _gameplayEnterParams.BonusWhirlpoolTimerValue);
         }
 
@@ -103,6 +106,7 @@ namespace UI
 
         public void CreateBonusSlot()
         {
+            PlayButtonClickSound();
             _gameplayPopUpProvider.OpenBonuSlotPopUp();
         }
     }

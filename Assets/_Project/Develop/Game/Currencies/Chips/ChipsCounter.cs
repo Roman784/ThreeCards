@@ -20,7 +20,7 @@ namespace Currencies
         private IGameStateProvider _gameStateProvider;
         private PopUpProvider _popUpProvider;
         private AudioPlayer _audioPlayer;
-        private ChipsAudioSettings _audioSettings;
+        private Settings.AudioSettings _audioSettings;
 
         public int Count => _chipsCount;
 
@@ -31,14 +31,18 @@ namespace Currencies
             _gameStateProvider = gameStateProvider;
             _popUpProvider = popUpProvider;
             _audioPlayer = audioPlayer;
-            _audioSettings = settingsProvider.GameSettings.AudioSettings.ChipsAudioSettings;
+            _audioSettings = settingsProvider.GameSettings.AudioSettings;
         }
 
         public void BindView(ChipsCounterView view)
         {
             _view = view;
 
-            _view.OnGetAdvertisingChips += () => _popUpProvider.OpenAdvertisingChipsPopUp();
+            _view.OnGetAdvertisingChips += () =>
+            {
+                _audioPlayer.PlayOneShot(_audioSettings.UIAudioSettings.ButtonClickSound);
+                _popUpProvider.OpenAdvertisingChipsPopUp();
+            };
         }
 
         public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved = null)
@@ -55,7 +59,8 @@ namespace Currencies
                     onCollected = Add(chipsCount, card.Position);
                 }
 
-                onCollected?.Subscribe(_ => _audioPlayer.PlayAnyTimes(_audioSettings.CollectionSound, removedCards.Count, 0.1f));
+                var clip = _audioSettings.ChipsAudioSettings.CollectionSound;
+                onCollected?.Subscribe(_ => _audioPlayer.PlayAnyTimes(clip, removedCards.Count, 0.1f));
             });
         }
 
@@ -66,7 +71,9 @@ namespace Currencies
 
             _chipsCount -= value;
             _gameStateProvider.GameState.Chips.Value = _chipsCount;
-            _audioPlayer.PlayOneShot(_audioSettings.ReduceSound);
+
+            var clip = _audioSettings.ChipsAudioSettings.ReduceSound;
+            _audioPlayer.PlayOneShot(clip);
 
             _view?.ChangeCounter(_chipsCount);
         }
@@ -77,7 +84,10 @@ namespace Currencies
             _gameStateProvider.GameState.Chips.Value = _chipsCount;
 
             if (playSound)
-                _audioPlayer.PlayAnyTimes(_audioSettings.CollectionSound, 10, 0.075f);
+            {
+                var clip = _audioSettings.ChipsAudioSettings.CollectionSound;
+                _audioPlayer.PlayAnyTimes(clip, 10, 0.075f);
+            }
 
             if (changeView)
                 if (instantly)

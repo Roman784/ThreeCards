@@ -55,6 +55,7 @@ namespace UI
         {
             if (_timer.Value > 0) return;
 
+            PlayButtonClickSound();
             var enterParams = new BonusWhirlpoolEnterParams(_gameplayEnterParams.LevelNumber);
             new SceneLoader().LoadAndRunBonusWhirlpool(enterParams);
         }

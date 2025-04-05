@@ -1,3 +1,5 @@
+using Audio;
+using Settings;
 using System;
 using UnityEngine;
 
@@ -11,7 +13,8 @@ namespace LevelMenu
         private bool _isLocked;
         private LevelMenuUI _levelMenu;
 
-        public LevelButton(LevelButtonView view, int number, bool isPassed, bool isLocked, LevelMenuUI levelMenu)
+        public LevelButton(LevelButtonView view, int number, bool isPassed, bool isLocked, LevelMenuUI levelMenu,
+                           AudioPlayer audioPlayer, UIAudioSettings uiAudioSettings)
         {
             _view = view;
             _number = number;
@@ -22,7 +25,11 @@ namespace LevelMenu
             _view.Fill(isPassed);
             _view.Lock(isLocked);
 
-            _view.OnOpenLevel += () => OpenLevel();
+            _view.OnOpenLevel += () =>
+            {
+                audioPlayer.PlayOneShot(uiAudioSettings.ButtonClickSound);
+                OpenLevel();
+            };
         }
 
         public void Attach(Transform parent)

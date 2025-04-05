@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cda59f1a8f7a1fa47800894780b6bb81, type: 3}
   m_Name: AudioSettings
   m_EditorClassIdentifier: 
+  <UIAudioSettings>k__BackingField: {fileID: 11400000, guid: 613d289d480a9cb4292720e7f04d17c9, type: 2}
   <CardAudioSettings>k__BackingField: {fileID: 11400000, guid: 4d896acabffc82645b36ddde11541181, type: 2}
   <SlotAudioSettings>k__BackingField: {fileID: 11400000, guid: f171a9426f554024ca5b9e0a096a35b6, type: 2}
   <ChipsAudioSettings>k__BackingField: {fileID: 11400000, guid: 2d2acc73e7f90a64684f16870e85689d, type: 2}

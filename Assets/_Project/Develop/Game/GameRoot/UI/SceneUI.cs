@@ -1,3 +1,4 @@
+using Audio;
 using Currencies;
 using GameplayRoot;
 using GameplayServices;
@@ -19,18 +20,23 @@ namespace UI
         protected ISettingsProvider _settingsProvider;
         protected IGameStateProvider _gameStateProvider;
         protected PopUpProvider _popUpProvider;
+        protected AudioPlayer _audioPlayer;
         protected ChipsCounter _chipsCounter;
+
+        protected UIAudioSettings AudioSettings => _settingsProvider.GameSettings.AudioSettings.UIAudioSettings;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider,
                                IGameStateProvider gameStateProvider,
                                ChipsCounter chipsCounter,
-                               PopUpProvider popUpProvider)
+                               PopUpProvider popUpProvider,
+                               AudioPlayer audioPlayer)
         {
             _settingsProvider = settingsProvider;
             _gameStateProvider = gameStateProvider;
             _chipsCounter = chipsCounter;
             _popUpProvider = popUpProvider;
+            _audioPlayer = audioPlayer;
         }
 
         public virtual void BindViews()
@@ -45,6 +51,7 @@ namespace UI
 
         public void OpenSettings()
         {
+            PlayButtonClickSound();
             _popUpProvider.OpenSettingsPopUp();
         }
 
@@ -52,6 +59,11 @@ namespace UI
         {
             var gameplayEnterParams = new GameplayEnterParams(number, bonusWhirlpoolTimerValue);
             new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
+        }
+
+        protected void PlayButtonClickSound()
+        {
+            _audioPlayer.PlayOneShot(AudioSettings.ButtonClickSound);
         }
     }
 }

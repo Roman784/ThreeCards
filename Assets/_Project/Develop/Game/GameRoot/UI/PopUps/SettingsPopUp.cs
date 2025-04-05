@@ -14,6 +14,7 @@ namespace UI
 
         public void OpenGameRules()
         {
+            PlayButtonClickSound();
             _popUpProvider.OpenGameRulesPopUp();
         }
 

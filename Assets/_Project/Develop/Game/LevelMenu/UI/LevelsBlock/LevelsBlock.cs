@@ -1,3 +1,5 @@
+using Audio;
+using Settings;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,7 +13,8 @@ namespace LevelMenu
 
         private bool _isOpen;
 
-        public LevelsBlock(LevelsBlockView view, Vector2Int levelNumberRange, float progress)
+        public LevelsBlock(LevelsBlockView view, Vector2Int levelNumberRange, float progress,
+                           AudioPlayer audioPlayer, UIAudioSettings uiAudioSettings)
         {
             _view = view;
             _progress = progress;
@@ -20,7 +23,11 @@ namespace LevelMenu
             _view.SetLevelNumberRange(levelNumberRange);
             _view.SetProgress(_progress);
 
-            _view.OnOpenClose += () => OpenClose();
+            _view.OnOpenClose += () =>
+            {
+                audioPlayer.PlayOneShot(uiAudioSettings.LevelBlockOpenCloseSound);
+                OpenClose();
+            };
         }
 
         public void Attach(Transform parent)

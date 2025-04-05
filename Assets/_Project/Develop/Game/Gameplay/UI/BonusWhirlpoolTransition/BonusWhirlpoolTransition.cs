@@ -2,6 +2,9 @@ using Utils;
 using R3;
 using UnityEngine;
 using GameplayRoot;
+using Audio;
+using Settings;
+using UnityEditor;
 
 namespace UI
 {
@@ -15,14 +18,19 @@ namespace UI
 
         private GameplayPopUpProvider _popUpProvider;
         private GameplayEnterParams _gameplayEnterParams;
+        private AudioPlayer _audioPlayer;
+        private UIAudioSettings _uiAudioSettings;
 
         public float CurrentTimerValue => _currentTimerValue;
         private float FillingProgress => _currentTimerValue / _timerValue;
 
-        public void Init(GameplayPopUpProvider popUpProvider, GameplayEnterParams gameplayEnterParams)
+        public void Init(GameplayPopUpProvider popUpProvider, GameplayEnterParams gameplayEnterParams,
+                         AudioPlayer audioPlayer, UIAudioSettings uiAudioSettings)
         {
             _popUpProvider = popUpProvider;
             _gameplayEnterParams = gameplayEnterParams;
+            _audioPlayer = audioPlayer;
+            _uiAudioSettings = uiAudioSettings;
         }
 
         public void StartTimer(float timerValue, float currentTimerValue)
@@ -58,7 +66,13 @@ namespace UI
 
         private void OpenPopUp()
         {
+            PlayButtonClickSound();
             _popUpProvider.OpenBonusWhirlpoolTransitionPopUp(_gameplayEnterParams, _timer);
+        }
+
+        private void PlayButtonClickSound()
+        {
+            _audioPlayer.PlayOneShot(_uiAudioSettings.ButtonClickSound);
         }
     }
 }

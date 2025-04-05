@@ -37,12 +37,15 @@ namespace LevelMenu
 
         public void OpenLastAvailableLevel()
         {
+            PlayButtonClickSound();
+
             var number = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
             OpenLevel(number);
         }
 
         public void BackToCurrentLevel()
         {
+            PlayButtonClickSound();
             OpenLevel(_enterParams.CurrentLevelNumber);
         }
 
