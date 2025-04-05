@@ -1,3 +1,4 @@
+using Audio;
 using Gameplay;
 using GameplayRoot;
 using GameState;
@@ -17,12 +18,13 @@ namespace GameplayServices
         private FieldService _fieldService;
         private GameplayPopUpProvider _popUpProvider;
         private BonusWhirlpoolTransition _bonusWhirlpoolTransition;
+        private AudioPlayer _audioPlayer;
 
         public GameCompletionService(Observable<List<RemovedCard>> onCardsRemoved, Observable<Card> onCardPlaced,
                                      IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider,
                                      GameplayEnterParams currentGameplayEnterParams,
                                      GameplayPopUpProvider popUpProvider, FieldService fieldService,
-                                     BonusWhirlpoolTransition bonusWhirlpoolTransition)
+                                     BonusWhirlpoolTransition bonusWhirlpoolTransition, AudioPlayer audioPlayer)
         {
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
@@ -30,6 +32,7 @@ namespace GameplayServices
             _fieldService = fieldService;
             _popUpProvider = popUpProvider;
             _bonusWhirlpoolTransition = bonusWhirlpoolTransition;
+            _audioPlayer = audioPlayer;
 
             onCardsRemoved.Subscribe(_ => CheckForWin());
             onCardPlaced.Subscribe(_ => CheckForLose());
@@ -40,7 +43,7 @@ namespace GameplayServices
             if (!_fieldService.SlotBar.HasAnyCard() && !_fieldService.HasAnyCard())
             {
                 var currentLevelNumber = _currentGameplayEnterParams.LevelNumber;
-                var layoutsSettings = _settingsProvider.GameSettings.CardLayoutsSettings;
+                var audioSettings = _settingsProvider.GameSettings.AudioSettings.LevelAudioSettings;
                 var lastPassedLevelNumber = _gameStateProvider.GameState.LastPassedLevelNumber;
 
                 if (currentLevelNumber > lastPassedLevelNumber.Value)
@@ -50,6 +53,7 @@ namespace GameplayServices
                 var bonusWhirlpoolTimerValue = _bonusWhirlpoolTransition.CurrentTimerValue;
                 var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber, bonusWhirlpoolTimerValue);
 
+                _audioPlayer.PlayOneShot(audioSettings.LevelCompletedSound);
                 _popUpProvider.OpenLevelCompletionPopUp(nextLevelEnterParams);
             }
         }

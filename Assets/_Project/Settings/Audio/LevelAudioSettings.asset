@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08fb5a6733d23464fa091ba93cf7c0aa, type: 3}
+  m_Name: LevelAudioSettings
+  m_EditorClassIdentifier: 
+  <CardsMatchedSound>k__BackingField: {fileID: 8300000, guid: bf76ce6b8fbd91c41b72cb32d344c053, type: 3}
+  <LevelCompletedSound>k__BackingField: {fileID: 8300000, guid: 83b56d5db200c6044bc71c95fe69d816, type: 3}

@@ -10,6 +10,5 @@ namespace Settings
         [field: SerializeField] public AudioClip MovementSound { get; private set; }
         [field: SerializeField] public AudioClip HissSound { get; private set; }
         [field: SerializeField] public AudioClip ExplosionSound { get; private set; }
-        [field: SerializeField] public AudioClip MatchedSound { get; private set; }
     }
 }

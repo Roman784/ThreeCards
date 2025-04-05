@@ -103,7 +103,7 @@ namespace GameplayRoot
                 _cardLayOutSoundRoutine = _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.1f, onLayOutAnimationCompleted);
 
                 onCardPlaced.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.SlotAudioSettings.CardPlacementSound));
-                onCardsRemoved.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.MatchedSound));
+                onCardsRemoved.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.LevelAudioSettings.CardsMatchedSound));
 
                 // UI.
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
@@ -127,7 +127,7 @@ namespace GameplayRoot
                 var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,
                                                                         _gameStateProvider, _settingsProvider,
                                                                         enterParams, _popUpProvider, fieldService,
-                                                                        _gameplayUI.BonusWhirlpoolTransition);
+                                                                        _gameplayUI.BonusWhirlpoolTransition, _audioPlayer);
 
                 isLoaded = true;
             });
