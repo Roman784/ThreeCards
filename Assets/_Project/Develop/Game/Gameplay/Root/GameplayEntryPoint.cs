@@ -99,6 +99,8 @@ namespace GameplayRoot
                 var onLayOutAnimationCompleted = fieldAnimationService.LayOutCards();
 
                 // Audio.
+                _audioPlayer.PlayMusic(audioSettings.MusicSettings.MainTheme);
+
                 var cardPutDownSound = audioSettings.CardAudioSettings.PutDownSound;
                 _cardLayOutSoundRoutine = _audioPlayer.PlayAnyTimes(cardPutDownSound, totalCardCount, 0.1f, onLayOutAnimationCompleted);
 

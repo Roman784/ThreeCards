@@ -10,5 +10,9 @@ namespace Settings
         [field: SerializeField] public SlotAudioSettings SlotAudioSettings { get; private set; }
         [field: SerializeField] public ChipsAudioSettings ChipsAudioSettings { get; private set; }
         [field: SerializeField] public LevelAudioSettings LevelAudioSettings { get; private set; }
+
+        [field: Space]
+
+        [field: SerializeField] public MusicSettings MusicSettings { get; private set; }
     }
 }

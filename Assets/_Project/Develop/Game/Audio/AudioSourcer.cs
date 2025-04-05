@@ -8,6 +8,8 @@ namespace Audio
     {
         private AudioSource _audioSource;
 
+        public AudioClip CurrentClip { get; private set; }
+
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
@@ -17,12 +19,16 @@ namespace Audio
 
         public void PlayOneShot(AudioClip clip)
         {
+            CurrentClip = clip;
+
             _audioSource.loop = false;
             _audioSource.PlayOneShot(clip);
         }
 
         public void PlayLoop(AudioClip clip)
         {
+            CurrentClip = clip;
+
             _audioSource.loop = true;
             _audioSource.clip = clip;
             _audioSource.Play();
@@ -30,6 +36,7 @@ namespace Audio
 
         public void Stop()
         {
+            CurrentClip = null;
             _audioSource.Stop();
         }
     }

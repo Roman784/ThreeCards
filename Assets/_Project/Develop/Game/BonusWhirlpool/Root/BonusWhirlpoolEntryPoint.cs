@@ -92,6 +92,8 @@ namespace BonusWhirlpoolRoot
                 var onTimerOver = _bonusWhirlpoolUI.StartTimer();
 
                 // Audio.
+                _audioPlayer.PlayMusic(audioSettings.MusicSettings.BonusLevel);
+
                 _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound);
                 onTimerOver.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.CardAudioSettings.RotationSound));
                 onCardPlaced.Subscribe(_ => _audioPlayer.PlayOneShot(audioSettings.SlotAudioSettings.CardPlacementSound));

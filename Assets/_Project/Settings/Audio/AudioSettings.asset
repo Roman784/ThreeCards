@@ -17,3 +17,4 @@ MonoBehaviour:
   <SlotAudioSettings>k__BackingField: {fileID: 11400000, guid: f171a9426f554024ca5b9e0a096a35b6, type: 2}
   <ChipsAudioSettings>k__BackingField: {fileID: 11400000, guid: 2d2acc73e7f90a64684f16870e85689d, type: 2}
   <LevelAudioSettings>k__BackingField: {fileID: 11400000, guid: 7800a8d3f8c12934ca695b96ded038e5, type: 2}
+  <MusicSettings>k__BackingField: {fileID: 11400000, guid: bc05fe65d60edfd48ad16e39cf128fc1, type: 2}

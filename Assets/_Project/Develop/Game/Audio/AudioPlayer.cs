@@ -5,19 +5,28 @@ using System.Collections;
 using UnityEngine;
 using Utils;
 using Zenject;
-using static Unity.VisualScripting.Member;
 
 namespace Audio
 {
     public class AudioPlayer
     {
         private ObjectPool<AudioSourcer> _audioSourcers;
+        private AudioSourcer _musicSourcer;
+
         private Coroutine _playingRoutine;
 
         [Inject]
         private void Construct(AudioSourcer audioSourcerPrefab)
         {
             _audioSourcers = new(audioSourcerPrefab, 5);
+            _musicSourcer = GameObject.Instantiate(audioSourcerPrefab);
+        }
+
+        public void PlayMusic(AudioClip audioClip)
+        {
+            if (_musicSourcer.CurrentClip == audioClip) return;
+
+            _musicSourcer.PlayLoop(audioClip);
         }
 
         public void PlayOneShot(AudioClip audioClip)
@@ -56,19 +65,5 @@ namespace Audio
                 yield return new WaitForSeconds(delay);
             }
         }
-
-        /*public AudioSourcer PlayLoop(AudioClip audioClip)
-        {
-            var sourcer = _audioSourcers.GetInstance();
-            sourcer.PlayLoop(audioClip);
-
-            return sourcer;
-        }
-
-        public void StopSources(AudioSourcer sourcer)
-        {
-            sourcer.Stop();
-            _audioSourcers.ReleaseInstance(sourcer);
-        }*/
     }
 }
