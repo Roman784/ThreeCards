@@ -1,4 +1,5 @@
 using DG.Tweening;
+using GameState;
 using R3;
 using System;
 using System.Collections;
@@ -12,14 +13,28 @@ namespace Audio
     {
         private ObjectPool<AudioSourcer> _audioSourcers;
         private AudioSourcer _musicSourcer;
+        private float _volume;
 
         private Coroutine _playingRoutine;
 
+        public float Volume => _volume;
+
         [Inject]
-        private void Construct(AudioSourcer audioSourcerPrefab)
+        private void Construct(AudioSourcer audioSourcerPrefab, IGameStateProvider gameStateProvider)
         {
             _audioSourcers = new(audioSourcerPrefab, 5);
             _musicSourcer = GameObject.Instantiate(audioSourcerPrefab);
+        }
+
+        public float SetVolume(float newVolume)
+        {
+            _volume = newVolume;
+
+            foreach (var sourcer in  _audioSourcers.GetInstances())
+                sourcer.SetVolume(newVolume);
+            _musicSourcer.SetVolume(newVolume);
+
+            return newVolume;
         }
 
         public void PlayMusic(AudioClip audioClip)

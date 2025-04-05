@@ -20,6 +20,8 @@ namespace Utils
             }
         }
 
+        public IEnumerable<T> GetInstances() => _instances;
+
         public T GetInstance()
         {
             var instance = _instances.FirstOrDefault(inst => !inst.isActiveAndEnabled);

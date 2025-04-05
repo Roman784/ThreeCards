@@ -48,12 +48,15 @@ namespace MainMenuRoot
                 // Settings.
                 var audioSettings = _settingsProvider.GameSettings.AudioSettings;
 
+                // Audio.
+                var volume = _gameStateProvider.GameState.AudioVolume.Value;
+                _audioPlayer.SetVolume(volume);
+                _audioPlayer.PlayMusic(audioSettings.MusicSettings.MainTheme);
+
                 // UI.
                 _uiRoot.AttachSceneUI(_mainMenuUI.gameObject);
                 _mainMenuUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
-
-                // Audio.
-                _audioPlayer.PlayMusic(audioSettings.MusicSettings.MainTheme);
+                _mainMenuUI.SetAudioVolumeChangerView(volume);
 
                 isLoaded = true;
             });

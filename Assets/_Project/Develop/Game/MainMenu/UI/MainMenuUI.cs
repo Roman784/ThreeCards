@@ -1,13 +1,23 @@
+using Audio;
 using GameplayRoot;
 using GameRoot;
 using LevelMenuRoot;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
     public class MainMenuUI : SceneUI
     {
+        [SerializeField] private AudioVolumeChanger _audioVolumeChanger;
+
         private int _currentLevelNumber;
+
+        [Inject]
+        private void Construct(AudioPlayer audioPlayer)
+        {
+            _audioVolumeChanger.Construct(audioPlayer, _gameStateProvider);
+        }
 
         public void Play()
         {
@@ -19,7 +29,9 @@ namespace UI
 
         public void ChangeAudioVolume()
         {
-            
+            PlayButtonClickSound();
+
+            _audioVolumeChanger.Change();
         }
 
         public void OpenLevelMenu()
@@ -38,6 +50,11 @@ namespace UI
         public void SetCurrentLevelNumber(int number)
         {
             _currentLevelNumber = number;
+        }
+
+        public void SetAudioVolumeChangerView(float volume)
+        {
+            _audioVolumeChanger.SetView(volume);
         }
     }
 }

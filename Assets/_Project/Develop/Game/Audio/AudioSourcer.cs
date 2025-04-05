@@ -1,3 +1,4 @@
+using R3;
 using TMPro;
 using UnityEngine;
 
@@ -15,6 +16,11 @@ namespace Audio
             _audioSource = GetComponent<AudioSource>();
 
             DontDestroyOnLoad(gameObject);
+        }
+
+        public void SetVolume(float volume)
+        {
+            _audioSource.volume = volume;
         }
 
         public void PlayOneShot(AudioClip clip)

@@ -60,6 +60,7 @@ namespace GameState
             {
                 Chips = _initialGameStateSettings.GameState.Chips,
                 LastPassedLevelNumber = _initialGameStateSettings.GameState.LastPassedLevelNumber,
+                AudioVolume = 1,
             };
 
             return new GameStateProxy(gameState, this);

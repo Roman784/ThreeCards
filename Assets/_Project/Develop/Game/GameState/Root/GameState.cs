@@ -7,5 +7,6 @@ namespace GameState
     {
         public int Chips;
         public int LastPassedLevelNumber;
+        public float AudioVolume;
     }
 }
