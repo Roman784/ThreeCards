@@ -1,5 +1,6 @@
 using GameplayRoot;
 using GameRoot;
+using LevelMenuRoot;
 using UnityEngine;
 
 namespace UI
@@ -23,7 +24,10 @@ namespace UI
 
         public void OpenLevelMenu()
         {
+            PlayButtonClickSound();
 
+            var enterParams = new LevelMenuEnterParams(_currentLevelNumber, 0);
+            new SceneLoader().LoadAndRunLevelMenu(enterParams);
         }
 
         public void OpenRules()
