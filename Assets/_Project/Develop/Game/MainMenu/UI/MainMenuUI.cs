@@ -43,7 +43,9 @@ namespace UI
 
         public void OpenRules()
         {
+            PlayButtonClickSound();
 
+            _popUpProvider.OpenGameRulesPopUp();
         }
 
         public void SetAudioVolumeChangerView(float volume)
