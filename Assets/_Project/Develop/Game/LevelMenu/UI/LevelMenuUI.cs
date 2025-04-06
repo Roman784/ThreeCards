@@ -6,6 +6,7 @@ using LevelMenuRoot;
 using Settings;
 using UI;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace LevelMenu
@@ -40,19 +41,22 @@ namespace LevelMenu
             PlayButtonClickSound();
 
             var number = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
-            OpenLevel(number);
+            OpenLevel(Scenes.LEVEL_MENU, number, _enterParams.BonusWhirlpoolTimerValue);
         }
 
-        public void BackToCurrentLevel()
+        public void BackToLastScene()
         {
             PlayButtonClickSound();
-            OpenLevel(_enterParams.CurrentLevelNumber);
+
+            if (_enterParams.ExitSceneName == Scenes.GAMEPLAY)
+                OpenLevel(_enterParams.CurrentLevelNumber);
+            else
+                OpenMainMenu(Scenes.LEVEL_MENU);
         }
 
         public void OpenLevel(int number)
         {
-            var gameplayEnterParams = new GameplayEnterParams(number, _enterParams.BonusWhirlpoolTimerValue);
-            new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
+            base.OpenLevel(Scenes.LEVEL_MENU, number, _enterParams.BonusWhirlpoolTimerValue);
         }
 
         public void CreateLevelsBlocks()

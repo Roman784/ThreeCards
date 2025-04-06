@@ -3,6 +3,7 @@ using GameplayRoot;
 using GameRoot;
 using LevelMenuRoot;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace UI
@@ -21,7 +22,7 @@ namespace UI
         {
             PlayButtonClickSound();
 
-            var enterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
+            var enterParams = new GameplayEnterParams(Scenes.MAIN_MENU, GetCurrentLevelNumber(), 0);
             new SceneLoader().LoadAndRunGameplay(enterParams);
         }
 
@@ -36,7 +37,7 @@ namespace UI
         {
             PlayButtonClickSound();
 
-            var enterParams = new LevelMenuEnterParams(GetCurrentLevelNumber(), 0);
+            var enterParams = new LevelMenuEnterParams(Scenes.MAIN_MENU, GetCurrentLevelNumber(), 0);
             new SceneLoader().LoadAndRunLevelMenu(enterParams);
         }
 

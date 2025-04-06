@@ -5,10 +5,12 @@ using GameplayServices;
 using GameRoot;
 using GameState;
 using LevelMenuRoot;
+using MainMenuRoot;
 using R3;
 using Settings;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace UI
@@ -55,10 +57,17 @@ namespace UI
             _popUpProvider.OpenSettingsPopUp();
         }
 
-        protected void OpenLevel(int number, float bonusWhirlpoolTimerValue)
+        protected void OpenLevel(string exitSceneName, int number, float bonusWhirlpoolTimerValue)
         {
-            var gameplayEnterParams = new GameplayEnterParams(number, bonusWhirlpoolTimerValue);
+            number = _settingsProvider.GameSettings.CardLayoutsSettings.ClampLevelNumber(number);
+            var gameplayEnterParams = new GameplayEnterParams(exitSceneName, number, bonusWhirlpoolTimerValue);
             new SceneLoader().LoadAndRunGameplay(gameplayEnterParams);
+        }
+
+        protected void OpenMainMenu(string exitSceneName)
+        {
+            var enterParams = new MainMenuEnterParams(exitSceneName);
+            new SceneLoader().LoadAndRunMainMenu(enterParams);
         }
 
         protected void PlayButtonClickSound()

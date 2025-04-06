@@ -52,7 +52,7 @@ namespace GameplayServices
 
                 var nextLevelNumber = currentLevelNumber + 1;
                 var bonusWhirlpoolTimerValue = _bonusWhirlpoolTransition.CurrentTimerValue;
-                var nextLevelEnterParams = new GameplayEnterParams(nextLevelNumber, bonusWhirlpoolTimerValue);
+                var nextLevelEnterParams = new GameplayEnterParams(_currentGameplayEnterParams.ExitSceneName, nextLevelNumber, bonusWhirlpoolTimerValue);
 
                 _audioPlayer.PlayOneShot(audioSettings.LevelCompletedSound);
                 _popUpProvider.OpenLevelCompletionPopUp(nextLevelEnterParams);

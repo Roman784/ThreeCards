@@ -7,7 +7,7 @@ namespace BonusWhirlpoolRoot
     {
         public int CurrentLevelNumber { get; }
 
-        public BonusWhirlpoolEnterParams(int currentLevelNumber) : base(Scenes.BONUS_WHIRLPOOL)
+        public BonusWhirlpoolEnterParams(string exitSceneName, int currentLevelNumber) : base(Scenes.BONUS_WHIRLPOOL, exitSceneName)
         {
             CurrentLevelNumber = currentLevelNumber;
         }

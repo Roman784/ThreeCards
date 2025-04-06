@@ -8,7 +8,7 @@ namespace GameplayRoot
         public int LevelNumber { get; }
         public float BonusWhirlpoolTimerValue { get; }
 
-        public GameplayEnterParams(int levelNumber, float bonusWhirlpoolTimerValue) : base(Scenes.GAMEPLAY)
+        public GameplayEnterParams(string exitSceneName, int levelNumber, float bonusWhirlpoolTimerValue) : base(Scenes.GAMEPLAY, exitSceneName)
         {
             LevelNumber = levelNumber;
             BonusWhirlpoolTimerValue = bonusWhirlpoolTimerValue;

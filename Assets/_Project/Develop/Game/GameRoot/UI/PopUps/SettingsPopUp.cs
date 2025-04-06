@@ -3,6 +3,7 @@ using GameRoot;
 using GameState;
 using MainMenuRoot;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace UI
@@ -45,7 +46,7 @@ namespace UI
         {
             PlayButtonClickSound();
 
-            var enterParams = new MainMenuEnterParams();
+            var enterParams = new MainMenuEnterParams(SceneManager.GetActiveScene().name);
             new SceneLoader().LoadAndRunMainMenu(enterParams);
         }
 

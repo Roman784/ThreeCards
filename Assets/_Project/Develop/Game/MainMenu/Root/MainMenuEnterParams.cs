@@ -8,7 +8,7 @@ namespace MainMenuRoot
 {
     public class MainMenuEnterParams : SceneEnterParams
     {
-        public MainMenuEnterParams() : base(Scenes.MAIN_MENU)
+        public MainMenuEnterParams(string exitSceneName) : base(Scenes.MAIN_MENU, exitSceneName)
         {
         }
     }

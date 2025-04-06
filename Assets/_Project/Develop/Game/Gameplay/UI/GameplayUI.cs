@@ -8,6 +8,7 @@ using R3;
 using Settings;
 using System.Collections.Generic;
 using UnityEngine;
+using Utils;
 using Zenject;
 
 namespace UI
@@ -63,7 +64,8 @@ namespace UI
         {
             PlayButtonClickSound();
 
-            var levelMenuEnterParams = new LevelMenuEnterParams(_gameplayEnterParams.LevelNumber,
+            var levelMenuEnterParams = new LevelMenuEnterParams(Scenes.GAMEPLAY,
+                                                                _gameplayEnterParams.LevelNumber,
                                                                 _bonusWhirlpoolTransition.CurrentTimerValue);
             new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
         }

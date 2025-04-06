@@ -7,6 +7,7 @@ using Utils;
 using R3;
 using DG.Tweening;
 using DG.Tweening.Core;
+using UnityEngine.SceneManagement;
 
 namespace UI
 {
@@ -56,7 +57,7 @@ namespace UI
             if (_timer.Value > 0) return;
 
             PlayButtonClickSound();
-            var enterParams = new BonusWhirlpoolEnterParams(_gameplayEnterParams.LevelNumber);
+            var enterParams = new BonusWhirlpoolEnterParams(SceneManager.GetActiveScene().name, _gameplayEnterParams.LevelNumber);
             new SceneLoader().LoadAndRunBonusWhirlpool(enterParams);
         }
 

@@ -8,7 +8,7 @@ namespace LevelMenuRoot
         public int CurrentLevelNumber { get; }
         public float BonusWhirlpoolTimerValue { get; }
 
-        public LevelMenuEnterParams(int currentLevelNumber, float bonusWhirlpoolTimerValue) : base(Scenes.LEVEL_MENU)
+        public LevelMenuEnterParams(string exitSceneName, int currentLevelNumber, float bonusWhirlpoolTimerValue) : base(Scenes.LEVEL_MENU, exitSceneName)
         {
             CurrentLevelNumber = currentLevelNumber;
             BonusWhirlpoolTimerValue = bonusWhirlpoolTimerValue;

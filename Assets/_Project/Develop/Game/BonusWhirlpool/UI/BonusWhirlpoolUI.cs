@@ -61,7 +61,7 @@ namespace UI
         public void BackToCurrentLevel()
         {
             PlayButtonClickSound();
-            OpenLevel(_currentLevelNumber, 0f);
+            OpenLevel(Scenes.BONUS_WHIRLPOOL, _currentLevelNumber, 0f);
         }
     
         public void PickCard()

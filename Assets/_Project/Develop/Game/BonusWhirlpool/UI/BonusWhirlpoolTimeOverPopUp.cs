@@ -40,9 +40,7 @@ namespace UI
             if (!_canExit) return;
 
             PlayButtonClickSound();
-            var enterParams = new GameplayEnterParams(_gameplayEnterParams.LevelNumber, 
-                                                      _gameplayEnterParams.BonusWhirlpoolTimerValue);
-            new SceneLoader().LoadAndRunGameplay(enterParams);
+            new SceneLoader().LoadAndRunGameplay(_gameplayEnterParams);
         }
 
         public class Factory : PopUpFactory<BonusWhirlpoolTimeOverPopUp>

@@ -111,7 +111,7 @@ namespace GameplayRoot
                 var fieldShufflingService = new FieldShufflingService(fieldService, cardFlippingService);
                 var magicStickService = new MagicStickService(fieldService, cardMatchingService, cardLayoutService);
                 var levelRestarterService = new LevelRestarterService(fieldService, _shakyCamera, 
-                                                                      enterParams.LevelNumber, _gameplayUI.BonusWhirlpoolTransition,
+                                                                      enterParams, _gameplayUI.BonusWhirlpoolTransition,
                                                                       _audioPlayer, audioSettings);
 
                 _uiRoot.AttachSceneUI(_gameplayUI.gameObject);
@@ -150,7 +150,8 @@ namespace GameplayRoot
 
         private void LoadLevelMenu(GameplayEnterParams enterParams)
         {
-            var levelMenuEnterParams = new LevelMenuEnterParams(enterParams.LevelNumber, 
+            var levelMenuEnterParams = new LevelMenuEnterParams(Scenes.MAIN_MENU, // So that the exit from the level menu does not loop.
+                                                                enterParams.LevelNumber, 
                                                                 _gameplayUI.BonusWhirlpoolTransition.CurrentTimerValue);
             new SceneLoader().LoadAndRunLevelMenu(levelMenuEnterParams);
         }

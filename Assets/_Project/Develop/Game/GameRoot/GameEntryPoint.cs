@@ -57,28 +57,28 @@ namespace GameRoot
 #if UNITY_EDITOR
             if (activeSceneName == Scenes.MAIN_MENU)
             {
-                var defaultMainMenuEnterParams = new MainMenuEnterParams();
+                var defaultMainMenuEnterParams = new MainMenuEnterParams(Scenes.BOOT);
                 sceneLoader.LoadAndRunMainMenu(defaultMainMenuEnterParams);
                 return;
             }
 
             if (activeSceneName == Scenes.GAMEPLAY)
             {
-                var defaultGameplayEnterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
+                var defaultGameplayEnterParams = new GameplayEnterParams(Scenes.BOOT, GetCurrentLevelNumber(), 0);
                 sceneLoader.LoadAndRunGameplay(defaultGameplayEnterParams);
                 return;
             }
 
             if (activeSceneName == Scenes.LEVEL_MENU)
             {
-                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(GetCurrentLevelNumber(), 0);
+                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(Scenes.BOOT, GetCurrentLevelNumber(), 0);
                 sceneLoader.LoadAndRunLevelMenu(defaultLevelMenuEnterParams);
                 return;
             }
 
             if (activeSceneName == Scenes.BONUS_WHIRLPOOL)
             {
-                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(GetCurrentLevelNumber());
+                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(Scenes.BOOT, GetCurrentLevelNumber());
                 sceneLoader.LoadAndRunBonusWhirlpool(defaultBonusWhirlpoolEnterParams);
                 return;
             }
@@ -89,7 +89,7 @@ namespace GameRoot
             }
 #endif
 
-            var mainMenuEnterParams = new MainMenuEnterParams();
+            var mainMenuEnterParams = new MainMenuEnterParams(Scenes.BOOT);
             sceneLoader.LoadAndRunMainMenu(mainMenuEnterParams);
         }
 
