@@ -11,8 +11,6 @@ namespace UI
     {
         [SerializeField] private AudioVolumeChanger _audioVolumeChanger;
 
-        private int _currentLevelNumber;
-
         [Inject]
         private void Construct(AudioPlayer audioPlayer)
         {
@@ -23,7 +21,7 @@ namespace UI
         {
             PlayButtonClickSound();
 
-            var enterParams = new GameplayEnterParams(_currentLevelNumber, 0);
+            var enterParams = new GameplayEnterParams(GetCurrentLevelNumber(), 0);
             new SceneLoader().LoadAndRunGameplay(enterParams);
         }
 
@@ -38,7 +36,7 @@ namespace UI
         {
             PlayButtonClickSound();
 
-            var enterParams = new LevelMenuEnterParams(_currentLevelNumber, 0);
+            var enterParams = new LevelMenuEnterParams(GetCurrentLevelNumber(), 0);
             new SceneLoader().LoadAndRunLevelMenu(enterParams);
         }
 
@@ -47,14 +45,15 @@ namespace UI
 
         }
 
-        public void SetCurrentLevelNumber(int number)
-        {
-            _currentLevelNumber = number;
-        }
-
         public void SetAudioVolumeChangerView(float volume)
         {
             _audioVolumeChanger.SetView(volume);
+        }
+
+        private int GetCurrentLevelNumber()
+        {
+            var levelNumber = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
+            return _settingsProvider.GameSettings.CardLayoutsSettings.ClampLevelNumber(levelNumber);
         }
     }
 }

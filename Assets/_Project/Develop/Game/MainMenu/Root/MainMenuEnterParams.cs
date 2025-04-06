@@ -8,11 +8,8 @@ namespace MainMenuRoot
 {
     public class MainMenuEnterParams : SceneEnterParams
     {
-        public int CurrentLevelNumber { get; }
-
-        public MainMenuEnterParams(int currentLevelNumber) : base(Scenes.MAIN_MENU)
+        public MainMenuEnterParams() : base(Scenes.MAIN_MENU)
         {
-            CurrentLevelNumber = currentLevelNumber;
         }
     }
 }

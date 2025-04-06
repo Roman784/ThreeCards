@@ -1,5 +1,7 @@
 using Audio;
+using GameRoot;
 using GameState;
+using MainMenuRoot;
 using UnityEngine;
 using Zenject;
 
@@ -37,6 +39,14 @@ namespace UI
         {
             PlayButtonClickSound();
             _audioVolumeChanger.Change();
+        }
+
+        public void OpenMainMenu()
+        {
+            PlayButtonClickSound();
+
+            var enterParams = new MainMenuEnterParams();
+            new SceneLoader().LoadAndRunMainMenu(enterParams);
         }
 
         public class Factory : PopUpFactory<SettingsPopUp>

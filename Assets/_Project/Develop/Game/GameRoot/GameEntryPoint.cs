@@ -57,7 +57,7 @@ namespace GameRoot
 #if UNITY_EDITOR
             if (activeSceneName == Scenes.MAIN_MENU)
             {
-                var defaultMainMenuEnterParams = new MainMenuEnterParams(GetCurrentLevelNumber());
+                var defaultMainMenuEnterParams = new MainMenuEnterParams();
                 sceneLoader.LoadAndRunMainMenu(defaultMainMenuEnterParams);
                 return;
             }
@@ -89,7 +89,7 @@ namespace GameRoot
             }
 #endif
 
-            var mainMenuEnterParams = new MainMenuEnterParams(GetCurrentLevelNumber());
+            var mainMenuEnterParams = new MainMenuEnterParams();
             sceneLoader.LoadAndRunMainMenu(mainMenuEnterParams);
         }
 

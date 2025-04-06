@@ -55,7 +55,6 @@ namespace MainMenuRoot
 
                 // UI.
                 _uiRoot.AttachSceneUI(_mainMenuUI.gameObject);
-                _mainMenuUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
                 _mainMenuUI.SetAudioVolumeChangerView(volume);
 
                 isLoaded = true;
