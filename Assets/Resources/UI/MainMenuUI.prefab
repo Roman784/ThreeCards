@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 7224042754676379865}
-  _zoomScale: 1.15
+  _zoomScale: 1.2
   _duration: 0.2
   _ease: 27
 --- !u!114 &978073760894334009
@@ -241,8 +241,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Three cards
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 58f2d613c391615409ca50bf93a660b0, type: 2}
-  m_sharedMaterial: {fileID: -454069233655524653, guid: 58f2d613c391615409ca50bf93a660b0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 135e149dac25bda4682da42c745f34f1, type: 2}
+  m_sharedMaterial: {fileID: -454069233655524653, guid: 135e149dac25bda4682da42c745f34f1, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
