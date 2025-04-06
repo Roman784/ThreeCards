@@ -7,8 +7,6 @@ namespace Audio
 {
     public abstract class AudioVolumeChanger : MonoBehaviour
     {
-        [SerializeField] protected Image _iconView;
-
         protected AudioPlayer _audioPlayer;
         private IGameStateProvider _gameStateProvider;
 
