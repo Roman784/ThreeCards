@@ -11,6 +11,7 @@ using R3;
 using System;
 using Settings;
 using MainMenuRoot;
+using Localization;
 
 namespace GameRoot
 {
@@ -18,14 +19,17 @@ namespace GameRoot
     {
         private static IGameStateProvider _gameStateProvider;
         private static ISettingsProvider _settingsProvider;
+        private static ILocalizationProvider _localizationProvider;
 
         private static Subject<Unit> _dependenciesInjectedSubj = new();
 
         [Inject]
-        private void Construct(IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider)
+        private void Construct(IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider,
+                               ILocalizationProvider localizationProvider)
         {
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
+            _localizationProvider = localizationProvider;
 
             _dependenciesInjectedSubj.OnNext(Unit.Default);
             _dependenciesInjectedSubj.OnCompleted();
@@ -47,7 +51,8 @@ namespace GameRoot
         {
             _dependenciesInjectedSubj
                 .SelectMany(_ => _gameStateProvider.LoadGameState())
-                .Subscribe(_ => LoadScene(activeSceneName));
+                .Subscribe(_ => _localizationProvider.LoadTranslations("ru")
+                .Subscribe(_ => LoadScene(activeSceneName)));
         }
 
         private static void LoadScene(string activeSceneName = Scenes.MAIN_MENU)

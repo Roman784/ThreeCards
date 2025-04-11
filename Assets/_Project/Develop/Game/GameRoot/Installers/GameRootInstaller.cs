@@ -3,6 +3,7 @@ using Currencies;
 using Gameplay;
 using GameplayServices;
 using GameState;
+using Localization;
 using Settings;
 using UI;
 using UnityEngine;
@@ -16,11 +17,17 @@ namespace GameRootInstallers
 
         public override void InstallBindings()
         {
+            BindLocalizationProvider();
             BindSettingsProvider();
             BindGameStateProvider();
             BindCurrencies();
             BindUI();
             BindAudioPlayer();
+        }
+
+        private void BindLocalizationProvider()
+        {
+            Container.Bind<ILocalizationProvider>().To<CSVLocalizationProvider>().AsSingle();
         }
 
         private void BindSettingsProvider()
