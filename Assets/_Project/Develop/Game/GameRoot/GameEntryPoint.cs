@@ -51,7 +51,7 @@ namespace GameRoot
         {
             _dependenciesInjectedSubj
                 .SelectMany(_ => _gameStateProvider.LoadGameState())
-                .Subscribe(_ => _localizationProvider.LoadTranslations("ru")
+                .Subscribe(_ => _localizationProvider.LoadTranslations("en")
                 .Subscribe(_ => LoadScene(activeSceneName)));
         }
 

@@ -1,28 +1,28 @@
 ﻿Key;en;ru;tr
-game_title;Three cards;Три карты;
-coming_soon;coming soon...;скоро будет…;
-quick_start;Quick start;Быстрый старт;
-collect_flying_cards;Collect the flying cards!;Ловите летающие карты!;
-level;Level;Ур.;
-time_over;Time is over!;Время вышло!;
-back_to_level;back to the level;вернуться на уровень;
-offer_to_get_chips;Want to get chips for watching videos?;Хотите получить фишки за просмотр видео?;
-get_bonus_slot;Get a bonus slot?;Получить бонусный слот?;
-bonus_level_whirlpool;bonus level «whirlpool»;бонусный уровень «водоворот»;
-open;open;перейти;
-will_open_in;will open in;будет доступен через;
-game_over;Game over;Вы проиграли;
-game_over_description;You can use one of the tools or restart level.;Можете использовать один из инструментов или перезапустить уровень.;
-level_passed;Level passed!;Уровень пройден!;
-next;next;дальше;
-sounds;sounds;звуки;
-game_rules;game rules;правила игры;
-language;language;язык;
-home;home;домой;
-game_rules_1;The goal is to collect cards by triples of similar suits.;Цель - собирать карты по тройкам одинаковых мастей.;
-game_rules_2;The collected cards are placed in the slots. If you fill all the slots, you will lose.;Собранные карты помещаются в слоты. Если заполнить их всех, то вы проиграете.;
-game_rules_3;Sometimes you can find bomb cards, you need to drag them into a special slot. If you randomly press the bomb, it will explode all the cards. ;Иногда встречаются карты-бомбы, их нужно перетаскивать в специальный слот. Если вы случайно нажмете на бомбу, она взорвет всё поле. ;
-game_rules_4;For collected triples of cards you get chips, which can be spent on tools: shuffle the field, instantly collect a triple or get a bonus slot.;За собранные тройки карт вы получаете фишки, которые можно потратить на инструменты: перетасовать поле, мгновенно собрать тройку или получить бонусный слот.;
+game_title;Three cards;Три карты;Üç kart
+coming_soon;coming soon...;скоро будет…;çok yakinda...
+quick_start;Quick start;Быстрый старт;Hizli başlangiç
+collect_flying_cards;Collect the flying cards!;Ловите летающие карты!;Uçan kartlari yakalayin!
+level;Level;Ур.;Seviye
+time_over;Time is over!;Время вышло!;Zaman doldu!
+back_to_level;back to the level;вернуться на уровень;seviyeye geri dön
+offer_to_get_chips;Want to get chips for watching videos?;Хотите получить фишки за просмотр видео?;Videolari izleyip chip almak ister misiniz?
+get_bonus_slot;Get a bonus slot?;Получить бонусный слот?;Yeni slot aç!
+bonus_level_whirlpool;bonus level «whirlpool»;бонусный уровень «водоворот»;Bonus seviye «Girdap»
+open;open;перейти;açik
+will_open_in;will open in;будет доступен через;Şu kadar süre sonra açilacak
+game_over;Game over;Вы проиграли;Oyun bitti
+game_over_description;You can use one of the tools or restart level.;Можете использовать один из инструментов или перезапустить уровень.;Araçlardan birini kullanabilir veya seviyeyi yeniden başlatabilirsiniz.
+level_passed;Level passed!;Уровень пройден!;Seviye geçildi!
+next;next;дальше;sonraki
+sounds;sounds;звуки;sesler
+game_rules;game rules;правила игры;oyun kurallari
+language;language;язык;dili değiştir
+home;home;домой;Eve dönüş
+game_rules_1;The goal is to collect cards by triples of similar suits.;Цель - собирать карты по тройкам одинаковых мастей.;Amaç, ayni türden üçlü kartlar toplamaktir.
+game_rules_2;The collected cards are placed in the slots. If you fill all the slots, you will lose.;Собранные карты помещаются в слоты. Если заполнить их всех, то вы проиграете.;Toplanan kartlar slotlara yerleştirilir. Eğer tüm slotlar dolarsa, kaybedersiniz.
+game_rules_3;Sometimes you can find bomb cards, you need to drag them into a special slot. If you randomly press the bomb, it will explode all the cards. ;Иногда встречаются карты-бомбы, их нужно перетаскивать в специальный слот. Если вы случайно нажмете на бомбу, она взорвет всё поле. ;Bazen 'bomba kartlari' çikar. Bunlari özel bir slota sürüklemelisiniz. Yanlişlikla bomba kartina tiklarsaniz, tüm alan patlayarak temizlenir!
+game_rules_4;For collected triples of cards you get chips, which can be spent on tools: shuffle the field, instantly collect a triple or get a bonus slot.;За собранные тройки карт вы получаете фишки, которые можно потратить на инструменты: перетасовать поле, мгновенно собрать тройку или получить бонусный слот.;Topladiğiniz her üçlü kart seti için, çiplar kazanirsiniz. Bu çiplari araçlar için harcayabilirsiniz: alani kariştirma, aninda üçlü set oluşturma veya ekstra slot açma!
 english;English;English;English
 russian;Русский;Русский;Русский
 turkish;Türkçe;Türkçe;Türkçe
