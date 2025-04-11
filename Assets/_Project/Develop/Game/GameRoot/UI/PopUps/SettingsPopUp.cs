@@ -42,6 +42,12 @@ namespace UI
             _audioVolumeChanger.Change();
         }
 
+        public void ChangeLanguage()
+        {
+            PlayButtonClickSound();
+            _popUpProvider.OpenLanguagePopUp();
+        }
+
         public void OpenMainMenu()
         {
             PlayButtonClickSound();

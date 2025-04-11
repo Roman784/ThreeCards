@@ -1,6 +1,8 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using R3;
+using System;
 
 namespace Localization
 {
@@ -14,11 +16,23 @@ namespace Localization
         [SerializeField] private RectTransform[] _layoutsForRebuild;
 
         private ILocalizationProvider _localizationProvider;
+        private IDisposable _disposable;
+
+        private void OnDestroy()
+        {
+            _disposable?.Dispose();
+        }
 
         public void Localize(ILocalizationProvider localizationProvider)
         {
             _localizationProvider = localizationProvider;
+            _disposable = _localizationProvider.OnLanguageChanged.Subscribe(_ => SetView());
 
+            SetView();
+        }
+
+        private void SetView()
+        {
             string text = _localizationProvider.GetTranslation(_key);
             GetComponent<TMP_Text>().text = text;
 

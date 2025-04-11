@@ -11,6 +11,9 @@ namespace Localization
 
         private static Dictionary<string, string> _translationsMap;
 
+        private Subject<Unit> _languageChangedSubj = new();
+        public Observable<Unit> OnLanguageChanged => _languageChangedSubj;
+
         public Observable<Unit> LoadTranslations(string language)
         {
             var csvData = Resources.Load<TextAsset>(TRANSLATIONS_FILE_NAME);
@@ -58,6 +61,11 @@ namespace Localization
                 Debug.LogError($"Key '{key}' not found!");
                 return $"MISSING: {key}";
             }
+        }
+
+        public void ChangeLanguage(string language)
+        {
+            LoadTranslations(language).Subscribe(_ => _languageChangedSubj.OnNext(Unit.Default));
         }
     }
 }

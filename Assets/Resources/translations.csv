@@ -23,3 +23,6 @@ game_rules_1;The goal is to collect cards by triples of similar suits.;Цель 
 game_rules_2;The collected cards are placed in the slots. If you fill all the slots, you will lose.;Собранные карты помещаются в слоты. Если заполнить их всех, то вы проиграете.;
 game_rules_3;Sometimes you can find bomb cards, you need to drag them into a special slot. If you randomly press the bomb, it will explode all the cards. ;Иногда встречаются карты-бомбы, их нужно перетаскивать в специальный слот. Если вы случайно нажмете на бомбу, она взорвет всё поле. ;
 game_rules_4;For collected triples of cards you get chips, which can be spent on tools: shuffle the field, instantly collect a triple or get a bonus slot.;За собранные тройки карт вы получаете фишки, которые можно потратить на инструменты: перетасовать поле, мгновенно собрать тройку или получить бонусный слот.;
+english;English;English;English
+russian;Русский;Русский;Русский
+turkish;Türkçe;Türkçe;Türkçe

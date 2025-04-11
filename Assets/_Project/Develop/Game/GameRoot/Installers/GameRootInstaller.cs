@@ -65,6 +65,9 @@ namespace GameRootInstallers
 
             var advertisingChipsPopUpPrefab = Resources.Load<AdvertisingChipsPopUp>("UI/PopUps/AdvertisingChipsPopUp");
             Container.BindFactory<AdvertisingChipsPopUp, AdvertisingChipsPopUp.Factory>().FromComponentInNewPrefab(advertisingChipsPopUpPrefab);
+
+            var languagePopUpPrefab = Resources.Load<LanguagePopUp>("UI/PopUps/LanguagePopUp");
+            Container.BindFactory<LanguagePopUp, LanguagePopUp.Factory>().FromComponentInNewPrefab(languagePopUpPrefab);
         }
 
         private void BindAudioPlayer()

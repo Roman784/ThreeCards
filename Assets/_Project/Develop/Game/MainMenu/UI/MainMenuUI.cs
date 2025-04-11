@@ -44,8 +44,13 @@ namespace UI
         public void OpenRules()
         {
             PlayButtonClickSound();
-
             _popUpProvider.OpenGameRulesPopUp();
+        }
+
+        public void OpenLanguagePopUp()
+        {
+            PlayButtonClickSound();
+            _popUpProvider.OpenLanguagePopUp();
         }
 
         public void SetAudioVolumeChangerView(float volume)
