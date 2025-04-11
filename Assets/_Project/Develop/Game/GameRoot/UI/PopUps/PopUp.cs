@@ -1,5 +1,6 @@
 using Audio;
 using DG.Tweening;
+using Localization;
 using R3;
 using Settings;
 using UnityEngine;
@@ -12,17 +13,26 @@ namespace UI
         [SerializeField] private Transform _view;
         [SerializeField] private float _rotationDuration = 0.2f;
 
+        [Space]
+
+        [SerializeField] private LocalizedText[] _localizedTexts;
+
         protected ISettingsProvider _settingsProvider;
+        protected ILocalizationProvider _localizationProvider;
         protected AudioPlayer _audioPlayer;
 
         private PopUpsRoot _root;
         private PopUp _previousPopUp;
 
         [Inject]
-        private void Construct(ISettingsProvider settingsProvider, AudioPlayer audioPlayer)
+        private void Construct(ISettingsProvider settingsProvider, ILocalizationProvider localizationProvider,
+                               AudioPlayer audioPlayer)
         {
             _settingsProvider = settingsProvider;
+            _localizationProvider = localizationProvider;
             _audioPlayer = audioPlayer;
+
+            LocalizeTexts();
         }
 
         private void Awake()
@@ -91,6 +101,14 @@ namespace UI
             var to = new Vector3(0, -90, 0);
 
             return Rotate(from, to);
+        }
+
+        public void LocalizeTexts()
+        {
+            foreach (var text in _localizedTexts)
+            {
+                text.Localize(_localizationProvider);
+            }
         }
 
         protected void PlayButtonClickSound()

@@ -43,6 +43,7 @@ namespace LevelMenuRoot
                 _levelMenuUI.BindViews();
                 _levelMenuUI.InitChips();
                 _levelMenuUI.CreateLevelsBlocks();
+                _levelMenuUI.LocalizeTexts();
 
                 isLoaded = true;
             });

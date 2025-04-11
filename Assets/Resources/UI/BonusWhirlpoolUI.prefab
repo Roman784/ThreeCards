@@ -82,6 +82,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipsCounterView: {fileID: 6728008465169906076}
+  _localizedTexts:
+  - {fileID: 4250563537566253474}
   _timerView: {fileID: 2838131620284916242}
 --- !u!1 &1394008973788164398
 GameObject:
@@ -575,6 +577,7 @@ GameObject:
   - component: {fileID: 1376662734839432902}
   - component: {fileID: 651781929193246535}
   - component: {fileID: 67401356350085763}
+  - component: {fileID: 4250563537566253474}
   m_Layer: 5
   m_Name: CollectText
   m_TagString: Untagged
@@ -746,6 +749,20 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   _isAwake: 1
+--- !u!114 &4250563537566253474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2549436362483936327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42cbd4f86597021419d1d93354f544bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: collect_flying_cards
+  _layoutsForRebuild: []
 --- !u!1 &2611932051366290007
 GameObject:
   m_ObjectHideFlags: 0

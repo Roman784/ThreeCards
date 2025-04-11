@@ -173,6 +173,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _chipsCounterView: {fileID: 0}
+  _localizedTexts:
+  - {fileID: 5628536916945948440}
   _audioVolumeChanger: {fileID: 6475140442511784516}
 --- !u!1 &1746134015920206411
 GameObject:
@@ -185,6 +187,7 @@ GameObject:
   - component: {fileID: 1039814127730858618}
   - component: {fileID: 7473225713339120038}
   - component: {fileID: 9132795658275551140}
+  - component: {fileID: 5628536916945948440}
   m_Layer: 5
   m_Name: Title
   m_TagString: Untagged
@@ -308,6 +311,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5628536916945948440
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746134015920206411}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42cbd4f86597021419d1d93354f544bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _key: game_title
 --- !u!1 &1792309381398522849
 GameObject:
   m_ObjectHideFlags: 0

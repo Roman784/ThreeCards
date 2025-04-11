@@ -5,6 +5,7 @@ using GameplayServices;
 using GameRoot;
 using GameState;
 using LevelMenuRoot;
+using Localization;
 using MainMenuRoot;
 using R3;
 using Settings;
@@ -18,9 +19,11 @@ namespace UI
     public class SceneUI : MonoBehaviour
     {
         [SerializeField] private ChipsCounterView _chipsCounterView;
+        [SerializeField] private LocalizedText[] _localizedTexts;
 
         protected ISettingsProvider _settingsProvider;
         protected IGameStateProvider _gameStateProvider;
+        private ILocalizationProvider _localizationProvider;
         protected PopUpProvider _popUpProvider;
         protected AudioPlayer _audioPlayer;
         protected ChipsCounter _chipsCounter;
@@ -30,12 +33,14 @@ namespace UI
         [Inject]
         private void Construct(ISettingsProvider settingsProvider,
                                IGameStateProvider gameStateProvider,
+                               ILocalizationProvider localizationProvider,
                                ChipsCounter chipsCounter,
                                PopUpProvider popUpProvider,
                                AudioPlayer audioPlayer)
         {
             _settingsProvider = settingsProvider;
             _gameStateProvider = gameStateProvider;
+            _localizationProvider = localizationProvider;
             _chipsCounter = chipsCounter;
             _popUpProvider = popUpProvider;
             _audioPlayer = audioPlayer;
@@ -49,6 +54,14 @@ namespace UI
         public void InitChips(Observable<List<CardMatchingService.RemovedCard>> onCardsRemoved = null)
         {
             _chipsCounter.InitChips(onCardsRemoved);
+        }
+
+        public void LocalizeTexts()
+        {
+            foreach (var text in _localizedTexts)
+            {
+                text.Localize(_localizationProvider);
+            }
         }
 
         public void OpenSettings()

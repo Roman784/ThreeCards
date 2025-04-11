@@ -90,6 +90,8 @@ namespace BonusWhirlpoolRoot
                 _bonusWhirlpoolUI.SetCurrentLevelNumber(enterParams.CurrentLevelNumber);
                 _bonusWhirlpoolUI.SetCards(whirlpoolCards);
 
+                _bonusWhirlpoolUI.LocalizeTexts();
+
                 var onTimerOver = _bonusWhirlpoolUI.StartTimer();
 
                 // Audio.

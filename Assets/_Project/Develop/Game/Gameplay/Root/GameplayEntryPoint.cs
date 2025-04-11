@@ -12,6 +12,7 @@ using System.Collections;
 using GameRoot;
 using LevelMenuRoot;
 using Audio;
+using Localization;
 
 namespace GameplayRoot
 {
@@ -124,6 +125,8 @@ namespace GameplayRoot
 
                 _gameplayUI.SetToolsServcies(fieldShufflingService, magicStickService, levelRestarterService);
                 onLayOutAnimationCompleted.Subscribe(_ => _gameplayUI.EnableTools());
+
+                _gameplayUI.LocalizeTexts();
 
                 // Winning and losing.
                 var gameCompletionService = new GameCompletionService(onCardsRemoved, onCardPlaced,

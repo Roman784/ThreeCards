@@ -57,6 +57,8 @@ namespace MainMenuRoot
                 _uiRoot.AttachSceneUI(_mainMenuUI.gameObject);
                 _mainMenuUI.SetAudioVolumeChangerView(volume);
 
+                _mainMenuUI.LocalizeTexts();
+
                 isLoaded = true;
             });
 
