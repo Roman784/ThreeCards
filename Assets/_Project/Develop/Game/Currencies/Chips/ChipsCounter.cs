@@ -55,7 +55,7 @@ namespace Currencies
             {
                 foreach (var card in removedCards)
                 {
-                    var chipsCount = CardMarkingMapper.GetRankValue(card.Rank);
+                    var chipsCount = CardMarkingMapper.GetRankValue(card.Rank) / 2;
                     onCollected = Add(chipsCount, card.Position);
                 }
 

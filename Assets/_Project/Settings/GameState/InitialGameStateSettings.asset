@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bcfb9d9d26e5074b8f415f60042a1d2, type: 3}
   m_Name: InitialGameStateSettings
   m_EditorClassIdentifier: 
-  <Chips>k__BackingField: 0
-  <LastPassedLevelNumber>k__BackingField: 0
   <GameState>k__BackingField:
     Chips: 0
     LastPassedLevelNumber: 0
+    AudioVolume: 1
