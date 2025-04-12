@@ -6,6 +6,8 @@ namespace UI
         {
             PlayButtonClickSound();
             _localizationProvider.ChangeLanguage(language);
+
+            base.Close();
         }
 
         public class Factory : PopUpFactory<LanguagePopUp>
