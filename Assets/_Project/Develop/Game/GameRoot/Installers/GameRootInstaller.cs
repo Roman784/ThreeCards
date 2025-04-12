@@ -4,6 +4,7 @@ using Gameplay;
 using GameplayServices;
 using GameState;
 using Localization;
+using SDK;
 using Settings;
 using UI;
 using UnityEngine;
@@ -13,16 +14,23 @@ namespace GameRootInstallers
 {
     public class GameRootInstaller : MonoInstaller
     {
+        [SerializeField] private YandexSDK _sdkPrefab;
         [SerializeField] private AudioSourcer _audioSourcerPrefab;
 
         public override void InstallBindings()
         {
+            BindSDK();
             BindLocalizationProvider();
             BindSettingsProvider();
             BindGameStateProvider();
             BindCurrencies();
             BindUI();
             BindAudioPlayer();
+        }
+
+        private void BindSDK()
+        {
+            Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_sdkPrefab).AsSingle().NonLazy();
         }
 
         private void BindLocalizationProvider()

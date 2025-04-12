@@ -12,6 +12,7 @@ using System;
 using Settings;
 using MainMenuRoot;
 using Localization;
+using SDK;
 
 namespace GameRoot
 {
@@ -20,16 +21,18 @@ namespace GameRoot
         private static IGameStateProvider _gameStateProvider;
         private static ISettingsProvider _settingsProvider;
         private static ILocalizationProvider _localizationProvider;
+        private static SDK.SDK _sdk;
 
         private static Subject<Unit> _dependenciesInjectedSubj = new();
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider, ISettingsProvider settingsProvider,
-                               ILocalizationProvider localizationProvider)
+                               ILocalizationProvider localizationProvider, SDK.SDK sdk)
         {
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
             _localizationProvider = localizationProvider;
+            _sdk = sdk;
 
             _dependenciesInjectedSubj.OnNext(Unit.Default);
             _dependenciesInjectedSubj.OnCompleted();
@@ -50,9 +53,10 @@ namespace GameRoot
         private static void RunGame(string activeSceneName = Scenes.MAIN_MENU)
         {
             _dependenciesInjectedSubj
-                .SelectMany(_ => _gameStateProvider.LoadGameState())
+                .SelectMany(_ => _sdk.Init())
+                .Subscribe(_ => _gameStateProvider.LoadGameState()
                 .Subscribe(_ => _localizationProvider.LoadTranslations("en")
-                .Subscribe(_ => LoadScene(activeSceneName)));
+                .Subscribe(_ => LoadScene(activeSceneName))));
         }
 
         private static void LoadScene(string activeSceneName = Scenes.MAIN_MENU)
