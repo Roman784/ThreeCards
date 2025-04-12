@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CardLayoutSettings 3
   m_EditorClassIdentifier: 
   <LevelNumber>k__BackingField: 3
-  <CardSpreadRange>k__BackingField: {x: 10, y: 10}
+  <CardSpreadRange>k__BackingField: {x: 2, y: 2}
   <BombsCount>k__BackingField: 1
   <CardColumns>k__BackingField:
   - CardCount: 3

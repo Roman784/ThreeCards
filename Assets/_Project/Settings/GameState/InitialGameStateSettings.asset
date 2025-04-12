@@ -15,4 +15,4 @@ MonoBehaviour:
   <GameState>k__BackingField:
     Chips: 0
     LastPassedLevelNumber: 0
-    AudioVolume: 0
+    AudioVolume: 1

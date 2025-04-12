@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ba1c21c871b1a34fbc60f393e10f566, type: 3}
   m_Name: ToolsSettings
   m_EditorClassIdentifier: 
-  <FieldShufflingCost>k__BackingField: 50
-  <MagicStickCost>k__BackingField: 100
+  <FieldShufflingCost>k__BackingField: 150
+  <MagicStickCost>k__BackingField: 500

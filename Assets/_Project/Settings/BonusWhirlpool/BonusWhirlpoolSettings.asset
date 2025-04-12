@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <Cooldown>k__BackingField: 300
   <CardPickDelay>k__BackingField: 0.25
-  <TimerValue>k__BackingField: 15
+  <TimerValue>k__BackingField: 12
   <TimerValueOffset>k__BackingField: 5
   <SlotsSettings>k__BackingField: {fileID: 11400000, guid: ad96707fb7f26b946a7c0f90f4e49a17, type: 2}
   <CardSettings>k__BackingField: {fileID: 11400000, guid: 632c608b3ebaaec49a42fb1e490afa97, type: 2}

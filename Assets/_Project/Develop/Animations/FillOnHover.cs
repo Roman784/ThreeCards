@@ -30,7 +30,7 @@ namespace ScriptAnimations
         private void Update()
         {
 #if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
-            if (Input.touchCount == 0 && _target.localScale != _initialScale)
+            if (Input.touchCount == 0 && _target.sizeDelta != _initialFill)
             {
                 ZoomOut();
             }
