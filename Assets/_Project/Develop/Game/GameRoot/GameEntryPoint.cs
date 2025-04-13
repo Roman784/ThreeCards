@@ -53,10 +53,17 @@ namespace GameRoot
         private static void RunGame(string activeSceneName = Scenes.MAIN_MENU)
         {
             _dependenciesInjectedSubj
-                .SelectMany(_ => _sdk.Init())
-                .Subscribe(_ => _gameStateProvider.LoadGameState()
-                .Subscribe(_ => _localizationProvider.LoadTranslations("en")
-                .Subscribe(_ => LoadScene(activeSceneName))));
+                .Subscribe(_ => _sdk.Init().Subscribe(res =>
+                {
+                    if (res) _gameStateProvider.LoadGameState().Subscribe(res =>
+                    {
+                        var language = _sdk.GetLanguage();
+                        if (res != null) _localizationProvider.LoadTranslations(language).Subscribe(_ =>
+                        {
+                            LoadScene(activeSceneName);
+                        });
+                    });
+                }));
         }
 
         private static void LoadScene(string activeSceneName = Scenes.MAIN_MENU)

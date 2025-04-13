@@ -61,7 +61,7 @@ namespace SDK
             catch 
             { 
                 Debug.LogError("Load extern error!");
-                return Observable.Return("");
+                return Observable.Return("none");
             }
         }
 

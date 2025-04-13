@@ -16,6 +16,7 @@ namespace MainMenuRoot
     {
         private IGameStateProvider _gameStateProvider;
         private ISettingsProvider _settingsProvider;
+        private SDK.SDK _sdk;
         private UIRootView _uiRoot;
         private MainMenuUI _mainMenuUI;
         private AudioPlayer _audioPlayer;
@@ -23,12 +24,14 @@ namespace MainMenuRoot
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
                                ISettingsProvider settingsProvider,
+                               SDK.SDK sdk,
                                UIRootView uiRoot,
                                MainMenuUI mainMenuUI,
                                AudioPlayer audioPlayer)
         {
             _gameStateProvider = gameStateProvider;
             _settingsProvider = settingsProvider;
+            _sdk = sdk;
             _uiRoot = uiRoot;
             _mainMenuUI = mainMenuUI;
             _audioPlayer = audioPlayer;
@@ -58,6 +61,9 @@ namespace MainMenuRoot
                 _mainMenuUI.SetAudioVolumeChangerView(volume);
 
                 _mainMenuUI.LocalizeTexts();
+
+                // SDK.
+                _sdk.GameReady();
 
                 isLoaded = true;
             });

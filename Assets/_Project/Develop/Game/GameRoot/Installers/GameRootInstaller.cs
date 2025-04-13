@@ -45,7 +45,8 @@ namespace GameRootInstallers
 
         private void BindGameStateProvider()
         {
-            Container.Bind<IGameStateProvider>().To<PlayerPrefsGameStateProvider>().AsSingle();
+            // Container.Bind<IGameStateProvider>().To<PlayerPrefsGameStateProvider>().AsSingle();
+            Container.Bind<IGameStateProvider>().To<SDKGameStateProvider>().AsSingle();
         }
 
         private void BindCurrencies()
