@@ -63,7 +63,7 @@ namespace GameRoot
         private IEnumerator LoadSceneRoutine(string sceneName)
         {
             yield return SceneManager.LoadSceneAsync(sceneName);
-            yield return new WaitForSeconds(0.2f);
+            yield return null;
         }
 
         private void StopLoadingRoutine()
