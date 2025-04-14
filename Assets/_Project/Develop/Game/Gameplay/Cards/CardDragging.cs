@@ -38,13 +38,6 @@ namespace Gameplay
             _touchOffset = _initialPosition - mousePosition;
         }
 
-        private void OnMouseUp()
-        {
-            if (_card.IsClosed) return;
-
-            _canMove = false;
-        }
-
         private void Update()
         {
             Move();
@@ -57,9 +50,11 @@ namespace Gameplay
             Vector2 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
             _card.SetPosition(mousePosition + _touchOffset);
 
-            if (Vector2.Distance(mousePosition, _slotBar.BombSlot.Position) < 1.5f)
+            if (Vector2.Distance(mousePosition, _slotBar.BombSlot.Position) < 2f)
             {
+                _card.CanDetonate = false;
                 _placingService.PlaceBombCard(_card);
+                _canMove = false;
                 this.enabled = false;
             }
         }

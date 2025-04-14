@@ -20,7 +20,7 @@ namespace SDK
         [DllImport("__Internal")] private static extern void GameReadyExtern();
 
         private Dictionary<int, Subject<bool>> _callbacksMap = new();
-        private Subject<string> _jsonDataCallback;
+        private Subject<string> _jsonDataCallback = new();
 
         private void Awake()
         {
@@ -38,7 +38,7 @@ namespace SDK
 
                 return callback;
             }
-            catch 
+            catch
             {
                 Debug.LogError("SDK initialization error!");
                 return Observable.Return(false);
@@ -58,8 +58,8 @@ namespace SDK
                 LoadDataExtern();
                 return _jsonDataCallback;
             }
-            catch 
-            { 
+            catch
+            {
                 Debug.LogError("Load extern error!");
                 return Observable.Return("none");
             }
@@ -68,6 +68,9 @@ namespace SDK
         public void AcceptLoadedData(string json)
         {
             _jsonDataCallback.OnNext(json);
+            _jsonDataCallback.OnCompleted();
+
+            _jsonDataCallback = new();
         }
 
         public override Observable<bool> ShowRewardedVideo()
@@ -81,7 +84,7 @@ namespace SDK
 
                 return callback;
             }
-            catch 
+            catch
             {
                 Debug.LogError("Rewarded video error!");
                 return Observable.Return(false);
@@ -113,7 +116,9 @@ namespace SDK
 
         private int RegisterCallback(Subject<bool> callback)
         {
-            var id = _callbacksMap.OrderByDescending(item => item.Key)?.First().Key + 1 ?? 0;
+            var id = 0;
+            if (_callbacksMap.Count > 0) 
+                id = _callbacksMap.OrderByDescending(item => item.Key)?.First().Key + 1 ?? 0;
             _callbacksMap.Add(id, callback);
 
             return id;

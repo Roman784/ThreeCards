@@ -1189,6 +1189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: get_bonus_slot
+  _view: {fileID: 2823105286256687187}
   _layoutsForRebuild: []
 --- !u!1 &9037422423743502486
 GameObject:

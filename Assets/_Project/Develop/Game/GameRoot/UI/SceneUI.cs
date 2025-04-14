@@ -10,6 +10,7 @@ using MainMenuRoot;
 using R3;
 using Settings;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -23,7 +24,7 @@ namespace UI
 
         protected ISettingsProvider _settingsProvider;
         protected IGameStateProvider _gameStateProvider;
-        private ILocalizationProvider _localizationProvider;
+        protected ILocalizationProvider _localizationProvider;
         protected PopUpProvider _popUpProvider;
         protected AudioPlayer _audioPlayer;
         protected ChipsCounter _chipsCounter;

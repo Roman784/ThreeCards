@@ -762,6 +762,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: collect_flying_cards
+  _view: {fileID: 651781929193246535}
   _layoutsForRebuild: []
 --- !u!1 &2611932051366290007
 GameObject:

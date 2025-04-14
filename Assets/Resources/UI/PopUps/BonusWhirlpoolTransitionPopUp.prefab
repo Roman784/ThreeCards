@@ -368,6 +368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: will_open_in
+  _view: {fileID: 7489569016181253920}
   _layoutsForRebuild: []
 --- !u!1 &3523438563525588182
 GameObject:
@@ -701,6 +702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: open
+  _view: {fileID: 2742486114982247210}
   _layoutsForRebuild: []
 --- !u!1 &6150327169131444362
 GameObject:
@@ -1094,6 +1096,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: bonus_level_whirlpool
+  _view: {fileID: 1154699634211528318}
   _layoutsForRebuild: []
 --- !u!1 &7652369608122158672
 GameObject:

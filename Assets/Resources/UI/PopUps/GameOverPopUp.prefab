@@ -1381,6 +1381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_over_description
+  _view: {fileID: 6073986404927958859}
   _layoutsForRebuild: []
 --- !u!1 &6831090326856585014
 GameObject:
@@ -1949,6 +1950,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_over
+  _view: {fileID: 2823105286256687187}
   _layoutsForRebuild: []
 --- !u!1 &8142278003830035183
 GameObject:

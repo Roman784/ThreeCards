@@ -664,6 +664,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_rules
+  _view: {fileID: 6828018978168105841}
   _layoutsForRebuild: []
 --- !u!1 &2969493113131670477
 GameObject:
@@ -1203,6 +1204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: language
+  _view: {fileID: 1781325157353197476}
   _layoutsForRebuild: []
 --- !u!1 &5066059349176268663
 GameObject:
@@ -1352,6 +1354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: home
+  _view: {fileID: 6764043411588745789}
   _layoutsForRebuild: []
 --- !u!1 &6414446776105970990
 GameObject:
@@ -1641,6 +1644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: sounds
+  _view: {fileID: 1375699975040344829}
   _layoutsForRebuild: []
 --- !u!1 &7301649194578631659
 GameObject:

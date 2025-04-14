@@ -41,8 +41,10 @@ namespace GameState
 
                     gameStateLoadedSubj.OnNext(GameState);
                 }
-
-                gameStateLoadedSubj.OnNext(null);
+                else
+                {
+                    gameStateLoadedSubj.OnNext(null);
+                }
             });
 
             return gameStateLoadedSubj;

@@ -344,6 +344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: offer_to_get_chips
+  _view: {fileID: 4701060380641928777}
   _layoutsForRebuild: []
 --- !u!1 &1164786040564500846
 GameObject:

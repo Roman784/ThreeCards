@@ -62,9 +62,6 @@ namespace MainMenuRoot
 
                 _mainMenuUI.LocalizeTexts();
 
-                // SDK.
-                _sdk.GameReady();
-
                 isLoaded = true;
             });
 

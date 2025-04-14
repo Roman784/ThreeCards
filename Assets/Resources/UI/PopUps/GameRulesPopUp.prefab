@@ -462,6 +462,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_rules_3
+  _view: {fileID: 6678706062125995129}
   _layoutsForRebuild:
   - {fileID: 4722307311919593404}
   - {fileID: 8548500610410979820}
@@ -1131,6 +1132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_rules_2
+  _view: {fileID: 4576453236000271720}
   _layoutsForRebuild:
   - {fileID: 3337606686131810649}
   - {fileID: 8324093196498688918}
@@ -1603,6 +1605,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_rules_4
+  _view: {fileID: 138000064930721103}
   _layoutsForRebuild:
   - {fileID: 1740526520047281389}
   - {fileID: 3501155601839844979}
@@ -1770,6 +1773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: game_rules_1
+  _view: {fileID: 1375699975040344829}
   _layoutsForRebuild:
   - {fileID: 1092875561684558312}
   - {fileID: 5238831992444687772}

@@ -10,6 +10,7 @@ namespace Localization
     public class LocalizedText : MonoBehaviour
     {
         [SerializeField] private string _key;
+        [SerializeField] private TMP_Text _view;
 
         [Space]
 
@@ -34,7 +35,7 @@ namespace Localization
         private void SetView()
         {
             string text = _localizationProvider.GetTranslation(_key);
-            GetComponent<TMP_Text>().text = text;
+            _view.text = text;
 
             RebuildLayouts();
         }

@@ -30,6 +30,8 @@ namespace Gameplay
         public bool IsDestroyed { get; private set; }
         public Vector3 Position => _view.GetPosition();
 
+        public bool CanDetonate { get; set; }
+
         public Card(CardView view, bool isBomb, 
                     CardPlacingService placingService, SlotBar slotBar, 
                     AudioPlayer audioPlayer, CardAudioSettings audioSettings)
@@ -37,6 +39,7 @@ namespace Gameplay
             IsClosed = true;
             IsMarked = false;
             IsBomb = isBomb;
+            CanDetonate = IsBomb;
             _cardPlacingService = placingService;
             _audioPlayer = audioPlayer;
             _audioSettings = audioSettings;
@@ -162,7 +165,11 @@ namespace Gameplay
             if (IsBomb)
             {
                 _view.Disable(false);
-                Hiss().Subscribe(_ => _gameplayTools.RestartLevel());
+                Hiss().Subscribe(_ =>
+                {
+                    if (CanDetonate)
+                        _gameplayTools.RestartLevel();
+                });
                 return;
             }
 

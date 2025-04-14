@@ -346,6 +346,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: next
+  _view: {fileID: 2363775403398105492}
   _layoutsForRebuild:
   - {fileID: 6443011144068616289}
   - {fileID: 24752347790072069}
@@ -892,4 +893,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: level_passed
+  _view: {fileID: 2823105286256687187}
   _layoutsForRebuild: []

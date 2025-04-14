@@ -662,6 +662,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: english
+  _view: {fileID: 6828018978168105841}
   _layoutsForRebuild: []
 --- !u!1 &3343353028288354593
 GameObject:
@@ -1036,6 +1037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: russian
+  _view: {fileID: 1781325157353197476}
   _layoutsForRebuild: []
 --- !u!1 &5066059349176268663
 GameObject:
@@ -1185,6 +1187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _key: turkish
+  _view: {fileID: 6764043411588745789}
   _layoutsForRebuild: []
 --- !u!1 &6414446776105970990
 GameObject:

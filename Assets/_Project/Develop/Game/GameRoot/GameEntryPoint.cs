@@ -44,13 +44,11 @@ namespace GameRoot
             Application.targetFrameRate = 60;
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
-            var activeSceneName = SceneManager.GetActiveScene().name;
-            RunGame(activeSceneName);
-
+            RunGame();
             new SceneLoader().LoadBoot();
         }
 
-        private static void RunGame(string activeSceneName = Scenes.MAIN_MENU)
+        private static void RunGame()
         {
             _dependenciesInjectedSubj
                 .Subscribe(_ => _sdk.Init().Subscribe(res =>
@@ -60,59 +58,19 @@ namespace GameRoot
                         var language = _sdk.GetLanguage();
                         if (res != null) _localizationProvider.LoadTranslations(language).Subscribe(_ =>
                         {
-                            LoadScene(activeSceneName);
+                            LoadMainMenu();
                         });
                     });
-                }));
+                }
+            ));
         }
 
-        private static void LoadScene(string activeSceneName = Scenes.MAIN_MENU)
+        private static void LoadMainMenu()
         {
-            var sceneLoader = new SceneLoader();
-
-#if UNITY_EDITOR
-            if (activeSceneName == Scenes.MAIN_MENU)
-            {
-                var defaultMainMenuEnterParams = new MainMenuEnterParams(Scenes.BOOT);
-                sceneLoader.LoadAndRunMainMenu(defaultMainMenuEnterParams);
-                return;
-            }
-
-            if (activeSceneName == Scenes.GAMEPLAY)
-            {
-                var defaultGameplayEnterParams = new GameplayEnterParams(Scenes.BOOT, GetCurrentLevelNumber(), 0);
-                sceneLoader.LoadAndRunGameplay(defaultGameplayEnterParams);
-                return;
-            }
-
-            if (activeSceneName == Scenes.LEVEL_MENU)
-            {
-                var defaultLevelMenuEnterParams = new LevelMenuEnterParams(Scenes.BOOT, GetCurrentLevelNumber(), 0);
-                sceneLoader.LoadAndRunLevelMenu(defaultLevelMenuEnterParams);
-                return;
-            }
-
-            if (activeSceneName == Scenes.BONUS_WHIRLPOOL)
-            {
-                var defaultBonusWhirlpoolEnterParams = new BonusWhirlpoolEnterParams(Scenes.BOOT, GetCurrentLevelNumber());
-                sceneLoader.LoadAndRunBonusWhirlpool(defaultBonusWhirlpoolEnterParams);
-                return;
-            }
-
-            if (activeSceneName != Scenes.BOOT)
-            {
-                return;
-            }
-#endif
+            _sdk.GameReady();
 
             var mainMenuEnterParams = new MainMenuEnterParams(Scenes.BOOT);
-            sceneLoader.LoadAndRunMainMenu(mainMenuEnterParams);
-        }
-
-        private static int GetCurrentLevelNumber()
-        {
-            var levelNumber = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
-            return _settingsProvider.GameSettings.CardLayoutsSettings.ClampLevelNumber(levelNumber);
+            new SceneLoader().LoadAndRunMainMenu(mainMenuEnterParams);
         }
     }
 }
