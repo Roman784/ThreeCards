@@ -32,7 +32,10 @@ namespace Localization
             }
 
             if (languageColumnIndex == -1)
-                throw new System.Exception("Language not found in CSV!");
+            {
+                languageColumnIndex = 1;
+                Debug.LogError("Language not found in CSV!");
+            }
 
             _translationsMap = new();
             for (int i = 1; i < lines.Length; i++)

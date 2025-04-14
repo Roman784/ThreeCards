@@ -13,12 +13,14 @@ using GameRoot;
 using LevelMenuRoot;
 using Audio;
 using Localization;
+using SDK;
 
 namespace GameplayRoot
 {
     public class GameplayEntryPoint : SceneEntryPoint
     {
         private IGameStateProvider _gameStateProvider;
+        private SDK.SDK _sdk;
         private UIRootView _uiRoot;
         private GameplayUI _gameplayUI;
         private GameplayPopUpProvider _popUpProvider;
@@ -32,6 +34,7 @@ namespace GameplayRoot
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
+                               SDK.SDK sdk,
                                UIRootView uiRoot,
                                GameplayUI gameplayUI,
                                GameplayPopUpProvider popUpProvider,
@@ -42,6 +45,7 @@ namespace GameplayRoot
                                AudioPlayer audioPlayer)
         {
             _gameStateProvider = gameStateProvider;
+            _sdk = sdk;
             _uiRoot = uiRoot;
             _gameplayUI = gameplayUI;
             _popUpProvider = popUpProvider;
@@ -63,6 +67,9 @@ namespace GameplayRoot
                 LoadLevelMenu(enterParams);
 
             var isLoaded = false;
+
+            // SDK.
+            _sdk.ShowFullscreenAdv();
 
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {

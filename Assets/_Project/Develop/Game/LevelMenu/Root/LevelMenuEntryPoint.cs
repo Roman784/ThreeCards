@@ -13,15 +13,18 @@ namespace LevelMenuRoot
     public class LevelMenuEntryPoint : SceneEntryPoint
     {
         private IGameStateProvider _gameStateProvider;
+        private SDK.SDK _sdk;
         private UIRootView _uiRoot;
         private LevelMenuUI _levelMenuUI;
 
         [Inject]
         private void Construct(IGameStateProvider gameStateProvider,
+                               SDK.SDK sdk,
                                UIRootView uiRoot,
                                LevelMenuUI levelMenuUI)
         {
             _gameStateProvider = gameStateProvider;
+            _sdk = sdk;
             _uiRoot = uiRoot;
             _levelMenuUI = levelMenuUI;
         }
@@ -34,6 +37,9 @@ namespace LevelMenuRoot
         private IEnumerator Run(LevelMenuEnterParams enterParams)
         {
             var isLoaded = false;
+
+            // SDK.
+            _sdk.ShowFullscreenAdv();
 
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {

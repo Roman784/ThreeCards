@@ -31,6 +31,7 @@ namespace GameRootInstallers
         private void BindSDK()
         {
             Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_sdkPrefab).AsSingle().NonLazy();
+            Container.Bind<FullscreenAdvertisement>().AsSingle();
         }
 
         private void BindLocalizationProvider()

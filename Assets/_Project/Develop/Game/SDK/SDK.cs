@@ -6,8 +6,8 @@ namespace SDK
 {
     public abstract class SDK : MonoBehaviour
     {
-        private bool _isGameStopped;
-        private float _currentSoundVolume;
+        private bool _isGameStopped = false;
+        private float _currentSoundVolume = 1f;
 
         public abstract Observable<bool> Init();
         public abstract void SaveData(string data);
