@@ -20,7 +20,7 @@ namespace Audio
         public float Volume => _volume;
 
         [Inject]
-        private void Construct(AudioSourcer audioSourcerPrefab, IGameStateProvider gameStateProvider)
+        private void Construct(AudioSourcer audioSourcerPrefab)
         {
             _audioSourcers = new(audioSourcerPrefab, 5);
             _musicSourcer = GameObject.Instantiate(audioSourcerPrefab);

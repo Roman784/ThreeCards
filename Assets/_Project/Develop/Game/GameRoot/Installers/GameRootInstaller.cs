@@ -73,8 +73,11 @@ namespace GameRootInstallers
             var gameRulesPopUpPrefab = Resources.Load<GameRulesPopUp>("UI/PopUps/GameRulesPopUp");
             Container.BindFactory<GameRulesPopUp, GameRulesPopUp.Factory>().FromComponentInNewPrefab(gameRulesPopUpPrefab);
 
-            var advertisingChipsPopUpPrefab = Resources.Load<AdvertisingChipsPopUp>("UI/PopUps/AdvertisingChipsPopUp");
+            var advertisingChipsPopUpPrefab = Resources.Load<AdvertisingChipsPopUp>("UI/PopUps/Advertising/AdvertisingChipsPopUp");
             Container.BindFactory<AdvertisingChipsPopUp, AdvertisingChipsPopUp.Factory>().FromComponentInNewPrefab(advertisingChipsPopUpPrefab);
+
+            var advertisingErrorPopUpPrefab = Resources.Load<AdvertisingErrorPopUp>("UI/PopUps/Advertising/AdvertisingErrorPopUp");
+            Container.BindFactory<AdvertisingErrorPopUp, AdvertisingErrorPopUp.Factory>().FromComponentInNewPrefab(advertisingErrorPopUpPrefab);
 
             var languagePopUpPrefab = Resources.Load<LanguagePopUp>("UI/PopUps/LanguagePopUp");
             Container.BindFactory<LanguagePopUp, LanguagePopUp.Factory>().FromComponentInNewPrefab(languagePopUpPrefab);

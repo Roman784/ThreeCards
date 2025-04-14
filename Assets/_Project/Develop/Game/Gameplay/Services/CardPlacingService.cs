@@ -35,8 +35,6 @@ namespace GameplayServices
 
         public void PlaceBombCard(Card card)
         {
-            if (!_canPlaceCard || !card.IsBomb) return;
-
             var slot = _slotBar.BombSlot;
             TryPlaceCard(slot, card);
         }

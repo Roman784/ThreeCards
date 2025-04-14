@@ -35,7 +35,7 @@ namespace Localization
         private void SetView()
         {
             string text = _localizationProvider.GetTranslation(_key);
-            _view.text = text;
+            if (_view != null) _view.text = text;
 
             RebuildLayouts();
         }
