@@ -64,8 +64,9 @@ namespace GameplayServices
         private IEnumerator ReplaceCardsRoutine(Subject<Unit> cardsReplacedSubj)
         {
             bool canToNext = false;
+            int shuffleCount = (int)Mathf.Clamp((float)_cards.Count / 1.5f, 0, 20);
 
-            for (int i = 0; i < (float)_cards.Count / 1.5f; i++)
+            for (int i = 0; i < shuffleCount; i++)
             {
                 Card card1 = _cards[i];
                 Card card2 = _cards[Random.Range(0, _cards.Count)];
