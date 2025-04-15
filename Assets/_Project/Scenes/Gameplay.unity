@@ -458,7 +458,7 @@ MonoBehaviour:
   _horizontalResolution: {x: 1920, y: 1080}
   _verticalResolution: {x: 1080, y: 1920}
   _horizontalCameraSize: 8.5
-  _verticalCameraSize: 9
+  _verticalCameraSize: 9.25
   _horizontalCameraPosition: -0.75
   _verticalCameraPosition: 0
 --- !u!1001 &1605678550488215014
@@ -543,7 +543,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5889733768280716776, guid: 318a3ef3535ef464dba53104d949ae6e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.31
+      value: 3.18
       objectReference: {fileID: 0}
     - target: {fileID: 5889733768280716776, guid: 318a3ef3535ef464dba53104d949ae6e, type: 3}
       propertyPath: m_LocalPosition.y

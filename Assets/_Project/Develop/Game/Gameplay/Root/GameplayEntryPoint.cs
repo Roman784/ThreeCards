@@ -145,6 +145,9 @@ namespace GameplayRoot
             });
 
             yield return new WaitUntil(() => isLoaded);
+
+            if (enterParams.LevelNumber == 1)
+                _popUpProvider.OpenGameRulesPopUp();
         }
 
         private void OnDestroy()
