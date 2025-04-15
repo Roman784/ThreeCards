@@ -37,9 +37,9 @@ namespace GameRootInstallers
 #if UNITY_EDITOR
             Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_editorSdkPrefab).AsSingle().NonLazy();
 #else
-            Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_sdkPrefab).AsSingle().NonLazy();
-            Container.Bind<FullscreenAdvertisement>().AsSingle();
+            Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_yandexSdkPrefab).AsSingle().NonLazy();
 #endif
+            Container.Bind<FullscreenAdvertisement>().AsSingle();
         }
 
         private void BindLocalizationProvider()
