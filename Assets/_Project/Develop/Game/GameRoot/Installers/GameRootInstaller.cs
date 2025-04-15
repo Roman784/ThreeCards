@@ -14,7 +14,11 @@ namespace GameRootInstallers
 {
     public class GameRootInstaller : MonoInstaller
     {
-        [SerializeField] private YandexSDK _sdkPrefab;
+        [SerializeField] private YandexSDK _yandexSdkPrefab;
+        [SerializeField] private EditorSDK _editorSdkPrefab;
+
+        [Space]
+
         [SerializeField] private AudioSourcer _audioSourcerPrefab;
 
         public override void InstallBindings()
@@ -30,8 +34,12 @@ namespace GameRootInstallers
 
         private void BindSDK()
         {
+#if UNITY_EDITOR
+            Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_editorSdkPrefab).AsSingle().NonLazy();
+#else
             Container.Bind<SDK.SDK>().FromComponentInNewPrefab(_sdkPrefab).AsSingle().NonLazy();
             Container.Bind<FullscreenAdvertisement>().AsSingle();
+#endif
         }
 
         private void BindLocalizationProvider()
@@ -46,8 +54,11 @@ namespace GameRootInstallers
 
         private void BindGameStateProvider()
         {
-            // Container.Bind<IGameStateProvider>().To<PlayerPrefsGameStateProvider>().AsSingle();
+#if UNITY_EDITOR
+            Container.Bind<IGameStateProvider>().To<PlayerPrefsGameStateProvider>().AsSingle();
+#else
             Container.Bind<IGameStateProvider>().To<SDKGameStateProvider>().AsSingle();
+#endif
         }
 
         private void BindCurrencies()

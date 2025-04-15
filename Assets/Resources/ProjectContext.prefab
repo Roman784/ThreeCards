@@ -74,5 +74,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ecf4ea69a31c1641a4324172e4f3eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sdkPrefab: {fileID: 2517696776721443516, guid: 3303ea0b702657a489d35a0fdec6221f, type: 3}
+  _yandexSdkPrefab: {fileID: 2517696776721443516, guid: 3303ea0b702657a489d35a0fdec6221f, type: 3}
+  _editorSdkPrefab: {fileID: 2225466762093012462, guid: aba2b7546342af54da97056cefb828a5, type: 3}
   _audioSourcerPrefab: {fileID: 471888120934236784, guid: 3c681c5919e97b7438a6e81d36c41579, type: 3}

@@ -58,11 +58,12 @@ namespace Currencies
 
         private IEnumerator ChangeCounterRoutine(int count)
         {
-            int step = count > _currentCount ? 1 : -1;
+            int step = Mathf.Abs(_currentCount - count) % 10;
+            step = Mathf.Clamp(step, 1, step);
 
             while (_currentCount != count)
             {
-                _currentCount += step;
+                _currentCount = (int)Mathf.MoveTowards(_currentCount, count, 10);
                 UpdateView();
 
                 yield return new WaitForSeconds(0.01f);
