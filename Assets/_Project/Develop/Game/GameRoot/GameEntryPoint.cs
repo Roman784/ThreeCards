@@ -56,7 +56,6 @@ namespace GameRoot
                     if (res) _gameStateProvider.LoadGameState().Subscribe(res =>
                     {
                         var language = _sdk.GetLanguage();
-                        Debug.Log(language);
                         if (res != null) _localizationProvider.LoadTranslations(language).Subscribe(_ =>
                         {
                             LoadMainMenu();
