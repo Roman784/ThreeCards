@@ -27,6 +27,9 @@ namespace GameplayServices
 
         private IEnumerator LayOutCardsRoutine(Subject<Unit> completedSubj)
         {
+            float delay = 1f / (_fieldService.VerticalLength * _fieldService.HorizontalLength * 4f);
+            delay = Mathf.Clamp(delay, 0f, 0.1f);
+
             for (int cardI = 0; cardI < _fieldService.VerticalLength; cardI++)
             {
                 for (int colunmI = 0; colunmI < _fieldService.HorizontalLength; colunmI++)
@@ -37,7 +40,7 @@ namespace GameplayServices
                     card.PutDown(false);
                     card.Disable(false);
 
-                    yield return new WaitForSeconds(0.035f);
+                    yield return new WaitForSeconds(delay);
                 }
             }
 
