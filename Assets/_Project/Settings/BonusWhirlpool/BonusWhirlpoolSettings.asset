@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415cccfe4a206f2468b2a01dada41ac3, type: 3}
   m_Name: BonusWhirlpoolSettings
   m_EditorClassIdentifier: 
-  <Cooldown>k__BackingField: 300
+  <Cooldown>k__BackingField: 1
   <CardPickDelay>k__BackingField: 0.25
   <TimerValue>k__BackingField: 16
   <TimerValueOffset>k__BackingField: 4
