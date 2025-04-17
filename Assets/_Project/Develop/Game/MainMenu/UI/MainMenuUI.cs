@@ -12,14 +12,20 @@ namespace UI
     {
         [SerializeField] private AudioVolumeChanger _audioVolumeChanger;
 
+        private SDK.SDK _sdk;
+
         [Inject]
-        private void Construct(AudioPlayer audioPlayer)
+        private void Construct(AudioPlayer audioPlayer, SDK.SDK sdk)
         {
             _audioVolumeChanger.Construct(audioPlayer, _gameStateProvider);
+            
+            _sdk = sdk;
         }
 
         public void Play()
         {
+            _sdk.ShowFullscreenAdv();
+
             PlayButtonClickSound();
 
             var enterParams = new GameplayEnterParams(Scenes.MAIN_MENU, GetCurrentLevelNumber(), 0);

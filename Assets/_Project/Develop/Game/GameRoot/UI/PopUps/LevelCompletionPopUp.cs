@@ -3,6 +3,7 @@ using Gameplay;
 using GameplayRoot;
 using GameRoot;
 using UnityEngine;
+using Zenject;
 
 namespace UI
 {
@@ -13,6 +14,13 @@ namespace UI
         [SerializeField] private float _initialDelay;
 
         private GameplayEnterParams _gameplayEnterParams;
+        private SDK.SDK _sdk;
+
+        [Inject]
+        private void Construct(SDK.SDK sdk)
+        {
+            _sdk = sdk;
+        }
 
         public void SetGameplayEnterParams(GameplayEnterParams gameplayEnterParams)
         {
@@ -29,6 +37,8 @@ namespace UI
 
         public void GoToNextLevel()
         {
+            _sdk.ShowFullscreenAdv();
+
             PlayButtonClickSound();
             if (_gameplayEnterParams != null)
                 new SceneLoader().LoadAndRunGameplay(_gameplayEnterParams);

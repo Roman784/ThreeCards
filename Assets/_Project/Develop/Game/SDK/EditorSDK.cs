@@ -1,4 +1,5 @@
 using R3;
+using UnityEngine;
 
 namespace SDK
 {
@@ -23,7 +24,10 @@ namespace SDK
 
         public override void SaveData(string data) { }
 
-        public override void ShowFullscreenAdv() { }
+        public override void ShowFullscreenAdv()
+        {
+            Debug.Log("Show fullscreen adv");
+        }
 
         public override Observable<bool> ShowRewardedVideo()
         {

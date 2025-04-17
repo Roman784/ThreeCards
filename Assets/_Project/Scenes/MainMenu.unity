@@ -175,6 +175,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 519420031}
+    - target: {fileID: 8865759859916817444, guid: 73fdebf44016f144bb216789ce7a4a5c, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 9121317508344062578, guid: 73fdebf44016f144bb216789ce7a4a5c, type: 3}
       propertyPath: m_Name
       value: Background

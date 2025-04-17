@@ -38,9 +38,6 @@ namespace LevelMenuRoot
         {
             var isLoaded = false;
 
-            // SDK.
-            _sdk.ShowFullscreenAdv();
-
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {
                 _uiRoot.AttachSceneUI(_levelMenuUI.gameObject);

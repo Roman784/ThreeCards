@@ -19,18 +19,18 @@ namespace UI
         private ToolsSettings _toolsSettings;
         private ChipsCounter _chipsCounter;
         private PopUpProvider _popUpProvider;
-        private AudioPlayer _audioPlayer;
+        private SDK.SDK _sdk;
 
         [Inject]
         private void Construct(ISettingsProvider settingsProvider, 
                                ChipsCounter chipsCounter, 
                                PopUpProvider popUpProvider,
-                               AudioPlayer audioPlayer)
+                               SDK.SDK sdk)
         {
             _toolsSettings = settingsProvider.GameSettings.ToolsSettings;
             _chipsCounter = chipsCounter;
             _popUpProvider = popUpProvider;
-            _audioPlayer = audioPlayer;
+            _sdk = sdk;
         }
 
         public void BindView(GameplayToolsView view)
@@ -70,6 +70,8 @@ namespace UI
         {
             if (!_isEnabled) return false;
 
+            _sdk.ShowFullscreenAdv();
+
             if (!CheckCost(_toolsSettings.FieldShufflingCost)) return false;
             _chipsCounter.Reduce(_toolsSettings.FieldShufflingCost);
 
@@ -84,6 +86,8 @@ namespace UI
         public bool PickThree()
         {
             if (!_isEnabled) return false;
+
+            _sdk.ShowFullscreenAdv();
 
             if (!CheckCost(_toolsSettings.MagicStickCost)) return false;
             _chipsCounter.Reduce(_toolsSettings.MagicStickCost);
@@ -105,6 +109,8 @@ namespace UI
         public bool RestartLevel()
         {
             if (!_isEnabled) return false;
+
+            _sdk.ShowFullscreenAdv();
 
             var onCompleted = _levelRestarterService.Restart();
             DisableUntilComplete(onCompleted);

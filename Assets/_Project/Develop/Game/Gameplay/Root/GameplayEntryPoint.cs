@@ -68,9 +68,6 @@ namespace GameplayRoot
 
             var isLoaded = false;
 
-            // SDK.
-            _sdk.ShowFullscreenAdv();
-
             _gameStateProvider.LoadGameState().Subscribe(_ =>
             {
                 // Settings data.

@@ -26,6 +26,7 @@ namespace UI
         private BonusWhirlpoolTransition _bonusWhirlpoolTransition;
         private SlotBar _slotBar;
         private GameplayPopUpProvider _gameplayPopUpProvider;
+        private SDK.SDK _sdk;
 
         public GameplayTools GameplayTools => _gameplayTools;
         public BonusWhirlpoolTransition BonusWhirlpoolTransition => _bonusWhirlpoolTransition;
@@ -35,13 +36,15 @@ namespace UI
                                GameplayTools gameplayTools,
                                BonusWhirlpoolTransition bonusWhirlpoolTransition,
                                SlotBar slotBar,
-                               GameplayPopUpProvider gameplayPopUpProvider)
+                               GameplayPopUpProvider gameplayPopUpProvider,
+                               SDK.SDK sdk)
         {
             _levelProgress = levelProgress;
             _gameplayTools = gameplayTools;
             _bonusWhirlpoolTransition = bonusWhirlpoolTransition;
             _slotBar = slotBar;
             _gameplayPopUpProvider = gameplayPopUpProvider;
+            _sdk = sdk;
 
             _slotBar.BonusSlotView.OnCreate += () => CreateBonusSlot();
         }
@@ -62,6 +65,8 @@ namespace UI
 
         public void OpenLevelMenu()
         {
+            _sdk.ShowFullscreenAdv();
+
             PlayButtonClickSound();
 
             var levelMenuEnterParams = new LevelMenuEnterParams(Scenes.GAMEPLAY,

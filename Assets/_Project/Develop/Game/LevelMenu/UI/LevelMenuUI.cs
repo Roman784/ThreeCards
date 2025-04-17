@@ -24,11 +24,13 @@ namespace LevelMenu
 
         private LevelMenuEnterParams _enterParams;
         private LevelsBlockFactory _levelsBlockFactory;
+        private SDK.SDK _sdk;
 
         [Inject]
-        private void Construct(LevelsBlockFactory levelsBlockFactory)
+        private void Construct(LevelsBlockFactory levelsBlockFactory, SDK.SDK sdk)
         {
             _levelsBlockFactory = levelsBlockFactory;
+            _sdk = sdk;
         }
 
         public void SetLevelMenuEnterParams(LevelMenuEnterParams enterParams)
@@ -38,6 +40,8 @@ namespace LevelMenu
 
         public void OpenLastAvailableLevel()
         {
+            _sdk.ShowFullscreenAdv();
+
             PlayButtonClickSound();
 
             var number = _gameStateProvider.GameState.LastPassedLevelNumber.Value + 1;
@@ -56,6 +60,8 @@ namespace LevelMenu
 
         public void OpenLevel(int number)
         {
+            _sdk.ShowFullscreenAdv();
+
             base.OpenLevel(Scenes.LEVEL_MENU, number, _enterParams.BonusWhirlpoolTimerValue);
         }
 
